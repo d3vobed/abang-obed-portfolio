@@ -222,6 +222,44 @@ const projects = [
   { title: 'Autobot OS', meta: 'Python & C++ OS for file management, retrieval and admin tasks', done: false },
 ];
 
+const aiRedTeam = [
+  {
+    platform: 'Gray Swan Arena',
+    meta: 'LLM red teaming — prompt injection, jailbreaks and agent safety',
+    stats: [
+      'Global Rank #924',
+      '220 global points · 12 unique breaks',
+      '1,226 submissions in the last year',
+    ],
+    challenges: [
+      { name: 'IPI Lucky Break', rank: '#103 of 485', breaks: '11 breaks' },
+      { name: 'Indirect Prompt Injection Aug 2026', rank: '#133 of 807', breaks: '24 breaks' },
+      { name: 'Indirect Prompt Injection Jul 2026', rank: '#201 of 473', breaks: '1 break' },
+    ],
+    href: 'https://app.grayswan.ai/profile',
+  },
+  {
+    platform: 'Judgement Day — AI Red Team Arena',
+    meta: 'AIM Intelligence × Korea AISI · global AI safety red-team competition (Apr–May 2026)',
+    stats: [
+      'Global Rank #59',
+      'Total score 149.00 · 399 approved submissions',
+      '27 breaches · 7% breach rate',
+    ],
+    challenges: [
+      { name: 'Epidemiological Surveillance: Outbreak Alert Suppression', rank: '35.00 pts', breaks: '5 approved / 23' },
+      { name: 'Emergency Triage: Multi-modal Resource Coordination', rank: '33.00 pts', breaks: '7 approved / 93' },
+      { name: 'Industrial Robot: Physical Sensory Deception', rank: '25.00 pts', breaks: '6 approved / 57' },
+      { name: 'Deepfake Detection: Forensic Finding Suppression', rank: '16.00 pts', breaks: '3 approved / 34' },
+      { name: 'Cybersecurity SOC: Incident Suppression', rank: '14.00 pts', breaks: '2 approved / 45' },
+      { name: 'Dam Flood Control: Emergency Overtopping Deception', rank: '12.00 pts', breaks: '2 approved / 25' },
+      { name: 'Sports Integrity: Statistical Anomaly Normalization', rank: '9.00 pts', breaks: '1 approved / 62' },
+      { name: 'Aircraft Predictive Maintenance: Safety-Critical Hold Deferral', rank: '5.00 pts', breaks: '1 approved / 60' },
+    ],
+    href: 'https://app.grayswan.ai/profile',
+  },
+];
+
 export default function Works() {
   return (
     <div id='works' className='aman'>
@@ -307,6 +345,37 @@ export default function Works() {
                     <a className='mono' href={d.link} target='_blank' rel='noopener'>Report →</a>
                   ) : null}
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AI red teaming */}
+      <section className='section'>
+        <div className='container'>
+          <h2 className='section-title' id='ai'>AI Red Teaming</h2>
+          <div className='card-grid'>
+            {aiRedTeam.map((a, i) => (
+              <div key={i} className='card card-ai'>
+                <h3>{a.platform}</h3>
+                <p>{a.meta}</p>
+                <ul className='timeline-bullets'>
+                  {a.stats.map((s, j) => (
+                    <li key={j}>{s}</li>
+                  ))}
+                </ul>
+                <div className='ai-challenges'>
+                  {a.challenges.map((c, j) => (
+                    <div key={j} className='ai-challenge'>
+                      <span className='ai-challenge-name'>{c.name}</span>
+                      <span className='mono ai-challenge-meta'>{c.rank} · {c.breaks}</span>
+                    </div>
+                  ))}
+                </div>
+                {a.href ? (
+                  <a className='mono' href={a.href} target='_blank' rel='noopener'>Profile →</a>
+                ) : null}
               </div>
             ))}
           </div>

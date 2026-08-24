@@ -93,6 +93,8 @@
   position: relative;
   font-weight: 600;
 }
+.aman .section-note { margin: -1.75rem 0 1.75rem; opacity: 0.8; font-size: 0.95rem; }
+.aman .section-note a { border-bottom: 1px solid currentColor; }
 .aman .section-title::after {
   content: '';
   display: block;
@@ -707,6 +709,13 @@
 }
 .aman .disclosure-top { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
 .aman .disclosure-title { font-weight: 600; line-height: 1.35; }
+.aman .disclosure-image {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  line-height: 0;
+}
+.aman .disclosure-image img { width: 100%; height: auto; display: block; }
 .aman .disclosure-foot { display: flex; justify-content: space-between; margin-top: auto; opacity: 0.85; }
 .aman .status-badge {
   font-size: 0.68rem;
@@ -782,13 +791,19 @@
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 .aman .writing-row:hover { border-color: var(--privacy-green); transform: translateY(-2px); }
+.aman .writing-row { display: flex; align-items: center; }
 .aman .writing-row h3 { font-size: 1.2rem; margin: 0.3rem 0; }
 .aman .writing-excerpt { font-size: 0.9rem; opacity: 0.82; max-width: 60ch; }
+.aman .writing-thumb { flex: 0 0 auto; width: 132px; border-radius: 8px; overflow: hidden; border: 1px solid var(--card-border); line-height: 0; }
+.aman .writing-thumb img { width: 100%; height: auto; display: block; }
+.aman .writing-row-body { flex: 1 1 auto; }
 .aman .writing-date { white-space: nowrap; opacity: 0.7; }
 .aman .writing-elsewhere { list-style: disc; margin-left: 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
 .aman .writing-elsewhere a { color: var(--ai-purple); }
-.aman .writing-note { margin-top: 1.2rem; font-size: 0.85rem; opacity: 0.7; }
-.aman .writing-note code { background: rgba(97,75,195,0.12); padding: 0.1rem 0.35rem; border-radius: 4px; }
+.aman .writing-cover { margin-bottom: 1.75rem; border-radius: 12px; overflow: hidden; border: 1px solid var(--card-border); line-height: 0; }
+.aman .writing-cover img { width: 100%; height: auto; display: block; }
+.aman .writing-origin { margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.8; }
+.aman .writing-origin a { border-bottom: 1px solid currentColor; }
 
 /* Markdown post body */
 .aman .writing-post { max-width: 72ch; line-height: 1.75; }

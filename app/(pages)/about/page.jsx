@@ -97,7 +97,7 @@ export default function About() {
                   <span className='mono'>HTBCERT-2508B8ABE8</span>
                 </p>
                 <Image
-                  src='/images/cpts-cert.jpg'
+                  src='/images/cert.jpg'
                   width={320}
                   height={200}
                   alt='CPTS certificate'

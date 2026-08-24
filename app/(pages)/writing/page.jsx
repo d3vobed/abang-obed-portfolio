@@ -1,5 +1,6 @@
 import fs from 'fs';
 import matter from 'gray-matter';
+import Image from 'next/image';
 import Link from 'next/link';
 import path from 'path';
 
@@ -30,6 +31,7 @@ function getPosts() {
         date,
         tag: data.tag || 'Post',
         excerpt: data.excerpt || '',
+        image: data.image || '',
       };
     })
     .sort((a, b) => (a.date < b.date ? 1 : -1));
@@ -54,7 +56,12 @@ export default function Writing() {
             <div className='writing-list'>
               {posts.map(p => (
                 <Link key={p.slug} href={`/writing/${p.slug}`} className='writing-row'>
-                  <div>
+                  {p.image ? (
+                    <div className='writing-thumb'>
+                      <Image src={p.image} alt={p.title} width={240} height={135} />
+                    </div>
+                  ) : null}
+                  <div className='writing-row-body'>
                     <span className='source-tag'>{p.tag}</span>
                     <h3>{p.title}</h3>
                     <p className='writing-excerpt'>{p.excerpt}</p>
@@ -74,10 +81,6 @@ export default function Writing() {
                 <a href='https://d3vobed.github.io' target='_blank' rel='noopener'>Older writeups (d3vobed.github.io)</a>
               </li>
             </ul>
-            <p className='writing-note'>
-              To publish: add a Markdown file to <code>content/blog/</code> with frontmatter
-              (title, date, tag, excerpt) and redeploy.
-            </p>
           </div>
         </section>
       </main>

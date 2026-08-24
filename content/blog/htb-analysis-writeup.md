@@ -3,6 +3,7 @@ title: "{HTB} Analysis Writeup"
 date: 2024-03-18
 tag: Security
 excerpt: Full Active Directory compromise — LDAP injection with blind enumeration, credential recovery, and a Snort DLL hijack to SYSTEM.
+image: /images/screenshot-6.png
 ---
 
 This writeup walks through a full Active Directory compromise on a HackTheBox-like environment, chaining several weaknesses into a complete domain takeover.

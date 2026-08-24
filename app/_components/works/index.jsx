@@ -104,7 +104,7 @@ const disclosures = [
   {
     vendor: 'Google Chrome',
     title: 'Polyglot ZIP executed as HTML (stored XSS via MIME discard)',
-    status: 'Paid',
+    status: 'Triaged',
     year: '2026',
     link: 'https://issues.chromium.org/issues/509555616',
   },
@@ -128,9 +128,10 @@ const disclosures = [
   },
   {
     vendor: 'Microsoft',
-    title: 'SQL injection (MSRC)',
-    status: 'Paid · Triaged',
+    title: 'Microsoft Dataverse Web API SQL Server fault disclosure and internal custom API exposure',
+    status: 'Triaged',
     year: '2026',
+    image: '/images/ms-dataverse-portal.png',
   },
   {
     vendor: 'Elastic',
@@ -256,6 +257,33 @@ export default function Works() {
         </div>
       </section>
 
+      {/* Engineering projects */}
+      <section className='section section-white'>
+        <div className='container'>
+          <h2 className='section-title'>Engineering Projects</h2>
+          <p className='section-note'>
+            Everything else, cyber and otherwise, lives on{' '}
+            <a className='mono' href='https://github.com/d3vobed' target='_blank' rel='noopener'>
+              github.com/d3vobed
+            </a>
+            .
+          </p>
+          <div className='card-grid'>
+            {projects.map((p, i) => (
+              <div key={i} className={`card ${p.done ? '' : 'card-soon'}`}>
+                <h3>{p.title}</h3>
+                <p>{p.meta}</p>
+                {p.done && p.href ? (
+                  <a className='mono' href={p.href} target='_blank' rel='noopener'>Code →</a>
+                ) : !p.done ? (
+                  <span className='soon-tag'>Coming soon</span>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Security disclosures */}
       <section className='section section-white'>
         <div className='container'>
@@ -268,6 +296,11 @@ export default function Works() {
                   <span className={`status-badge status-${d.status.split(' ')[0].toLowerCase()}`}>{d.status}</span>
                 </div>
                 <p className='disclosure-title'>{d.title}</p>
+                {d.image ? (
+                  <div className='disclosure-image'>
+                    <Image src={d.image} alt={d.vendor} width={320} height={180} />
+                  </div>
+                ) : null}
                 <div className='disclosure-foot'>
                   <span className='mono'>{d.year}</span>
                   {d.link ? (
@@ -276,41 +309,6 @@ export default function Works() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Research */}
-      <section className='section'>
-        <div className='container'>
-          <h2 className='section-title' id='research'>Research — STCMF / EtwScope</h2>
-          <div className='research-block'>
-            <p>
-              EtwScope is the working name for research under STCMF into endpoint telemetry on
-              Windows: what Event Tracing for Windows actually exposes about system behaviour, and
-              how far an analyst can trust the picture security controls build from it.
-            </p>
-            <p>
-              The B.Tech thesis extends this into a telemetry-driven code-mutation framework for
-              controlled EDR resilience testing in Windows environments.
-            </p>
-            <h4 className='research-sub'>Publications</h4>
-            <ul className='timeline-bullets'>
-              <li>
-                Abang, O. (2026). <em>Design and Implementation of a Secure Telemetry-Driven Code
-                Mutation Framework for Controlled EDR Resilience Testing in Windows Environments.</em>{' '}
-                [B.Tech Thesis, Federal University of Technology, Minna]
-              </li>
-              <li>
-                Abang, O. &amp; Seun Ajayi. (2025). <em>Conversational AI for Dementia Care:
-                Emotion-Aware Dialogue Design and System Architecture.</em> [Technical Report, NCAIR,
-                Abuja]
-              </li>
-              <li>
-                CodeSandbox — GraphQL VM allocation bypass (GHSA-5jw5-g7mr-h26r), coordinated
-                disclosure, credited. 2024.
-              </li>
-            </ul>
           </div>
         </div>
       </section>
@@ -347,26 +345,6 @@ export default function Works() {
                   <p>{t.detail}</p>
                 </div>
               </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Engineering projects */}
-      <section className='section section-white'>
-        <div className='container'>
-          <h2 className='section-title'>Engineering Projects</h2>
-          <div className='card-grid'>
-            {projects.map((p, i) => (
-              <div key={i} className={`card ${p.done ? '' : 'card-soon'}`}>
-                <h3>{p.title}</h3>
-                <p>{p.meta}</p>
-                {p.done && p.href ? (
-                  <a className='mono' href={p.href} target='_blank' rel='noopener'>Code →</a>
-                ) : !p.done ? (
-                  <span className='soon-tag'>Coming soon</span>
-                ) : null}
-              </div>
             ))}
           </div>
         </div>

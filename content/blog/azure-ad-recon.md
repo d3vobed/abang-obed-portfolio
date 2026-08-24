@@ -3,6 +3,7 @@ title: Azure AD Recon
 date: 2024-01-22
 tag: Security
 excerpt: Reconnaissance tooling and technique notes against Azure AD.
+image: /images/screenshot-4.png
 ---
 
 Reconnaissance against Azure AD is less about a single tool and more about understanding the identity graph.

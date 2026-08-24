@@ -1,5 +1,6 @@
 import fs from 'fs';
 import matter from 'gray-matter';
+import Image from 'next/image';
 import path from 'path';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -17,7 +18,7 @@ function getPost(slug) {
   if (!fs.existsSync(file)) return null;
   const raw = fs.readFileSync(file, 'utf8');
   const { data, content } = matter(raw);
-  return { ...data, content };
+  return { ...data, content, slug };
 }
 
 export function generateStaticParams() {
@@ -34,13 +35,27 @@ export default function Post({ params }) {
   return (
     <Transition>
       <Navbar />
-      <PageHero title={post.title} meta={post.tag || 'Post'} image='/images/film-still.png' />
+      <PageHero title={post.title} meta={post.tag || 'Post'} image={post.image || '/images/film-still.png'} />
       <main className='aman'>
         <section className='section'>
           <div className='container'>
+            {post.image ? (
+              <div className='writing-cover'>
+                <Image src={post.image} alt={post.title} width={960} height={480} />
+              </div>
+            ) : null}
             <article className='writing-post'>
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
             </article>
+            {post.link ? (
+              <p className='writing-origin'>
+                Originally published on{' '}
+                <a className='mono' href={post.link} target='_blank' rel='noopener'>
+                  {post.source || post.link}
+                </a>
+                .
+              </p>
+            ) : null}
             <p style={{ marginTop: '2rem' }}>
               <a className='mono' href='/writing'>← Back to writing</a>
             </p>

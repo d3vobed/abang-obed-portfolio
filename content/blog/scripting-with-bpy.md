@@ -3,6 +3,7 @@ title: Scripting with bpy (Blender Python)
 date: 2023-11-03
 tag: Engineering
 excerpt: Automation inside Blender's Python API — where the film and code habits overlap.
+image: /images/film-char.png
 ---
 
 Blender's `bpy` module turns the editor into a programmable studio. For my film tooling I use it to generate shot layouts, batch-render previsualization, and prototype facial-replacement tracking.

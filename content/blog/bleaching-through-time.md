@@ -3,6 +3,7 @@ title: Bleaching through time
 date: 2025-08-05
 tag: Essay
 excerpt: Time as experience rather than checklist — stripping away deadlines to find what actually matters.
+image: /images/film-still.png
 ---
 
 We talk about time as if it were a list to be cleared. Deadlines, sprints, roadmaps. But the parts of life that actually stay with you rarely arrive on schedule.

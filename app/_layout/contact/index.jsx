@@ -16,7 +16,7 @@ export function Contact() {
   return (
     <motion.footer
       ref={containerRef}
-      className='relative max-h-screen bg-foreground text-background'
+      className='relative max-h-screen bg-[#0c1116] text-white'
       style={{ y: transformY }}
     >
       <div style={{ paddingBlock: 'clamp(5em, 21vh, 12em)' }}>

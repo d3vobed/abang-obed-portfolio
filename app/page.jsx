@@ -2,7 +2,6 @@ import {
   Contact,
   Description,
   Header,
-  HomeGallery,
   Navbar,
   Project,
   Thumbnail,
@@ -24,7 +23,6 @@ export default function Home() {
       <main>
         <Description />
         <Thumbnail />
-        <HomeGallery />
         <Project />
       </main>
       <Contact />

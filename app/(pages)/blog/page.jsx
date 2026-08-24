@@ -100,6 +100,7 @@ export default function Blog() {
       <PageHero
         title='Blog'
         meta='Essays · Security writeups · Engineering notes'
+        image='/images/film-still.png'
       />
       <main className='aman'>
         <Group title='Essays' items={essays} />

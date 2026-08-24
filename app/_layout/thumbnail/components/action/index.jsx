@@ -1,19 +1,21 @@
 'use client';
 
+import Link from 'next/link';
+
 import { Center, MagneticButton } from '@/components';
 
 /** @param {import('react').PropsWithChildren<unknown>} */
 export function ThumbnailAction({ children }) {
   return (
     <Center>
-      <a href='#works'>
+      <Link href='/about' passHref>
         <MagneticButton
           variant='outline'
           className='px-10 py-8 text-base before:-top-1/2 hover:text-background'
         >
           {children}
         </MagneticButton>
-      </a>
+      </Link>
     </Center>
   );
 }

@@ -103,7 +103,7 @@ const experience = [
     role: 'CTF / Learning',
     dates: '[ADD YEARS]',
     href: 'https://tryhackme.com/p/populistpreventi',
-    image: '/images/thumb-htb.jpg',
+    image: '/images/thumb-thm.jpg',
     bullets: [
       'CTF and hands-on security labs.',
       'CTF team: ctftime.org/team/303681',

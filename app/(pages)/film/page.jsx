@@ -25,6 +25,7 @@ export default function Film() {
       <PageHero
         title='Film'
         meta='Writer · Director · Tech Cinema — development, treatments, production'
+        image='/images/change-hero.jpg'
       />
       <main className='aman'>
         <section className='section'>

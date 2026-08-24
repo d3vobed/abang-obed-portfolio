@@ -16,7 +16,7 @@ export default function About() {
   return (
     <Transition>
       <Navbar />
-      <PageHero title='About' meta='Cross River → Abuja · Security × Cinema' />
+      <PageHero title='About' meta='Cross River → Abuja · Security × Cinema' image='/images/asa.jpg' />
       <main className='aman'>
         <section className='section'>
           <div className='container'>
@@ -84,6 +84,8 @@ export default function About() {
           </div>
         </section>
 
+        <Works />
+
         <section className='section section-white'>
           <div className='container'>
             <h2 className='section-title'>Focus</h2>
@@ -138,8 +140,6 @@ export default function About() {
             </div>
           </div>
         </section>
-
-        <Works />
       </main>
       <Contact />
     </Transition>

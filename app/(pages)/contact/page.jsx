@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { MagneticButton } from '@/components';
 import { socialMedias } from '@/data';
-import { Transition } from '@/layout';
+import { PageHero, Transition } from '@/layout';
 import { randomId } from '@/utils';
 
 const EMAIL = 'info@obx0x03.tech';
@@ -23,8 +23,9 @@ export default function Contact() {
 
   return (
     <Transition>
+      <PageHero title='Contact' meta='Security work · Film collaboration · Anything else' image='/images/film-still1.png' />
       <main className='aman'>
-        <section className='section' style={{ paddingTop: '12rem' }}>
+        <section className='section'>
           <div className='container'>
             <h2 className='section-title'>Get in touch</h2>
             <p className='lead'>
@@ -72,7 +73,7 @@ export default function Contact() {
               <div>
                 <h3
                   style={{
-                    color: '#1a2b3c',
+                    color: 'var(--deep-navy)',
                     fontSize: '0.85rem',
                     textTransform: 'uppercase',
                     letterSpacing: '0.06em',

@@ -10,7 +10,7 @@ import { MagneticButton, ParallaxFade, ParallaxReveal } from '@/components';
 import { Title, Wrapper } from './index.styled';
 
 const phrase =
-  'I work in security engineering and research — studying how systems behave under observation and where their assumptions break. The rest of the time I make films about people.';
+  'I work in security engineering and research, studying how systems behave under observation and where their assumptions break. The rest of the time I make films about people.';
 
 export function Description() {
   return (
@@ -26,7 +26,7 @@ export function Description() {
           <ParallaxFade>
             <Balancer as='p' className='mt-2 text-base lg:text-lg'>
               Based in Abuja, Nigeria. Six years of practical work across
-              security operations, offensive research and systems — carried
+              security operations, offensive research and systems, carried
               alongside a life in cinema.
             </Balancer>
           </ParallaxFade>

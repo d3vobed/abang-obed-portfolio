@@ -17,7 +17,7 @@ export function Header() {
       animate='enter'
     >
       <Image
-        src='/images/asa.jpg'
+        src='/images/avatar.jpg'
         className='object-cover md:object-contain md:scale-110'
         fill={true}
         sizes='100vw'
@@ -34,7 +34,7 @@ export function Header() {
           <h1 className='text-[max(9em,15vw)]'>
             <ParallaxSlider repeat={4} baseVelocity={2}>
               <span className='pe-12'>
-                Abang Obed
+                Abang Obed obx
               </span>
             </ParallaxSlider>
           </h1>

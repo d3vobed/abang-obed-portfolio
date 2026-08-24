@@ -6,5 +6,6 @@ export * from './offcanvas';
 export * from './project';
 export * from './thumbnail';
 export * from './transition';
-export * from '../_components/works';
+export { default as Works } from '../_components/works';
+export { default as HomeMedia } from '../_components/home-media';
 export * from '../(pages)/_components/page-hero';

@@ -622,3 +622,183 @@
 }
 
 
+
+/* Home media gallery: film stills + youtube thumbnails */
+.aman .media-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.aman .media-card {
+  display: block;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.aman .media-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+.aman .media-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+.aman .media-label {
+  display: block;
+  padding: 0.6rem 0.75rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  color: var(--deep-navy);
+}
+@media (max-width: 1024px) {
+  .aman .media-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .aman .media-img { height: 150px; }
+}
+
+/* Works: experience timeline */
+.aman .timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+.aman .timeline-item {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+.aman .timeline-media {
+  width: 96px;
+  height: 96px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  background: #fff;
+}
+.aman .timeline-img { width: 100%; height: 100%; object-fit: cover; }
+.aman .timeline-body h3 { font-size: 1.5rem; margin: 0.2rem 0; }
+.aman .timeline-role { font-weight: 600; color: var(--privacy-green); }
+.aman .timeline-dates { color: var(--deep-navy); opacity: 0.8; font-size: 0.9rem; margin-bottom: 0.5rem; }
+.aman .timeline-bullets { margin: 0.5rem 0 0 1.1rem; display: flex; flex-direction: column; gap: 0.35rem; }
+.aman .timeline-bullets li { list-style: disc; }
+.aman .timeline-link { display: inline-block; margin-top: 0.5rem; color: var(--ai-purple); }
+
+/* Disclosures */
+.aman .disclosure-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.aman .disclosure-card {
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 1rem;
+  background: var(--cream-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.aman .disclosure-top { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+.aman .disclosure-title { font-weight: 600; line-height: 1.35; }
+.aman .disclosure-foot { display: flex; justify-content: space-between; margin-top: auto; opacity: 0.85; }
+.aman .status-badge {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  font-family: var(--font-mono), monospace;
+}
+.aman .status-paid, .aman .status-credited { background: var(--privacy-green); color: #fff; }
+.aman .status-triaged { background: var(--ai-purple); color: #fff; }
+
+/* Research / talks */
+.aman .research-sub { margin: 1rem 0 0.4rem; color: var(--privacy-green); }
+.aman .research-block p { margin-bottom: 0.8rem; }
+
+/* Cards (ctfs, projects) */
+.aman .card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+}
+.aman .card { padding: 1.2rem; }
+.aman .card h3 { font-size: 1.15rem; margin-bottom: 0.4rem; }
+.aman .card p { font-size: 0.9rem; opacity: 0.85; }
+.aman .card .mono { color: var(--ai-purple); }
+.aman .card-soon { opacity: 0.7; }
+.aman .soon-tag { font-size: 0.72rem; color: var(--accent-gold); font-family: var(--font-mono), monospace; }
+
+@media (max-width: 900px) {
+  .aman .disclosure-grid, .aman .card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .aman .timeline-item { grid-template-columns: 64px 1fr; }
+  .aman .timeline-media { width: 64px; height: 64px; }
+  .aman .disclosure-grid, .aman .card-grid { grid-template-columns: 1fr; }
+}
+
+/* About: resume button + cert image */
+.aman .resume-btn {
+  display: inline-block;
+  margin-top: 1.2rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  background: var(--ai-purple);
+  color: #fff;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.85rem;
+  transition: background 0.2s ease;
+}
+.aman .resume-btn:hover { background: var(--privacy-green); }
+.aman .cert-img {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  margin-top: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+}
+
+/* Writing / blog index */
+.aman .writing-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.aman .writing-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  background: var(--cream-bg);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.aman .writing-row:hover { border-color: var(--privacy-green); transform: translateY(-2px); }
+.aman .writing-row h3 { font-size: 1.2rem; margin: 0.3rem 0; }
+.aman .writing-excerpt { font-size: 0.9rem; opacity: 0.82; max-width: 60ch; }
+.aman .writing-date { white-space: nowrap; opacity: 0.7; }
+.aman .writing-elsewhere { list-style: disc; margin-left: 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.aman .writing-elsewhere a { color: var(--ai-purple); }
+.aman .writing-note { margin-top: 1.2rem; font-size: 0.85rem; opacity: 0.7; }
+.aman .writing-note code { background: rgba(97,75,195,0.12); padding: 0.1rem 0.35rem; border-radius: 4px; }
+
+/* Markdown post body */
+.aman .writing-post { max-width: 72ch; line-height: 1.75; }
+.aman .writing-post h1, .aman .writing-post h2, .aman .writing-post h3 { margin: 1.6rem 0 0.6rem; line-height: 1.25; }
+.aman .writing-post h2 { font-size: 1.5rem; color: var(--privacy-green); }
+.aman .writing-post p { margin-bottom: 1rem; }
+.aman .writing-post ul, .aman .writing-post ol { margin: 0 0 1rem 1.4rem; display: flex; flex-direction: column; gap: 0.35rem; }
+.aman .writing-post li { list-style: disc; }
+.aman .writing-post code { background: rgba(97,75,195,0.12); padding: 0.1rem 0.35rem; border-radius: 4px; font-size: 0.88em; }
+.aman .writing-post pre { background: #0c1116; color: #e8eef2; padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1rem; }
+.aman .writing-post pre code { background: none; padding: 0; }
+.aman .writing-post a { color: var(--ai-purple); text-decoration: underline; }
+.aman .writing-post blockquote { border-left: 3px solid var(--accent-gold); padding-left: 1rem; opacity: 0.85; margin-bottom: 1rem; }

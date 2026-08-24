@@ -17,7 +17,7 @@ export const thumbnailOptions = [
     id: 'kynettic',
     href: '/about#works-kynettic',
     title: 'Kynettic',
-    category: 'Security Research',
+    category: 'Security Engineer',
     image: '/images/kynettic-logo.png',
   },
   {

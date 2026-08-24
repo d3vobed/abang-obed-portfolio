@@ -34,7 +34,7 @@ export function Header() {
           <h1 className='text-[max(9em,15vw)]'>
             <ParallaxSlider repeat={4} baseVelocity={2}>
               <span className='pe-12'>
-                Abang Obed obx
+                Abang obX Obed Amen
               </span>
             </ParallaxSlider>
           </h1>

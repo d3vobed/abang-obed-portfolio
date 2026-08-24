@@ -78,8 +78,6 @@ export default function About() {
           </div>
         </section>
 
-        <Works />
-
         <section className='section'>
           <div className='container'>
             <h2 className='section-title'>Education &amp; Certifications</h2>
@@ -107,6 +105,8 @@ export default function About() {
             </div>
           </div>
         </section>
+
+        <Works />
       </main>
       <Contact />
     </Transition>

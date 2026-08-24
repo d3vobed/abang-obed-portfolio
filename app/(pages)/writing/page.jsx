@@ -43,12 +43,18 @@ export const metadata = {
   description: 'Essays, security writeups and engineering notes by Abang Obed.',
 };
 
+const externalPosts = [
+  { title: 'Essays & security writeups', tag: 'Medium', url: 'https://medium.com/@obx03' },
+  { title: 'Older writeups — HTB, Active Directory, engineering', tag: 'Blog', url: 'https://d3vobed.github.io' },
+  { title: 'Technical notes & research', tag: 'GitHub', url: 'https://github.com/d3vobed' },
+];
+
 export default function Writing() {
   const posts = getPosts();
   return (
     <Transition>
       <Navbar />
-      <PageHero title='Writing' meta='Essays · Security writeups · Engineering notes' image='/images/film-still.png' />
+      <PageHero title='Writing' meta='Essays · Security writeups · Engineering notes' image='/images/film-still2.png' />
       <main className='aman'>
         <section className='section'>
           <div className='container'>
@@ -69,18 +75,17 @@ export default function Writing() {
                   <span className='mono writing-date'>{p.date}</span>
                 </Link>
               ))}
-              {posts.length === 0 ? <p>No posts yet — drop a .md file in content/blog.</p> : null}
-            </div>
 
-            <h2 className='section-title' style={{ marginTop: '3rem' }}>Elsewhere</h2>
-            <ul className='writing-elsewhere'>
-              <li>
-                <a href='https://medium.com/@obx03' target='_blank' rel='noopener'>Medium — essays &amp; writeups</a>
-              </li>
-              <li>
-                <a href='https://d3vobed.github.io' target='_blank' rel='noopener'>Older writeups (d3vobed.github.io)</a>
-              </li>
-            </ul>
+              {externalPosts.map(e => (
+                <a key={e.url} href={e.url} target='_blank' rel='noopener' className='writing-row'>
+                  <div className='writing-row-body'>
+                    <span className='source-tag'>{e.tag}</span>
+                    <h3>{e.title}</h3>
+                  </div>
+                  <span className='mono writing-date'>↗</span>
+                </a>
+              ))}
+            </div>
           </div>
         </section>
       </main>

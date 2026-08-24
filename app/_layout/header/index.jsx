@@ -1,7 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
 import { motion } from 'framer-motion';
 import { MoveDownRight } from 'lucide-react';
 import Image from 'next/image';
@@ -10,28 +8,7 @@ import { ParallaxSlider } from '@/components';
 
 import { slideUp } from './variants';
 
-const heroImages = [
-  '/images/film-still.png',
-  '/images/screenshot-2.png',
-  '/images/film-still1.png',
-  '/images/screenshot-3.png',
-  '/images/film-char.png',
-  '/images/screenshot-1.png',
-  '/images/screenshot-extra.png',
-  '/images/screenshot-4.png',
-];
-
 export function Header() {
-  const [idx, setIdx] = useState(0);
-
-  useEffect(() => {
-    const t = setInterval(
-      () => setIdx((i) => (i + 1) % heroImages.length),
-      4500
-    );
-    return () => clearInterval(t);
-  }, []);
-
   return (
     <motion.header
       className='relative h-screen overflow-hidden bg-secondary-foreground text-background'
@@ -39,19 +16,14 @@ export function Header() {
       initial='initial'
       animate='enter'
     >
-      {heroImages.map((src, i) => (
-        <Image
-          key={src}
-          src={src}
-          className={`object-cover transition-opacity duration-1000 md:object-contain md:scale-110 ${
-            i === idx ? 'opacity-100' : 'opacity-0'
-          }`}
-          fill={true}
-          sizes='100vw'
-          priority={i === 0}
-          alt=''
-        />
-      ))}
+      <Image
+        src='/images/avatar.jpg'
+        className='object-cover md:object-contain md:scale-110'
+        fill={true}
+        sizes='100vw'
+        priority
+        alt='Abang Obed'
+      />
 
       {/* shade + gradient so the white photo stays readable */}
       <div className='pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/30' />

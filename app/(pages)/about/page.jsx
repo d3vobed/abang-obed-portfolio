@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import { Contact, Navbar, Transition } from '@/layout';
 
-import '../aman.css';
+import '../../aman.css';
 import { PageHero } from '../_components/page-hero';
 
 /** @type {import('next').Metadata} */
@@ -61,6 +61,12 @@ export default function About() {
                   <a href='https://medium.com/@obx03' target='_blank' rel='noopener'>Medium</a>
                   <a href='https://x.com/obedeee_Jr' target='_blank' rel='noopener'>X / Twitter</a>
                   <a href='https://www.youtube.com/@techcinemaresyst' target='_blank' rel='noopener'>YouTube</a>
+                  <a href='https://vimeo.com/obx03' target='_blank' rel='noopener'>Vimeo</a>
+                  <a href='https://letterboxd.com/obx03' target='_blank' rel='noopener'>Letterboxd</a>
+                  <a href='https://www.imdb.com/name/nm[ADD IMDB ID]' target='_blank' rel='noopener'>IMDb</a>
+                  <a href='https://www.themoviedb.org/movie/1602112-change-a-single-note-a-hundred-stories' target='_blank' rel='noopener'>TMDB</a>
+                  <a href='https://tryhackme.com/p/obx03' target='_blank' rel='noopener'>TryHackMe</a>
+                  <a href='https://www.hackthebox.com/' target='_blank' rel='noopener'>HackTheBox</a>
                   <a href='https://www.instagram.com/obed.eee' target='_blank' rel='noopener'>Instagram</a>
                 </div>
               </div>
@@ -80,7 +86,7 @@ export default function About() {
 
         <section className='section section-white'>
           <div className='container'>
-            <h2 className='section-title'>Two Halves</h2>
+            <h2 className='section-title'>Focus</h2>
             <div className='columns'>
               <div className='column-card'>
                 <span className='source-tag'>Security</span>
@@ -88,8 +94,15 @@ export default function About() {
                   <li>Security engineering &amp; operations</li>
                   <li>Vulnerability research &amp; disclosure</li>
                   <li>Web, API, mobile and network assessment</li>
-                  <li>Endpoint telemetry research (ETW)</li>
                   <li>Azure / AWS cloud security work</li>
+                </ul>
+              </div>
+              <div className='column-card'>
+                <span className='source-tag'>Research</span>
+                <ul>
+                  <li>Endpoint telemetry research (ETW / EtwScope)</li>
+                  <li>STCMF — measuring what controls actually see</li>
+                  <li>Coordinated disclosure &amp; writeups</li>
                 </ul>
               </div>
               <div className='column-card'>
@@ -98,7 +111,6 @@ export default function About() {
                   <li>Writing &amp; directing shorts</li>
                   <li>Screenplays and treatments in development</li>
                   <li>AI-assisted pre-visualization tooling</li>
-                  <li>Visual effects and facial-tracking R&amp;D</li>
                   <li>Tech Cinema — the film channel and label</li>
                 </ul>
               </div>

@@ -17,13 +17,17 @@ export function Header() {
       animate='enter'
     >
       <Image
-        src='/images/change-hero.jpg'
-        className='object-cover md:scale-125 md:object-contain'
+        src='/images/asa.jpg'
+        className='object-cover md:object-contain md:scale-110'
         fill={true}
         sizes='100vw'
         priority
-        alt='Still from Change — A Single Note. A Hundred Stories'
+        alt='Abang Obed'
       />
+
+      {/* shade + gradient so the white photo stays readable */}
+      <div className='pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/30' />
+      <div className='pointer-events-none absolute inset-0 bg-secondary-foreground/10' />
 
       <div className='relative flex h-full flex-col justify-end gap-2 md:flex-col-reverse md:justify-normal'>
         <div className='select-none'>

@@ -6,6 +6,7 @@ import {
   Project,
   Thumbnail,
   Transition,
+  Works,
 } from '@/layout';
 
 /** @type {import('next').Metadata} */
@@ -23,6 +24,7 @@ export default function Home() {
       <main>
         <Description />
         <Thumbnail />
+        <Works />
         <Project />
       </main>
       <Contact />

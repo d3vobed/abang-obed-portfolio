@@ -6,3 +6,4 @@ export * from './offcanvas';
 export * from './project';
 export * from './thumbnail';
 export * from './transition';
+export * from '../_components/works';

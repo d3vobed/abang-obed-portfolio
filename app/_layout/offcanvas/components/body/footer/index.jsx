@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { MagneticButton } from '@/components';
+import { MagneticButton, ThemeToggle } from '@/components';
 import { socialMedias } from '@/data';
 import { randomId } from '@/utils';
 
@@ -18,5 +18,12 @@ export function OffcanvasFooter() {
     );
   });
 
-  return <ul className='flex w-full justify-between gap-10'>{medias}</ul>;
+  return (
+    <div>
+      <div className='mb-6 flex justify-start'>
+        <ThemeToggle className='!text-background !border-background/40' />
+      </div>
+      <ul className='flex w-full flex-wrap gap-x-6 gap-y-3'>{medias}</ul>
+    </div>
+  );
 }

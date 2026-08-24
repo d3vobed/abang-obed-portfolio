@@ -39,7 +39,7 @@ export function Thumbnail() {
       onPointerMove={({ clientX, clientY }) => moveItems(clientX, clientY)}
     >
       <div className='my-8 flex flex-col gap-10'>
-        <ThumbnailLabel>Selected work</ThumbnailLabel>
+        <ThumbnailLabel>Selected highlights</ThumbnailLabel>
         <ThumbnailList
           handlePointerEnter={handlePointerEnter}
           handlePointerLeave={handlePointerLeave}
@@ -60,7 +60,7 @@ export function Thumbnail() {
           View
         </ThumbnailCursorLabel>
         <ThumbnailAction>
-          More work<sup className='text-muted-foreground'>06</sup>
+          More work<sup className='text-muted-foreground'>12</sup>
         </ThumbnailAction>
       </div>
     </section>

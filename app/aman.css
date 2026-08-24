@@ -519,3 +519,82 @@
   opacity: 0;
   animation: amanFadeInUp 0.8s ease forwards;
 }
+
+/* ---- Dark mode for Aman pages ---- */
+[data-theme='dark'] .aman {
+  --cream-bg: #10161c;
+  --deep-navy: #e8eef2;
+  --text-dark: #c7d0d6;
+  --card-border: rgba(123, 180, 168, 0.3);
+}
+[data-theme='dark'] .aman .section-white,
+[data-theme='dark'] .aman .card,
+[data-theme='dark'] .aman .timeline-item,
+[data-theme='dark'] .aman .column-card,
+[data-theme='dark'] .aman .research-block,
+[data-theme='dark'] .aman .education-entry,
+[data-theme='dark'] .aman .entry {
+  background: #161d24;
+  color: #aeb8bf;
+}
+[data-theme='dark'] .aman .section-white {
+  background: #121922;
+}
+[data-theme='dark'] .aman .entry {
+  border-color: #2a333c;
+}
+[data-theme='dark'] .aman .entry h3,
+[data-theme='dark'] .aman .card h3,
+[data-theme='dark'] .aman .research-block h3,
+[data-theme='dark'] .aman .about-text h1,
+[data-theme='dark'] .aman .about-text h2,
+[data-theme='dark'] .aman .column-card h3 {
+  color: #e8eef2;
+}
+[data-theme='dark'] .aman .card:hover {
+  border-color: var(--privacy-green);
+}
+
+/* ---- Mobile / responsive refinements ---- */
+@media (max-width: 768px) {
+  .aman .container {
+    padding: 0 1.25rem;
+  }
+  .aman .section {
+    padding: 3.5rem 0;
+  }
+  .aman .section-title {
+    margin-bottom: 2rem;
+  }
+  .aman .film-feature {
+    grid-template-columns: 1fr;
+  }
+  .aman .about-content {
+    grid-template-columns: 1fr;
+  }
+  .aman .about-image {
+    order: -1;
+    max-width: 240px;
+    margin: 0 auto 2rem;
+  }
+  .aman .grid {
+    grid-template-columns: 1fr !important;
+  }
+  .aman .card {
+    width: 100%;
+  }
+  .aman .card-grid {
+    flex-wrap: nowrap;
+    scroll-snap-type: x mandatory;
+  }
+  .aman .card-grid .card {
+    scroll-snap-align: start;
+  }
+}
+
+/* Navbar + offcanvas readability on small screens */
+@media (max-width: 1024px) {
+  .aman-hero {
+    padding-top: clamp(7rem, 22vh, 10rem);
+  }
+}

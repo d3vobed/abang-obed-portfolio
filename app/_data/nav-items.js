@@ -4,12 +4,8 @@ export const navItems = [
     title: 'home',
   },
   {
-    href: '/work',
-    title: 'work',
-  },
-  {
-    href: '/research',
-    title: 'research',
+    href: '/about',
+    title: 'about',
   },
   {
     href: '/film',
@@ -17,10 +13,10 @@ export const navItems = [
   },
   {
     href: '/writing',
-    title: 'writing',
+    title: 'blog',
   },
   {
-    href: '/about',
-    title: 'about',
+    href: '/contact',
+    title: 'contact',
   },
 ];

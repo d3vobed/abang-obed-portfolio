@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
 import Balancer from 'react-wrap-balancer';
 
@@ -38,12 +39,20 @@ export function Description() {
             duration: 0.5,
           }}
         >
-          <div className='absolute right-0 top-3/4 lg:top-full lg:me-10'>
+          <div className='group absolute right-0 top-3/4 lg:top-full lg:me-10'>
             <Link href='/about' passHref>
               <MagneticButton variant='ghost' size='xl'>
                 About me
               </MagneticButton>
             </Link>
+            <div className='pointer-events-none absolute -right-4 top-1/2 z-30 h-40 w-40 -translate-y-1/2 translate-x-full scale-0 overflow-hidden rounded-full opacity-0 shadow-2xl transition-all duration-500 ease-in-expo group-hover:scale-100 group-hover:opacity-100'>
+              <Image
+                src='/images/asa.jpg'
+                fill={true}
+                alt='Abang Obed'
+                className='object-cover'
+              />
+            </div>
           </div>
         </motion.div>
       </Wrapper>

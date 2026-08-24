@@ -1,14 +1,22 @@
+import Image from 'next/image';
+
 import { Contact, Navbar, Transition } from '@/layout';
 
-import '../aman.css';
+import '../../aman.css';
 import { PageHero } from '../_components/page-hero';
 
 /** @type {import('next').Metadata} */
 export const metadata = {
   title: 'Film',
   description:
-    'Films by Abang Obed — Change (A Single Note. A Hundred Stories), a 2026 Nigerian short film, plus screenplays and treatments in development.',
+    'Films by Abang Obed — Change (A Single Note. A Hundred Stories), a 2026 Nigerian short film, plus development work.',
 };
+
+const stills = [
+  { src: '/images/film-still.png', caption: 'Tech (Obed Ilabija) — the plan takes shape.' },
+  { src: '/images/film-still1.png', caption: 'Danielle (Magdalene Egbe) — a single decision unravels.' },
+  { src: '/images/film-still2.png', caption: 'Connected lives, one note of change.' },
+];
 
 export default function Film() {
   return (
@@ -60,9 +68,7 @@ export default function Film() {
                   </div>
                 </dl>
 
-                <p>
-                  Written &amp; directed by Abang Obed.
-                </p>
+                <p>Written &amp; directed by Abang Obed.</p>
 
                 <div className='meta-row'>
                   <a
@@ -79,34 +85,27 @@ export default function Film() {
                   >
                     <span>Watch on YouTube</span>
                   </a>
-                </div>
-
-                <h3
-                  style={{
-                    marginTop: '2rem',
-                    color: '#1a2b3c',
-                    fontSize: '0.85rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.06em',
-                  }}
-                >
-                  Cast
-                </h3>
-                <div className='cast-chips'>
-                  {[
-                    ['Magdalene Egbe', 'Danielle'],
-                    ['Clement Luka', 'Thug'],
-                    ['Obed Ilabija', 'Tech'],
-                    ['Emmanuel Jude', 'Timid'],
-                    ['Joel Joseph', 'Thankful'],
-                    ['Emmanuel Abang', 'Terri'],
-                    ['Micheal Otogo', 'Bartender'],
-                    ['Favour Anthony', 'Customer'],
-                  ].map(([actor, role]) => (
-                    <span className='chip' key={actor}>
-                      {actor} <span>as {role}</span>
-                    </span>
-                  ))}
+                  <a
+                    href='https://www.imdb.com/name/nm[ADD IMDB ID]'
+                    target='_blank'
+                    rel='noopener'
+                  >
+                    <span>IMDb</span>
+                  </a>
+                  <a
+                    href='https://letterboxd.com/obx03'
+                    target='_blank'
+                    rel='noopener'
+                  >
+                    <span>Letterboxd</span>
+                  </a>
+                  <a
+                    href='https://vimeo.com/obx03'
+                    target='_blank'
+                    rel='noopener'
+                  >
+                    <span>Vimeo</span>
+                  </a>
                 </div>
               </div>
 
@@ -125,58 +124,56 @@ export default function Film() {
 
         <section className='section section-white'>
           <div className='container'>
-            <h2 className='section-title'>In Development</h2>
-            <div className='columns'>
-              <div className='column-card'>
-                <span className='status-tag'>Screenplay in development</span>
-                <h3>Untitled second short</h3>
-                <p>
-                  A second short film concept currently at screenplay stage.
-                  Story details are held back until the draft is locked.
-                </p>
-              </div>
-              <div className='column-card'>
-                <span className='status-tag'>Treatments</span>
-                <h3>Story treatments</h3>
-                <p>
-                  Ongoing treatments and story work across several concepts,
-                  alongside the commissioned and commercial creative projects.
-                </p>
-              </div>
-              <div className='column-card'>
-                <span className='status-tag'>Collaborators</span>
-                <h3>People around the work</h3>
-                <p>
-                  Developing with filmmakers and producers, with an original
-                  score path in discussion with a Denmark-based composer for a
-                  future project.
-                </p>
-              </div>
+            <h2 className='section-title'>Stills</h2>
+            <p className='lead'>
+              A short film about how one choice echoes across many lives.
+            </p>
+            <div className='grid gap-6 md:grid-cols-3'>
+              {stills.map((s, i) => (
+                <figure
+                  key={s.src}
+                  className='fade-in'
+                  style={{ animationDelay: `${i * 0.12}s` }}
+                >
+                  <div className='overflow-hidden rounded-xl shadow-lg'>
+                    <Image
+                      src={s.src}
+                      width={910}
+                      height={500}
+                      alt={s.caption}
+                      className='h-full w-full object-cover'
+                    />
+                  </div>
+                  <figcaption
+                    className='mono'
+                    style={{ fontSize: '0.78rem', marginTop: '0.6rem', color: '#707070' }}
+                  >
+                    {s.caption}
+                  </figcaption>
+                </figure>
+              ))}
             </div>
           </div>
         </section>
 
         <section className='section'>
           <div className='container'>
-            <h2 className='section-title'>How a Project Moves</h2>
-            <p className='lead'>
-              Every project here follows the same honest pipeline — nothing is
-              presented as produced until it exists:
-            </p>
-            <div className='pipeline'>
-              <span className='pipeline-step'>Logline</span>
-              <span className='pipeline-arrow'>→</span>
-              <span className='pipeline-step'>Treatment</span>
-              <span className='pipeline-arrow'>→</span>
-              <span className='pipeline-step'>Screenplay</span>
-              <span className='pipeline-arrow'>→</span>
-              <span className='pipeline-step'>Visual Development</span>
-              <span className='pipeline-arrow'>→</span>
-              <span className='pipeline-step'>Production Design</span>
-              <span className='pipeline-arrow'>→</span>
-              <span className='pipeline-step'>Collaborators</span>
-              <span className='pipeline-arrow'>→</span>
-              <span className='pipeline-step'>Status</span>
+            <h2 className='section-title'>Cast</h2>
+            <div className='cast-chips'>
+              {[
+                ['Magdalene Egbe', 'Danielle'],
+                ['Clement Luka', 'Thug'],
+                ['Obed Ilabija', 'Tech'],
+                ['Emmanuel Jude', 'Timid'],
+                ['Joel Joseph', 'Thankful'],
+                ['Emmanuel Abang', 'Terri'],
+                ['Micheal Otogo', 'Bartender'],
+                ['Favour Anthony', 'Customer'],
+              ].map(([actor, role]) => (
+                <span className='chip' key={actor}>
+                  {actor} <span>as {role}</span>
+                </span>
+              ))}
             </div>
 
             <div className='entry' style={{ marginTop: '2.5rem' }}>

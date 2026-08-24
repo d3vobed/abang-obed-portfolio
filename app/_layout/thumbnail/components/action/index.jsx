@@ -1,4 +1,4 @@
-import Link from 'next/link';
+'use client';
 
 import { Center, MagneticButton } from '@/components';
 
@@ -6,14 +6,14 @@ import { Center, MagneticButton } from '@/components';
 export function ThumbnailAction({ children }) {
   return (
     <Center>
-      <Link href='/work' passHref>
+      <a href='#works'>
         <MagneticButton
           variant='outline'
           className='px-10 py-8 text-base before:-top-1/2 hover:text-background'
         >
           {children}
         </MagneticButton>
-      </Link>
+      </a>
     </Center>
   );
 }

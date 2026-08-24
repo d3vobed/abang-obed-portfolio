@@ -2,11 +2,11 @@ import {
   Contact,
   Description,
   Header,
+  HomeGallery,
   Navbar,
   Project,
   Thumbnail,
   Transition,
-  Works,
 } from '@/layout';
 
 /** @type {import('next').Metadata} */
@@ -24,7 +24,7 @@ export default function Home() {
       <main>
         <Description />
         <Thumbnail />
-        <Works />
+        <HomeGallery />
         <Project />
       </main>
       <Contact />

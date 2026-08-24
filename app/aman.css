@@ -598,3 +598,45 @@
     padding-top: clamp(7rem, 22vh, 10rem);
   }
 }
+
+/* Home gallery: film stills + work thumbnails */
+.aman .gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.aman .gallery-card {
+  position: relative;
+  display: block;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.aman .gallery-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(26, 43, 60, 0.18);
+}
+.aman .gallery-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+.aman .gallery-label {
+  display: block;
+  padding: 0.6rem 0.75rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  color: var(--deep-navy);
+  letter-spacing: 0.02em;
+}
+@media (max-width: 1024px) {
+  .aman .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 640px) {
+  .aman .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .aman .gallery-img { height: 140px; }
+}

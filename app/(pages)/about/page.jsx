@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { Contact, Navbar, Transition } from '@/layout';
+import { Contact, Navbar, Transition, Works } from '@/layout';
 
 import '../../aman.css';
 import { PageHero } from '../_components/page-hero';
@@ -138,6 +138,8 @@ export default function About() {
             </div>
           </div>
         </section>
+
+        <Works />
       </main>
       <Contact />
     </Transition>

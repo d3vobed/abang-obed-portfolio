@@ -35,7 +35,6 @@ export function Header() {
             <ParallaxSlider repeat={4} baseVelocity={2}>
               <span className='pe-12'>
                 Abang Obed
-                <span className='spacer'>—</span>
               </span>
             </ParallaxSlider>
           </h1>

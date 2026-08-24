@@ -7,3 +7,4 @@ export * from './project';
 export * from './thumbnail';
 export * from './transition';
 export * from '../_components/works';
+export { default as HomeGallery } from '../_components/home-gallery';

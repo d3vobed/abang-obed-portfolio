@@ -36,7 +36,7 @@ const essays = [
 const security = [
   {
     tag: 'Mar 2024 · Medium',
-    title: '{HTB} — Analysis Writeup',
+    title: '{HTB} Analysis Writeup',
     excerpt:
       'Full Active Directory compromise: LDAP injection with blind enumeration, credential recovery, and a Snort DLL hijack to SYSTEM.',
     href: 'https://obx03.medium.com/htb-analysis-writeup-9387065920bc',

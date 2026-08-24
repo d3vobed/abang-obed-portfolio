@@ -24,6 +24,7 @@ const experience = [
     title: 'Phlexit',
     role: 'Backend Engineer',
     dates: '[ADD DATES]',
+    href: 'https://www.myphlexit.com/',
     image: '/images/thumb-phlexit.jpg',
     bullets: [
       'Built and maintained backend services and APIs for Phlexit’s platform.',
@@ -36,6 +37,7 @@ const experience = [
     title: 'NEMA',
     role: 'Security Operations Intern',
     dates: 'Jun 2025 – Nov 2025',
+    href: 'https://nema.gov.ng/about-nema/',
     image: '/images/thumb-nema.jpg',
     bullets: [
       'Supported security operations at the National Emergency Management Agency.',
@@ -45,9 +47,10 @@ const experience = [
   {
     slug: 'ide',
     tag: 'Fullstack Engineer',
-    title: 'IDE / Icondigital',
+    title: 'Stonerockers / IDE',
     role: 'Fullstack Engineer',
     dates: 'Jan 2021 – May 2025',
+    href: 'https://stonerockers.com/',
     image: '/images/thumb-ide.jpg',
     bullets: [
       'Fullstack engineering for Stonerockers NG (stonerockers.com), Simdozi LTD, Marblefoods NG, Aoahomes & BigHomes NG.',
@@ -56,37 +59,54 @@ const experience = [
   },
   {
     slug: '234coins',
-    tag: 'Cloud — Freelance',
+    tag: 'Cloud — Freelance (Upwork)',
     title: '234coins.net',
     role: 'Cloud Engineer — AWS, Unity, EKS',
     dates: 'Dec 2023',
-    image: '/images/thumb-234coins.jpg',
+    href: 'https://www.upwork.com/',
+    image: '/images/thumb-upwork.jpg',
     bullets: [
-      'Cloud engineering engagement on AWS: EKS-based infrastructure supporting Unity workloads.',
+      'Cloud engineering engagement on AWS: EKS-based infrastructure supporting Unity game-dev workloads.',
     ],
   },
   {
     slug: 'gigafro',
     tag: 'Startup Marketplace',
-    title: 'GigAfro',
+    title: 'StreetVibez (GigAfro)',
     role: 'Security Engineer',
     dates: 'Feb 2024 – Jan 2025',
+    href: 'https://streetvibex.com/',
     image: '/images/thumb-gigafro.jpg',
     bullets: [
-      'Security engineering across GigAfro.com — a freelance marketplace in live production.',
+      'Security engineering across GigAfro.com (now StreetVibez) — a freelance marketplace in live production.',
       '[ADD DETAILS]',
     ],
   },
   {
     slug: 'htb',
-    tag: 'CPTS — Certified',
+    tag: 'CTF · CPTS — Certified',
     title: 'HackTheBox',
     role: 'CPTS — Certified Penetration Testing Specialist',
     dates: 'Issued Feb 2024',
+    href: 'https://profile.hackthebox.com/profile/01a03172-185e-72bf-b83a-4197965a8404',
     image: '/images/thumb-htb.jpg',
     bullets: [
       'Credential ID HTBCERT-2508B8ABE8.',
       'Labs, machines and writeups — see Blog for the published walkthroughs.',
+      'CTF team: ctftime.org/team/303681',
+    ],
+  },
+  {
+    slug: 'tryhackme',
+    tag: 'CTF',
+    title: 'TryHackMe',
+    role: 'CTF / Learning',
+    dates: '[ADD YEARS]',
+    href: 'https://tryhackme.com/p/populistpreventi',
+    image: '/images/thumb-htb.jpg',
+    bullets: [
+      'CTF and hands-on security labs.',
+      'CTF team: ctftime.org/team/303681',
     ],
   },
   {
@@ -95,6 +115,7 @@ const experience = [
     title: 'Hackathons',
     role: 'Contestant',
     dates: '[ADD YEARS]',
+    href: 'https://gemini3.devpost.com/',
     image: '/images/thumb-hackathon.jpg',
     bullets: [
       'Gemini Hackathon — [ADD DETAILS]',

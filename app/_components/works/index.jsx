@@ -192,6 +192,35 @@ const ctfs = [
   { title: 'Opik Comet — AI Budgeting Agent', meta: 'Runner-Up · Jan 2026' },
   { title: 'NCAIR Hackathon — Dementia Chatbot', meta: 'Winner · $1,000 grant · Sep 2025' },
   { title: 'CTFtime — team 303681', meta: 'Competitive CTF team', href: 'https://ctftime.org/team/303681' },
+  {
+    title: 'Gray Swan Arena',
+    meta: 'LLM red teaming — prompt injection, jailbreaks and agent safety',
+    href: 'https://app.grayswan.ai/profile',
+    details: [
+      'Global Rank #924 · 220 points · 12 unique breaks',
+      '1,226 submissions in the last year',
+      'IPI Lucky Break — #103 of 485 · 11 breaks',
+      'Indirect Prompt Injection Aug 2026 — #133 of 807 · 24 breaks',
+      'Indirect Prompt Injection Jul 2026 — #201 of 473 · 1 break',
+    ],
+  },
+  {
+    title: 'Judgement Day — AI Red Team Arena',
+    meta: 'AIM Intelligence × Korea AISI · global AI safety competition (Apr–May 2026)',
+    href: 'https://app.grayswan.ai/profile',
+    details: [
+      'Global Rank #59 · 149.00 points · 399 approved submissions',
+      '27 breaches · 7% breach rate',
+      'Epidemiological Surveillance — 35 pts · 5/23',
+      'Emergency Triage — 33 pts · 7/93',
+      'Industrial Robot — 25 pts · 6/57',
+      'Deepfake Detection — 16 pts · 3/34',
+      'Cybersecurity SOC — 14 pts · 2/45',
+      'Dam Flood Control — 12 pts · 2/25',
+      'Sports Integrity — 9 pts · 1/62',
+      'Aircraft Predictive Maintenance — 5 pts · 1/60',
+    ],
+  },
 ];
 
 const talks = [
@@ -220,44 +249,6 @@ const projects = [
   { title: 'AFTNStreamDecoder', meta: 'Decoder for ATS emergency-signal messages, ML-assisted', done: true },
   { title: 'Chameleon', meta: 'Volumetric facial scanner for facial replacement in film', done: false },
   { title: 'Autobot OS', meta: 'Python & C++ OS for file management, retrieval and admin tasks', done: false },
-];
-
-const aiRedTeam = [
-  {
-    platform: 'Gray Swan Arena',
-    meta: 'LLM red teaming — prompt injection, jailbreaks and agent safety',
-    stats: [
-      'Global Rank #924',
-      '220 global points · 12 unique breaks',
-      '1,226 submissions in the last year',
-    ],
-    challenges: [
-      { name: 'IPI Lucky Break', rank: '#103 of 485', breaks: '11 breaks' },
-      { name: 'Indirect Prompt Injection Aug 2026', rank: '#133 of 807', breaks: '24 breaks' },
-      { name: 'Indirect Prompt Injection Jul 2026', rank: '#201 of 473', breaks: '1 break' },
-    ],
-    href: 'https://app.grayswan.ai/profile',
-  },
-  {
-    platform: 'Judgement Day — AI Red Team Arena',
-    meta: 'AIM Intelligence × Korea AISI · global AI safety red-team competition (Apr–May 2026)',
-    stats: [
-      'Global Rank #59',
-      'Total score 149.00 · 399 approved submissions',
-      '27 breaches · 7% breach rate',
-    ],
-    challenges: [
-      { name: 'Epidemiological Surveillance: Outbreak Alert Suppression', rank: '35.00 pts', breaks: '5 approved / 23' },
-      { name: 'Emergency Triage: Multi-modal Resource Coordination', rank: '33.00 pts', breaks: '7 approved / 93' },
-      { name: 'Industrial Robot: Physical Sensory Deception', rank: '25.00 pts', breaks: '6 approved / 57' },
-      { name: 'Deepfake Detection: Forensic Finding Suppression', rank: '16.00 pts', breaks: '3 approved / 34' },
-      { name: 'Cybersecurity SOC: Incident Suppression', rank: '14.00 pts', breaks: '2 approved / 45' },
-      { name: 'Dam Flood Control: Emergency Overtopping Deception', rank: '12.00 pts', breaks: '2 approved / 25' },
-      { name: 'Sports Integrity: Statistical Anomaly Normalization', rank: '9.00 pts', breaks: '1 approved / 62' },
-      { name: 'Aircraft Predictive Maintenance: Safety-Critical Hold Deferral', rank: '5.00 pts', breaks: '1 approved / 60' },
-    ],
-    href: 'https://app.grayswan.ai/profile',
-  },
 ];
 
 export default function Works() {
@@ -351,37 +342,6 @@ export default function Works() {
         </div>
       </section>
 
-      {/* AI red teaming */}
-      <section className='section'>
-        <div className='container'>
-          <h2 className='section-title' id='ai'>AI Red Teaming</h2>
-          <div className='card-grid'>
-            {aiRedTeam.map((a, i) => (
-              <div key={i} className='card card-ai'>
-                <h3>{a.platform}</h3>
-                <p>{a.meta}</p>
-                <ul className='timeline-bullets'>
-                  {a.stats.map((s, j) => (
-                    <li key={j}>{s}</li>
-                  ))}
-                </ul>
-                <div className='ai-challenges'>
-                  {a.challenges.map((c, j) => (
-                    <div key={j} className='ai-challenge'>
-                      <span className='ai-challenge-name'>{c.name}</span>
-                      <span className='mono ai-challenge-meta'>{c.rank} · {c.breaks}</span>
-                    </div>
-                  ))}
-                </div>
-                {a.href ? (
-                  <a className='mono' href={a.href} target='_blank' rel='noopener'>Profile →</a>
-                ) : null}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTFs & Hackathons */}
       <section className='section section-white'>
         <div className='container'>
@@ -391,6 +351,13 @@ export default function Works() {
               <div key={i} className='card'>
                 <h3>{c.title}</h3>
                 <p>{c.meta}</p>
+                {c.details ? (
+                  <ul className='timeline-bullets'>
+                    {c.details.map((d, j) => (
+                      <li key={j}>{d}</li>
+                    ))}
+                  </ul>
+                ) : null}
                 {c.href ? (
                   <a className='mono' href={c.href} target='_blank' rel='noopener'>Link →</a>
                 ) : null}

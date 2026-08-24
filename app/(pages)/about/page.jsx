@@ -67,7 +67,7 @@ export default function About() {
 
               <div className='about-image'>
                 <Image
-                  src='/images/avatar.jpg'
+                  src='/images/about.png'
                   width={360}
                   height={360}
                   alt='Abang Obed'

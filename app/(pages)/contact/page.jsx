@@ -7,7 +7,7 @@ import { socialMedias } from '@/data';
 import { PageHero, Transition } from '@/layout';
 import { randomId } from '@/utils';
 
-const EMAIL = 'info@obx0x03.tech';
+const EMAIL = 'obx@wearehackerone.com';
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });

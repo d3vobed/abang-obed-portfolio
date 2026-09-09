@@ -11,9 +11,9 @@ const experience = [
     dates: 'July 2026 – Present',
     image: '/images/kynettic-logo.png',
     bullets: [
-      'Web application, API and mobile security assessments across authentication, authorization, session management, business logic and injection.',
+      'Web, API and mobile security assessments across authentication, authorization, session management, business logic and injection.',
       'Protocol-layer and application security in DeFi systems: swap-logic integrity, access control and transaction validation.',
-      'Structured assessment reports with severity ratings, reproduction steps and prioritized remediation guidance.',
+      'Structured reports with severity ratings, reproduction steps and prioritized remediation.',
     ],
   },
   {
@@ -25,9 +25,9 @@ const experience = [
     href: 'https://nema.gov.ng/about-nema/',
     image: '/images/thumb-nema.jpg',
     bullets: [
-      'Monitored and investigated security events in a live government SOC using SIEM and monitoring workflows.',
-      'Administered Active Directory and endpoint security on HP ProLiant servers with MikroTik and Cisco.',
-      'Vulnerability assessments of network assets and the Huawei NetEngine CX600 platform; supported GIS data-relay and Mission Control.',
+      'Live government SOC security event monitoring, SIEM alert triage and incident response.',
+      'Active Directory and endpoint hardening on HP ProLiant with MikroTik, Cisco and EDR.',
+      'Vulnerability assessment of network assets incl. Huawei NetEngine CX600; supported GIS data-relay and Mission Control.',
     ],
   },
   {
@@ -39,8 +39,7 @@ const experience = [
     image: '/images/thumb-atl.jpg',
     bullets: [
       'Developed RBAC security courseware on access-control architecture, policy design and enforcement.',
-      'Research and technical writing on identity management, access control and security governance.',
-      'Produced course-visualization content for practitioner-focused security training.',
+      'Research and technical writing on identity management and security governance for practitioners.',
     ],
   },
   {
@@ -52,9 +51,8 @@ const experience = [
     href: 'https://www.myphlexit.com/',
     image: '/images/thumb-phlexit.jpg',
     bullets: [
-      'REST APIs with NestJS and PostgreSQL for authentication, OTP verification, session management and ticketing at scale.',
-      'Server-side pagination and client caching across datasets exceeding 50,000 attendee records.',
-      'MongoDB ORM architecture and CI/CD pipeline for secure deployments.',
+      'REST APIs with NestJS and PostgreSQL for auth, OTP verification, session management and ticketing at scale.',
+      'Server-side pagination and caching across 50,000+ attendee records; MongoDB ORM and CI/CD.',
     ],
   },
   {
@@ -67,8 +65,7 @@ const experience = [
     image: '/images/thumb-ide.jpg',
     bullets: [
       'Multi-company operations platform (Simdozi, Marblefoods, Stonerockers, Aoahomes, BigHomes) with Node.js, Laravel, Three.js, C# and Azure.',
-      'Mobile-first responsive interfaces with Tailwind CSS, improving engagement by 57%.',
-      'Resolved IAM misconfigurations and cloud deployment security issues.',
+      'Mobile-first responsive UI with Tailwind CSS (+57% engagement); resolved IAM misconfigurations and cloud deployment issues.',
     ],
   },
   {
@@ -107,31 +104,6 @@ const disclosures = [
     status: 'Triaged',
     year: '2026',
     link: 'https://issues.chromium.org/issues/509555616',
-  },
-  {
-    vendor: 'Apple',
-    title: 'Client-side request signing uses predictable SHA-256 hash — forgeable rating/save',
-    status: 'Triaged · Reproduced',
-    year: '2026',
-  },
-  {
-    vendor: 'Apple',
-    title: 'Broken Access Control — enumeration & binding of internal Apple employee exams',
-    status: 'Triaged · Reviewing',
-    year: '2026',
-  },
-  {
-    vendor: 'Apple',
-    title: 'Missing Login CSRF token — cross-origin login forgery (sift-shield.apple.com)',
-    status: 'Triaged · Reproduced',
-    year: '2026',
-  },
-  {
-    vendor: 'Microsoft',
-    title: 'Microsoft Dataverse Web API SQL Server fault disclosure and internal custom API exposure',
-    status: 'Triaged',
-    year: '2026',
-    image: '/images/ms-dataverse-portal.png',
   },
   {
     vendor: 'Elastic',

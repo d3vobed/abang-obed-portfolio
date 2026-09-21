@@ -65,7 +65,7 @@ export default function Contact() {
 
   return (
     <Transition>
-      <PageHero title='Contact' meta='Security work · Film collaboration · Anything else' image='/images/film-still1.png' />
+      <PageHero title='Contact' meta='Security work · Film collaboration · Anything else' />
       <main className='aman'>
         <section className='section'>
           <div className='container'>

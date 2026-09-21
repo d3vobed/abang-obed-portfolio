@@ -1,15 +1,11 @@
 import fs from 'fs';
 import matter from 'gray-matter';
-import Image from 'next/image';
+import Link from 'next/link';
 import path from 'path';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-import { Contact, Navbar, Transition } from '@/layout';
-
 import { PageHero } from '../../_components/page-hero';
-
-import '../../../aman.css';
 
 const POSTS_DIR = path.join(process.cwd(), 'content', 'blog');
 
@@ -18,7 +14,12 @@ function getPost(slug) {
   if (!fs.existsSync(file)) return null;
   const raw = fs.readFileSync(file, 'utf8');
   const { data, content } = matter(raw);
-  return { ...data, content, slug };
+  const date = data.date
+    ? typeof data.date === 'string'
+      ? data.date
+      : data.date.toISOString().slice(0, 10)
+    : '';
+  return { ...data, date, content, slug };
 }
 
 export function generateStaticParams() {
@@ -33,36 +34,33 @@ export default function Post({ params }) {
   const post = getPost(params.slug);
   if (!post) return <p>Not found.</p>;
   return (
-    <Transition>
-      <Navbar />
-      <PageHero title={post.title} meta={post.tag || 'Post'} image={post.image || '/images/film-still.png'} />
-      <main className='aman'>
-        <section className='section'>
-          <div className='container'>
-            {post.image ? (
-              <div className='writing-cover'>
-                <Image src={post.image} alt={post.title} width={960} height={480} />
-              </div>
-            ) : null}
-            <article className='writing-post'>
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
-            </article>
-            {post.link ? (
-              <p className='writing-origin'>
-                Originally published on{' '}
-                <a className='mono' href={post.link} target='_blank' rel='noopener'>
-                  {post.source || post.link}
-                </a>
-                .
-              </p>
-            ) : null}
+    <main>
+      <PageHero title={post.title} meta={`${post.date} · ${post.tag || 'Post'}`} />
+      <section className='nv-section'>
+        <div className='nv-container'>
+          {post.image ? (
+            <div className='nv-cover'>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={post.image} alt={post.title} />
+            </div>
+          ) : null}
+          <article className='nv-prose'>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
+          </article>
+          {post.link ? (
             <p style={{ marginTop: '2rem' }}>
-              <a className='mono' href='/writing'>← Back to writing</a>
+              Originally published on{' '}
+              <a className='nv-mono' href={post.link} target='_blank' rel='noopener'>
+                {post.source || post.link}
+              </a>
+              .
             </p>
-          </div>
-        </section>
-      </main>
-      <Contact />
-    </Transition>
+          ) : null}
+          <Link href='/writing' className='nv-back' style={{ display: 'inline-block', marginTop: '2.5rem' }}>
+            ← Back to writing
+          </Link>
+        </div>
+      </section>
+    </main>
   );
 }

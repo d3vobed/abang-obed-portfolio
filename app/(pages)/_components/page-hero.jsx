@@ -1,18 +1,27 @@
+import Image from 'next/image';
+
 /**
  * @param {Object} props
  * @param {string} props.title
  * @param {string} [props.meta]
+ * @param {string} [props.image]
  */
-export function PageHero({ title, meta }) {
+export function PageHero({ title, meta, image }) {
   return (
-    <header className='nv-page-hero'>
-      <div className='nv-container'>
-        {meta ? (
-          <span className='nv-meta' style={{ display: 'block', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-            {meta}
-          </span>
-        ) : null}
+    <header className='aman-hero'>
+      {image ? (
+        <Image
+          src={image}
+          alt=''
+          fill={true}
+          sizes='100vw'
+          className='hero-img'
+          priority
+        />
+      ) : null}
+      <div className='container'>
         <h1>{title}</h1>
+        {meta ? <p className='hero-meta'>{meta}</p> : null}
       </div>
     </header>
   );

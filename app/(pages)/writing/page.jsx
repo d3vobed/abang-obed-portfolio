@@ -1,9 +1,14 @@
 import fs from 'fs';
 import matter from 'gray-matter';
+import Image from 'next/image';
 import Link from 'next/link';
 import path from 'path';
 
+import { Contact, Navbar, Transition } from '@/layout';
+
 import { PageHero } from '../_components/page-hero';
+
+import '../../aman.css';
 
 const POSTS_DIR = path.join(process.cwd(), 'content', 'blog');
 
@@ -26,6 +31,7 @@ function getPosts() {
         date,
         tag: data.tag || 'Post',
         excerpt: data.excerpt || '',
+        image: data.image || '',
       };
     })
     .sort((a, b) => (a.date < b.date ? 1 : -1));
@@ -46,62 +52,44 @@ const externalPosts = [
 export default function Writing() {
   const posts = getPosts();
   return (
-    <main>
-      <PageHero title='Writing' meta='Essays · Security writeups · Engineering notes' />
-      <section className='nv-section'>
-        <div className='nv-container'>
-          <span className='nv-label'>Posts</span>
-          <div style={{ display: 'flex', flexDirection: 'column', borderBottom: '1px solid var(--nv-line)' }}>
-            {posts.map(p => (
-              <Link
-                key={p.slug}
-                href={`/writing/${p.slug}`}
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'auto 1fr auto',
-                  gap: '1.5rem',
-                  alignItems: 'center',
-                  padding: '1.5rem 0',
-                  borderTop: '1px solid var(--nv-line)',
-                }}
-              >
-                <div className='nv-work-meta' style={{ minWidth: '9rem' }}>
-                  <span className='nv-tag'>{p.tag}</span>
-                </div>
-                <div>
-                  <h3 style={{ fontSize: 'clamp(1.15rem, 2.4vw, 1.75rem)' }}>{p.title}</h3>
-                  <p style={{ color: 'var(--nv-muted)', fontSize: '0.92rem', marginTop: '0.4rem' }}>
-                    {p.excerpt}
-                  </p>
-                </div>
-                <span className='nv-post-date'>{p.date}</span>
-              </Link>
-            ))}
-            {externalPosts.map(e => (
-              <a
-                key={e.url}
-                href={e.url}
-                target='_blank'
-                rel='noopener'
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'auto 1fr auto',
-                  gap: '1.5rem',
-                  alignItems: 'center',
-                  padding: '1.5rem 0',
-                  borderTop: '1px solid var(--nv-line)',
-                }}
-              >
-                <div className='nv-work-meta' style={{ minWidth: '9rem' }}>
-                  <span className='nv-tag'>{e.tag}</span>
-                </div>
-                <h3 style={{ fontSize: 'clamp(1.15rem, 2.4vw, 1.75rem)' }}>{e.title}</h3>
-                <span className='nv-post-date'>↗</span>
-              </a>
-            ))}
+    <Transition>
+      <Navbar />
+      <PageHero title='Writing' meta='Essays · Security writeups · Engineering notes' image='/images/film-still2.png' />
+      <main className='aman'>
+        <section className='section'>
+          <div className='container'>
+            <h2 className='section-title'>Posts</h2>
+            <div className='writing-list'>
+              {posts.map(p => (
+                <Link key={p.slug} href={`/writing/${p.slug}`} className='writing-row'>
+                  {p.image ? (
+                    <div className='writing-thumb'>
+                      <Image src={p.image} alt={p.title} width={240} height={135} />
+                    </div>
+                  ) : null}
+                  <div className='writing-row-body'>
+                    <span className='source-tag'>{p.tag}</span>
+                    <h3>{p.title}</h3>
+                    <p className='writing-excerpt'>{p.excerpt}</p>
+                  </div>
+                  <span className='mono writing-date'>{p.date}</span>
+                </Link>
+              ))}
+
+              {externalPosts.map(e => (
+                <a key={e.url} href={e.url} target='_blank' rel='noopener' className='writing-row'>
+                  <div className='writing-row-body'>
+                    <span className='source-tag'>{e.tag}</span>
+                    <h3>{e.title}</h3>
+                  </div>
+                  <span className='mono writing-date'>↗</span>
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+      <Contact />
+    </Transition>
   );
 }

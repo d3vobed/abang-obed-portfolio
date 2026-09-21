@@ -64,8 +64,8 @@ export default function Contact() {
   const isSending = status === STATUS.sending;
 
   return (
-    <Transition>
-      <PageHero title='Contact' meta='Security work · Film collaboration · Anything else' />
+    <Transition skipPreload>
+      <PageHero title='Contact' meta='Security work · Film collaboration · Anything else' image='/images/film-still1.png' />
       <main className='aman'>
         <section className='section'>
           <div className='container'>

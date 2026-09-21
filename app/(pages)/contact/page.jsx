@@ -4,9 +4,8 @@ import { useState } from 'react';
 
 import { CheckCircle2, Loader2, Mail, Send, XCircle } from 'lucide-react';
 
-import { MagneticButton } from '@/components';
 import { socialMedias } from '@/data';
-import { PageHero, Transition } from '@/layout';
+import { Transition } from '@/layout';
 import { randomId } from '@/utils';
 
 const EMAIL = 'obx@wearehackerone.com';
@@ -65,9 +64,8 @@ export default function Contact() {
 
   return (
     <Transition skipPreload>
-      <PageHero title='Contact' meta='Security work · Film collaboration · Anything else' image='/images/film-still1.png' />
       <main className='aman'>
-        <section className='section'>
+        <section className='section' style={{ paddingTop: 'clamp(7rem, 14vh, 10rem)' }}>
           <div className='container'>
             <h2 className='section-title'>Get in touch</h2>
             <p className='lead'>

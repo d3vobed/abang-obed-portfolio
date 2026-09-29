@@ -3,6 +3,6 @@ export const siteConfig = {
   role: ['Security Engineer', 'Security Researcher', 'Filmmaker'],
   location: 'Abuja, Nigeria',
   origin: 'Cross River, Nigeria',
-  email: '[ADD EMAIL]',
+  email: 'obx@wearehackerone.com',
   github: 'https://github.com/d3vobed',
 };

@@ -1,14 +1,11 @@
 import fs from 'fs';
 import matter from 'gray-matter';
-import Image from 'next/image';
+import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import path from 'path';
 
-import { Contact, Navbar, Transition } from '@/layout';
-
-import { PageHero } from '../_components/page-hero';
-
-import '../../aman.css';
+import { externalWriting } from '@/data';
+import { ContactBand, HandLabel, NoteSticky, SiteFooter, TopBar } from '@/layout';
 
 const POSTS_DIR = path.join(process.cwd(), 'content', 'blog');
 
@@ -31,7 +28,6 @@ function getPosts() {
         date,
         tag: data.tag || 'Post',
         excerpt: data.excerpt || '',
-        image: data.image || '',
       };
     })
     .sort((a, b) => (a.date < b.date ? 1 : -1));
@@ -40,56 +36,101 @@ function getPosts() {
 /** @type {import('next').Metadata} */
 export const metadata = {
   title: 'Writing',
-  description: 'Essays, security writeups and engineering notes by Abang Obed.',
+  description:
+    'Essays, security writeups and engineering notes by Abang Obed — on the blog, Medium and GitHub.',
 };
-
-const externalPosts = [
-  { title: 'Essays & security writeups', tag: 'Medium', url: 'https://medium.com/@obx03' },
-  { title: 'Older writeups — HTB, Active Directory, engineering', tag: 'Blog', url: 'https://d3vobed.github.io' },
-  { title: 'Technical notes & research', tag: 'GitHub', url: 'https://github.com/d3vobed' },
-];
 
 export default function Writing() {
   const posts = getPosts();
-  return (
-    <Transition>
-      <Navbar />
-      <PageHero title='Writing' meta='Essays · Security writeups · Engineering notes' image='/images/film-still2.png' />
-      <main className='aman'>
-        <section className='section'>
-          <div className='container'>
-            <h2 className='section-title'>Posts</h2>
-            <div className='writing-list'>
-              {posts.map(p => (
-                <Link key={p.slug} href={`/writing/${p.slug}`} className='writing-row'>
-                  {p.image ? (
-                    <div className='writing-thumb'>
-                      <Image src={p.image} alt={p.title} width={240} height={135} />
-                    </div>
-                  ) : null}
-                  <div className='writing-row-body'>
-                    <span className='source-tag'>{p.tag}</span>
-                    <h3>{p.title}</h3>
-                    <p className='writing-excerpt'>{p.excerpt}</p>
-                  </div>
-                  <span className='mono writing-date'>{p.date}</span>
-                </Link>
-              ))}
 
-              {externalPosts.map(e => (
-                <a key={e.url} href={e.url} target='_blank' rel='noopener' className='writing-row'>
-                  <div className='writing-row-body'>
-                    <span className='source-tag'>{e.tag}</span>
-                    <h3>{e.title}</h3>
+  return (
+    <div className='canvas-bg min-h-screen'>
+      <TopBar />
+
+      <main className='mx-auto max-w-[1200px] px-4 pb-10 pt-14 sm:px-8'>
+        <div className='text-center'>
+          <HandLabel className='-rotate-3'>notes from the desk</HandLabel>
+          <h1 className='cv-pixel-title mt-6 !text-[clamp(56px,10vw,130px)]'>Writing</h1>
+          <div className='mt-8 flex justify-center'>
+            <NoteSticky className='rotate-[1.5deg]'>
+              Essays, security writeups and engineering notes — some live here, the
+              rest on Medium and GitHub.
+            </NoteSticky>
+          </div>
+        </div>
+
+        {/* on-site posts */}
+        <section className='mt-20'>
+          <p className='cv-label text-[#9aa39f]'>on this canvas — {posts.length} posts</p>
+          <div className='mt-6'>
+            {posts.map((p, i) => (
+              <article key={p.slug} className='border-t-[1.5px] border-[#111212] last:border-b-[1.5px]'>
+                <Link
+                  href={`/writing/${p.slug}`}
+                  className='group grid items-center gap-3 py-8 transition-colors hover:bg-white md:grid-cols-[110px_1fr_auto] md:gap-8'
+                >
+                  <p className='cv-label text-[#9aa39f]'>
+                    <span className='font-pixel mr-2 text-[15px] font-bold tracking-normal text-[#111212]'>
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    {p.date}
+                  </p>
+                  <div>
+                    <h2 className='text-[clamp(22px,2.6vw,34px)] font-bold leading-tight tracking-tight group-hover:underline group-hover:decoration-[#0099ff] group-hover:underline-offset-4'>
+                      {p.title}
+                    </h2>
+                    {p.excerpt ? (
+                      <p className='mt-2 max-w-2xl text-[15px] leading-relaxed text-[#43494b]'>
+                        {p.excerpt}
+                      </p>
+                    ) : null}
                   </div>
-                  <span className='mono writing-date'>↗</span>
-                </a>
-              ))}
-            </div>
+                  <div className='flex items-center gap-4'>
+                    <span className='font-dmono rounded-md bg-[#ededed] px-3 py-1.5 text-[11px] uppercase tracking-[0.08em]'>
+                      {p.tag}
+                    </span>
+                    <ArrowUpRight
+                      size={20}
+                      className='hidden text-[#111212] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 sm:block'
+                      aria-hidden
+                    />
+                  </div>
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* external */}
+        <section className='mt-24'>
+          <HandLabel className='-rotate-2'>elsewhere</HandLabel>
+          <div className='mt-8 grid gap-6 md:grid-cols-2'>
+            {externalWriting.map(e => (
+              <a
+                key={e.title}
+                href={e.href}
+                target='_blank'
+                rel='noreferrer'
+                className='cv-mini group flex flex-col p-7'
+              >
+                <p className='cv-label text-[#6b7375]'>{e.tag}</p>
+                <h2 className='mt-4 text-[20px] font-bold leading-snug tracking-tight group-hover:underline group-hover:decoration-[#0099ff] group-hover:underline-offset-4'>
+                  {e.title}
+                </h2>
+                <p className='mt-2.5 text-[15px] leading-relaxed text-[#43494b]'>{e.excerpt}</p>
+                <span className='cv-link mt-5 self-start'>
+                  read <ArrowUpRight size={13} aria-hidden />
+                </span>
+              </a>
+            ))}
           </div>
         </section>
       </main>
-      <Contact />
-    </Transition>
+
+      <div className='mt-20'>
+        <ContactBand />
+      </div>
+      <SiteFooter />
+    </div>
   );
 }

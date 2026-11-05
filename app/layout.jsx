@@ -1,25 +1,33 @@
-import { rootMetadata } from '@/config';
-import { inter, jetbrains_mono, neue_montreal } from '@/fonts';
-import { Offcanvas } from '@/layout';
-import { Providers } from '@/providers';
-import './globals.css';
+import './canvas.css';
 
-/** @type {import('next').Metadata} */
-export const metadata = rootMetadata;
+import { atkinson, departure, dm_mono, hand, pixel } from './_fonts';
+import { TopBar } from './_layout';
 
-/** @param {import('react').PropsWithChildren<unknown>} */
+export const metadata = {
+  title: {
+    default: 'Abang Obed — obx03',
+    template: '%s — obx03',
+  },
+  description:
+    'Abang Obed (obx03), security researcher and filmmaker in Abuja, Nigeria. Penetration testing, reverse engineering, malware research and films.',
+};
+
+const themeInit = `(function(){try{var t=localStorage.getItem('obx-theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.dataset.theme=t;}catch(e){}})();`;
+
 export default function RootLayout({ children }) {
   return (
     <html
       lang='en'
-      dir='ltr'
-      className={`${inter.variable} ${jetbrains_mono.variable} ${neue_montreal.variable}`}
+      data-theme='light'
+      className={`${departure.variable} ${atkinson.variable} ${dm_mono.variable} ${hand.variable} ${pixel.variable}`}
     >
-      <body className={neue_montreal.className}>
-        <Providers>
-          <Offcanvas />
-          {children}
-        </Providers>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+      </head>
+      <body>
+        <div className='canvas-bg' aria-hidden='true' />
+        <TopBar />
+        {children}
       </body>
     </html>
   );

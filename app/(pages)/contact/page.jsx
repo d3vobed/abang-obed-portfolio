@@ -1,200 +1,216 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { CheckCircle2, Loader2, Mail, Send, XCircle } from 'lucide-react';
+import { Check, Clock3, Copy, Send } from 'lucide-react';
 
-import { socialMedias } from '@/data';
-import { Transition } from '@/layout';
-import { randomId } from '@/utils';
+import { profile, socialMedias } from '@/data';
+import { Clock, ContactGame, HandLabel, SectionHead, SiteFooter } from '@/layout';
 
-const EMAIL = 'obx@wearehackerone.com';
+import '../../canvas.css';
 
-function validate(values) {
-  const errors = {};
-  if (!values.name.trim()) errors.name = 'Please add your name.';
-  if (!values.email.trim()) errors.email = 'Please add your email.';
-  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email.trim()))
-    errors.email = 'That email doesn’t look right.';
-  if (!values.message.trim()) errors.message = 'Please write a message.';
-  return errors;
-}
-
-const STATUS = {
-  idle: 'idle',
-  sending: 'sending',
-  sent: 'sent',
-  error: 'error',
-};
+const TOPICS = ['Security', 'Film', 'Collab', 'Hello'];
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [topic, setTopic] = useState('Security');
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState(STATUS.idle);
+  const [status, setStatus] = useState('idle');
+  const [copied, setCopied] = useState(false);
 
-  const onSubmit = e => {
+  const [lagosHour, setLagosHour] = useState(null);
+
+  useEffect(() => {
+    const fmt = new Intl.DateTimeFormat('en-US', {
+      hour: 'numeric',
+      hour12: false,
+      timeZone: 'Africa/Lagos',
+    });
+    const upd = () => setLagosHour(Number(fmt.format(new Date())) % 24);
+    upd();
+    const id = setInterval(upd, 60000);
+    return () => clearInterval(id);
+  }, []);
+
+  const asleep = lagosHour !== null && (lagosHour >= 23 || lagosHour < 7);
+
+  const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1600);
+    } catch (e) {
+      /* clipboard unavailable */
+    }
+  };
+
+  const submit = (e) => {
     e.preventDefault();
-    const nextErrors = validate(form);
-    setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) {
-      setStatus(STATUS.error);
+    const errs = {};
+    if (!form.name.trim()) errs.name = 'A name helps.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errs.email = 'That email looks off.';
+    if (form.message.trim().length < 10) errs.message = 'Give me a little more than that.';
+    setErrors(errs);
+    if (Object.keys(errs).length > 0) {
+      setStatus('error');
       return;
     }
 
-    setStatus(STATUS.sending);
-
-    // Open the mail client with the composed message, then show success.
-    const subject = encodeURIComponent(`Portfolio enquiry from ${form.name.trim()}`);
-    const body = encodeURIComponent(
-      `${form.message}\n\n— ${form.name.trim()}${form.email.trim() ? ` (${form.email.trim()})` : ''}`,
-    );
-    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
-
-    setTimeout(() => setStatus(STATUS.sent), 650);
+    setStatus('sending');
+    const subject = encodeURIComponent(`[${topic}] message from ${form.name}`);
+    const body = encodeURIComponent(`${form.message}\n\n${form.name}\n${form.email}`);
+    window.location.href = `mailto:${profile.email}?subject=${subject}&body=${body}`;
+    setTimeout(() => setStatus('sent'), 1200);
   };
 
-  const fieldClass = hasError =>
-    `rounded-lg border px-4 py-3 text-base outline-none transition-colors ${
-      hasError
-        ? 'border-[var(--rm-red)] focus:border-[var(--rm-red)]'
-        : 'border-[#ccc] focus:border-[var(--privacy-green)]'
-    }`;
-
-  const isSending = status === STATUS.sending;
-
   return (
-    <Transition skipPreload>
-      <main className='aman'>
-        <section className='section' style={{ paddingTop: 'clamp(7rem, 14vh, 10rem)' }}>
-          <div className='container'>
-            <h2 className='section-title'>Get in touch</h2>
-            <p className='lead'>
-              For security work, film collaboration or just to talk — send a
-              note to{' '}
-              <a href={`mailto:${EMAIL}`} className='mono'>
-                {EMAIL}
-              </a>
-              .
+    <main className='page-dark'>
+      <section className='cv-section' style={{ borderTop: 0 }}>
+        <div className='wrap'>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', marginBottom: 8 }}>
+            <Clock />
+            <span className='mono' style={{ fontSize: 11, textTransform: 'uppercase' }}>
+              {asleep ? 'probably asleep, still reply fast' : 'awake and around'}
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 16, flexWrap: 'wrap' }}>
+            <div>
+              <HandLabel style={{ display: 'inline-block' }}>ping me</HandLabel>
+              <h1 className='cv-title' style={{ fontSize: 'clamp(34px, 7vw, 72px)' }}>
+                Contact
+              </h1>
+            </div>
+            <p style={{ maxWidth: 520, margin: '0 0 10px', color: 'var(--ink-soft)' }}>
+              Security work, film work, or something stranger. The inbox is {profile.email}. The form below drops
+              straight into it.
             </p>
+          </div>
 
-            <div className='grid gap-10 md:grid-cols-2'>
-              <form onSubmit={onSubmit} className='flex flex-col gap-4' noValidate>
-                <div>
-                  <input
-                    required
-                    placeholder='Your name'
-                    value={form.name}
-                    onChange={e => setForm({ ...form, name: e.target.value })}
-                    className={fieldClass(Boolean(errors.name))}
-                    disabled={isSending}
-                  />
-                  {errors.name ? <p className='form-error'>{errors.name}</p> : null}
-                </div>
-                <div>
-                  <input
-                    required
-                    type='email'
-                    placeholder='Your email'
-                    value={form.email}
-                    onChange={e => setForm({ ...form, email: e.target.value })}
-                    className={fieldClass(Boolean(errors.email))}
-                    disabled={isSending}
-                  />
-                  {errors.email ? <p className='form-error'>{errors.email}</p> : null}
-                </div>
-                <div>
-                  <textarea
-                    required
-                    rows={5}
-                    placeholder='Your message'
-                    value={form.message}
-                    onChange={e => setForm({ ...form, message: e.target.value })}
-                    className={fieldClass(Boolean(errors.message))}
-                    disabled={isSending}
-                  />
-                  {errors.message ? <p className='form-error'>{errors.message}</p> : null}
-                </div>
-                <button
-                  type='submit'
-                  className='rounded-full bg-[var(--ai-purple)] px-8 py-4 text-white transition-colors hover:bg-[var(--privacy-green)] disabled:cursor-not-allowed disabled:opacity-70'
-                  disabled={isSending}
-                >
-                  {isSending ? (
-                    <span className='inline-flex items-center gap-2'>
-                      <Loader2 size={18} className='animate-spin' />
-                      Sending…
-                    </span>
-                  ) : (
-                    <span className='inline-flex items-center gap-2'>
-                      <Send size={18} />
-                      Send message
-                    </span>
-                  )}
-                </button>
+          {/* ---------- 3d game ---------- */}
+          <div style={{ margin: '30px 0 10px' }}>
+            <ContactGame />
+            <p className='mono' style={{ fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '.1em', color: 'var(--ink-faint)', marginTop: 8 }}>
+              ob3d.exe // move the mouse to tilt the room, click the bugs before they drift off
+            </p>
+          </div>
 
-                {status === STATUS.sent ? (
-                  <p className='form-note form-sent' role='status'>
-                    <CheckCircle2 size={16} />
-                    Opening your mail app — hit send there to deliver it. Thanks for reaching out.
-                  </p>
-                ) : null}
-                {status === STATUS.error && Object.keys(errors).length > 0 ? (
-                  <p className='form-note form-error-note' role='alert'>
-                    <XCircle size={16} />
-                    Please fix the highlighted fields.
-                  </p>
-                ) : null}
-              </form>
+          {/* ---------- form ---------- */}
+          <div className='cv-contact-grid'>
+            <form onSubmit={submit} noValidate style={{ display: 'grid', gap: 18 }}>
+              <div>
+                <label className='cv-label' htmlFor='c-name'>
+                  Name
+                </label>
+                <input
+                  id='c-name'
+                  className='cv-input'
+                  value={form.name}
+                  onChange={set('name')}
+                  placeholder='Who is this?'
+                />
+                {errors.name ? <p className='cv-error'>{errors.name}</p> : null}
+              </div>
 
               <div>
-                <h3
-                  style={{
-                    color: 'var(--deep-navy)',
-                    fontSize: '0.85rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.06em',
-                    marginBottom: '1rem',
-                  }}
-                >
-                  Elsewhere
-                </h3>
-                <ul className='flex flex-wrap gap-x-6 gap-y-3'>
-                  {socialMedias.map(({ href, title }) => {
-                    const id = randomId();
-                    return (
-                      <li key={id}>
-                        <a href={href} target='_blank' rel='noopener'>
-                          {title}
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <label className='cv-label' htmlFor='c-email'>
+                  Email
+                </label>
+                <input
+                  id='c-email'
+                  type='email'
+                  className='cv-input'
+                  value={form.email}
+                  onChange={set('email')}
+                  placeholder='you@domain.com'
+                />
+                {errors.email ? <p className='cv-error'>{errors.email}</p> : null}
+              </div>
 
-                <div
-                  className='mt-10'
-                  style={{
-                    color: 'var(--deep-navy)',
-                    fontSize: '0.85rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.06em',
-                    marginBottom: '1rem',
-                  }}
-                >
-                  <Mail size={14} style={{ display: 'inline-block', marginRight: '0.5rem', verticalAlign: '-2px' }} />
-                  Direct
+              <div>
+                <span className='cv-label'>Topic</span>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  {TOPICS.map((t) => (
+                    <button
+                      type='button'
+                      key={t}
+                      className={`cv-topic ${topic === t ? 'on' : ''}`}
+                      onClick={() => setTopic(t)}
+                    >
+                      {t}
+                    </button>
+                  ))}
                 </div>
-                <p style={{ color: 'var(--muted-text, #555)' }}>
-                  Prefer email?{' '}
-                  <a href={`mailto:${EMAIL}`} className='mono'>
-                    {EMAIL}
-                  </a>
+              </div>
+
+              <div>
+                <label className='cv-label' htmlFor='c-msg'>
+                  Message
+                </label>
+                <textarea
+                  id='c-msg'
+                  rows={6}
+                  className='cv-input'
+                  value={form.message}
+                  onChange={set('message')}
+                  placeholder='What are we building?'
+                />
+                {errors.message ? <p className='cv-error'>{errors.message}</p> : null}
+              </div>
+
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+                <button type='submit' className='cv-btn cv-btn--sky' disabled={status === 'sending'}>
+                  {status === 'sending' ? <Clock3 size={14} /> : <Send size={14} />}
+                  {status === 'sending' ? 'Opening mail' : 'Send it'}
+                </button>
+                <button type='button' className='cv-btn' onClick={copyEmail}>
+                  {copied ? <Check size={14} /> : <Copy size={14} />}
+                  {copied ? 'Copied' : 'Copy email'}
+                </button>
+                {status === 'sent' ? (
+                  <span className='mono' style={{ fontSize: 11, textTransform: 'uppercase' }}>
+                    Your mail app should be open. Talk soon.
+                  </span>
+                ) : null}
+                {status === 'error' && Object.keys(errors).length > 0 ? (
+                  <span className='cv-error'>Fix the fields and try again.</span>
+                ) : null}
+              </div>
+            </form>
+
+            <aside style={{ display: 'grid', gap: 22, alignContent: 'start' }}>
+              <div>
+                <p className='cv-label'>Direct</p>
+                <a href={`mailto:${profile.email}`} className='cv-input' style={{ display: 'block' }}>
+                  {profile.email}
+                </a>
+                <p className='mono' style={{ fontSize: 10.5, color: 'var(--ink-faint)', marginTop: 8 }}>
+                  alt: {profile.altEmail}
                 </p>
               </div>
-            </div>
+              <div>
+                <p className='cv-label'>Base</p>
+                <p className='dep' style={{ margin: 0 }}>
+                  {profile.base}
+                </p>
+              </div>
+              <div>
+                <p className='cv-label'>Elsewhere</p>
+                <div className='cv-social'>
+                  {socialMedias.map((s) => (
+                    <a key={s.title} href={s.href} target='_blank' rel='noopener'>
+                      {s.title} ↗
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </aside>
           </div>
-        </section>
-      </main>
-    </Transition>
+        </div>
+      </section>
+      <SiteFooter />
+    </main>
   );
 }

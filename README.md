@@ -43,67 +43,45 @@ An Portfolio site template, implemented with [Next.js](https://nextjs.org/) and 
 
 ## 🔧 Technologies
 
-![Next.js](https://img.shields.io/badge/-Next.js-05122A?style=for-the-badge&logo=next.js)&nbsp;
-![JavaScript](https://img.shields.io/badge/-JavaScript-05122A?style=for-the-badge&logo=javascript)&nbsp;
-![Framer Motion](https://img.shields.io/badge/-FramerMotion-05122A?style=for-the-badge&logo=framer)&nbsp;
-![Tailwind CSS](https://img.shields.io/badge/-TailwindCSS-05122A?style=for-the-badge&logo=tailwindCSS&logoColor=06B6D4)
+## 📝 Adding a blog post (the easy way)
 
-## ✨ Demo
+Drop a Markdown file into `content/blog/` and push. That is the whole workflow: the filename becomes the URL, and it appears on /blog automatically.
 
-You can visit and explore portfolio in the [Dennis Snellenberg Portfolio](https://dennis-snellenberg-portfolio.vercel.app/) template.
+`content/blog/my-new-post.md`
 
-## 🔥 Features
+```
+---
+title: My New Post
+date: 2026-11-05
+tag: Writeup
+excerpt: One line that shows in the blog list.
+---
 
-- Using Next.js Cloudinary
-- Using Framer Motion
-- Using Gsap with Lenis
-- Using React Wrap Balancer
-- Using Styled Component
-- Using Tailwindcss with Custom Plugin
-- Using Postcss with Plugins
-- Using Clsx with twMerge
-- Fully responsive
-- Page Transition with Smooth Scrolling
-- Linting with Eslint and Stylelint
-- Format with Prettier
-- Husky and Lint-staged for Pre-committing
-- Pnpm Package Manager
+Regular markdown from here. Code blocks, lists, tables and images all work.
+```
 
-## 📃 Pages
+- `title`, `date`, `tag`, `excerpt` are optional. Missing title falls back to the filename.
+- Images: put them in `public/images/` and reference them like `![alt](/images/my-image.png)`.
+- URL: `/blog/my-new-post` (filename minus `.md`).
 
-- Main (index)
-- About
-- Contact
-- Work
-- Custom Not Found Page
+## 🛠️ Development
 
-<p align="right">(<a href="#top">BACK TO TOP 🔝</a>)</p>
+```bash
+pnpm install
+pnpm dev      # local dev at localhost:3000
+pnpm build    # production build
+pnpm start    # serve the production build
+```
 
-## 🤝 Contributing
+## 🗺️ Routes
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+| Route | What lives there |
+| ----- | ---------------- |
+| `/` | Home: hero, about, highlights reel, what I make, education, projects, honors |
+| `/works/film` | Film gallery: Change (stills lightbox) + SFH Access (TikTok cuts) |
+| `/works/cybersecurity` | Security work, preset style |
+| `/works/devops` | Engineering work, preset style |
+| `/blog` | Posts from `content/blog/*.md` |
+| `/contact` | Dark page: ob3d.exe game + form |
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 🔗 Links
-
-<p>
-  <a href="https://github.com/AliBagheri2079">
-    <img src="https://img.shields.io/badge/Github-000?style=flat&logo=github&logoColor=white"/>
-  </a>
-  <a href="https://www.linkedin.com/in/alibagheri2079">
-    <img src="https://img.shields.io/badge/linkedin-0A66C2?style=flat&logo=linkedin&logoColor=white"/>
-  </a>
-  <a href="https://twitter.com/AliBagheri2079">
-    <img src="https://img.shields.io/badge/twitter-1DA1F2?style=flat&logo=twitter&logoColor=white"/>
-  </a>
-</p>
-
-<p align="right">(<a href="#top">BACK TO TOP🔝</a>)</p>
+Fonts (Departure Mono, Atkinson Hyperlegible) are SIL OFL licensed and self-hosted in `app/_fonts/files/`.

@@ -1,7 +1,7 @@
 import './canvas.css';
 
 import { atkinson, departure, dm_mono, hand, pixel } from './_fonts';
-import { TopBar } from './_layout';
+import { ChatWidget, TopBar } from './_layout';
 
 export const metadata = {
   title: {
@@ -28,6 +28,7 @@ export default function RootLayout({ children }) {
         <div className='canvas-bg' aria-hidden='true' />
         <TopBar />
         {children}
+        <ChatWidget />
       </body>
     </html>
   );

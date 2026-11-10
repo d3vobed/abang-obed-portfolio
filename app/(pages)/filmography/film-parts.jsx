@@ -3,7 +3,7 @@ import Link from 'next/link';
 export function BackToGallery() {
   return (
     <Link href='/filmography' className='cv-btn' style={{ marginBottom: 20, display: 'inline-flex' }}>
-      ← Filmography
+      ← All works
     </Link>
   );
 }

@@ -19,7 +19,6 @@ import {
   HandLabel,
   Honors,
   PresetCard,
-  PresetFrame,
   ProjectWindow,
   Reel,
   Rise,
@@ -27,6 +26,7 @@ import {
   Sel,
   SiteFooter,
   Typed,
+  WorksPlaylist,
 } from '@/layout';
 
 import './canvas.css';
@@ -138,13 +138,7 @@ export default function Home() {
             <SectionHead kicker={worksDone.kicker} title={worksDone.title} sub={worksDone.sub} />
           </Rise>
           <Rise delay={60}>
-            <PresetFrame brand={worksDone.frame.brand} meta={worksDone.frame.meta}>
-              <div className='cv-presets'>
-                {worksDone.roles.map((p) => (
-                  <PresetCard key={p.idx} {...p} />
-                ))}
-              </div>
-            </PresetFrame>
+            <WorksPlaylist items={worksDone.roles} />
           </Rise>
         </div>
       </section>

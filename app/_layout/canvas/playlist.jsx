@@ -4,7 +4,7 @@
    WorksPlaylist — the "experiments" flow from sebiomo.com,
    rebuilt for the works section: one big featured frame that
    cycles through the roles like a playlist, with a numbered
-   segment strip underneath. Each segment carries a progress
+   segment timeline underneath. Each segment carries a progress
    line that fills while its work is on stage. Hover effects
    only, no colored buttons. No em dashes anywhere.
    ============================================================ */
@@ -12,7 +12,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ArrowUpRight } from 'lucide-react';
-import Link from 'next/link';
 
 const DURATION = 7000;
 
@@ -22,6 +21,7 @@ export function WorksPlaylist({ items = [] }) {
   const [playing, setPlaying] = useState(false);
   const [inView, setInView] = useState(false);
   const rootRef = useRef(null);
+  const stripRef = useRef(null);
   const rafRef = useRef(0);
   const lastRef = useRef(0);
 
@@ -71,12 +71,35 @@ export function WorksPlaylist({ items = [] }) {
     setPlaying(inView && !reduced);
   }, [inView, reduced]);
 
+  /* keep the active segment in view inside the scrollable strip */
+  useEffect(() => {
+    const strip = stripRef.current;
+    if (!strip) return;
+    const el = strip.querySelector(`[data-seg="${active}"]`);
+    if (!el) return;
+    const left = el.offsetLeft - strip.clientWidth / 2 + el.clientWidth / 2;
+    strip.scrollTo({ left, behavior: 'smooth' });
+  }, [active]);
+
   const jump = (i) => {
     setActive(i);
     setProgress(0);
   };
 
   const current = items[active] || items[0];
+  const capRight = current.href ? (
+    current.ext ? (
+      <a href={current.href} className='wp-view' target='_blank' rel='noopener noreferrer'>
+        Visit <ArrowUpRight size={12} style={{ verticalAlign: '-2px' }} />
+      </a>
+    ) : (
+      <a href={current.href} className='wp-view'>
+        View <ArrowUpRight size={12} style={{ verticalAlign: '-2px' }} />
+      </a>
+    )
+  ) : (
+    current.stack
+  );
 
   return (
     <div className='wp' ref={rootRef}>
@@ -107,24 +130,17 @@ export function WorksPlaylist({ items = [] }) {
             {current.title}
             <i> · {current.headline}</i>
           </span>
-          <span className='wp-cap-right dep'>
-            {current.href ? (
-              <Link href={current.href} className='wp-view'>
-                View <ArrowUpRight size={12} style={{ verticalAlign: '-2px' }} />
-              </Link>
-            ) : (
-              current.stack
-            )}
-          </span>
+          <span className='wp-cap-right dep'>{capRight}</span>
         </div>
       </div>
 
-      {/* segment strip */}
-      <div className='wp-segments' role='tablist' aria-label='Works playlist'>
+      {/* segment timeline */}
+      <div className='wp-strip' ref={stripRef} role='tablist' aria-label='Works playlist'>
         {items.map((it, i) => (
           <button
             type='button'
             key={it.title}
+            data-seg={i}
             role='tab'
             aria-selected={i === active}
             aria-label={`Show work No. ${i + 1}, ${it.title}`}
@@ -138,7 +154,7 @@ export function WorksPlaylist({ items = [] }) {
               />
             </span>
             <span className={`wp-label dep ${i === active ? 'on' : ''}`}>
-              no. {String(i + 1).padStart(2, '0')} · {it.title}
+              {String(i + 1).padStart(2, '0')} {it.title}
             </span>
           </button>
         ))}

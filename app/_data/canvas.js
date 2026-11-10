@@ -24,17 +24,42 @@ export const typedRoles = [
   'Storyteller',
 ];
 
-/* floating dev objects around the hero. three, slow, quiet. */
+/* floating dev objects around the hero. left side carries four,
+   right side two. the terminal opens the notepad. */
 export const floatTiles = [
-  { icon: 'camera', color: 'pink', style: { top: '13%', left: '4%', '--rot': '-6deg', '--dur': '9s' } },
-  { icon: 'terminal', color: 'paper', style: { top: '14%', right: '8%', '--rot': '5deg', '--dur': '8s', '--delay': '.8s' } },
-  { icon: 'bug', color: 'green', style: { top: '64%', left: '5%', '--rot': '-4deg', '--dur': '10s', '--delay': '1.4s' } },
+  { icon: 'camera', color: 'pink', side: 'left', style: { top: '10%', left: '3.5%', '--rot': '-6deg', '--dur': '9s' } },
+  { icon: 'cpu', color: 'orange', side: 'left', style: { top: '28%', left: '2%', '--rot': '4deg', '--dur': '11s', '--delay': '.6s' } },
+  { icon: 'bug', color: 'green', side: 'left', style: { top: '67%', left: '2%', '--rot': '-4deg', '--dur': '10s', '--delay': '1.4s' } },
+  { icon: 'lock', color: 'yellow', side: 'left', style: { top: '84%', left: '4.5%', '--rot': '3deg', '--dur': '8s', '--delay': '2.1s' } },
+  { icon: 'terminal', color: 'paper', side: 'right', action: 'notepad', style: { top: '14%', right: '6.5%', '--rot': '5deg', '--dur': '8s', '--delay': '.8s' } },
+  { icon: 'wifi', color: 'sky', side: 'right', style: { top: '70%', right: '3.5%', '--rot': '-3deg', '--dur': '11s', '--delay': '1.8s' } },
 ];
 
 export const hero = {
   window: 'welcome.txt',
   label: 'hello, my name is',
   intro: 'I break systems to make them safer, and make films that stick.',
+  hint: 'ps: the terminal tile opens a notepad. it saves what you type. try it.',
+  now: 'Co-founding Cyphra & directing at Icon Digital Labs',
+  focus: 'Offensive security · Malware · Film',
+  cert: 'CPTS · Hack The Box, Feb 2024',
+  rails: [
+    { n: '01', label: 'about', href: '#about' },
+    { n: '02', label: 'works done', href: '#works' },
+    { n: '03', label: 'education', href: '#education' },
+    { n: '04', label: 'projects', href: '#projects' },
+    { n: '05', label: 'honors', href: '#honors' },
+  ],
+};
+
+export const notepad = {
+  title: 'note.txt',
+  seed:
+    'ps. this pad is yours.\n' +
+    'i use mine to dump ideas mid build:\n' +
+    'exploit notes, shot lists, half thoughts.\n\n' +
+    'type here. it saves itself on this device.\n' +
+    '  - obed',
 };
 
 export const about = {
@@ -43,8 +68,8 @@ export const about = {
   sub: 'The short version. The honest one.',
   paragraphs: [
     'Obed is a cybersecurity researcher and filmmaker based in Abuja, Nigeria. He spends most days studying how systems break, and most nights turning what he finds into tools, writeups or stories.',
-    'He just co-founded Cyphra, a cybersecurity consulting firm, where penetration tests and security assessments are the daily bread. He has found and responsibly disclosed bugs in products like CodeSandbox, X (Twitter) and Google Chrome, holds the CPTS certification, and keeps a running list of things he still wants to break.',
-    'On the other screen he works as creative director at Icon Digital Edge. There he wrote, directed and edited SFH Access for the Society For HealthCare Access, pulling first AC duty for the DOP. His short film Change (2026) lives under Tech Cinema on YouTube.',
+    'He just co-founded Cyphra, a cybersecurity consulting firm, where penetration tests and security assessments are the daily bread. He has found and responsibly disclosed bugs in products like CodeSandbox and X (Twitter), holds the CPTS certification, and keeps a running list of things he still wants to break.',
+    'On the other screen he works as creative director at Icon Digital Labs. There he wrote, directed and edited SFH Access for the Society For HealthCare Access, pulling first AC duty for the DOP. His short film Change (2026) lives under Tech Cinema on YouTube.',
     'The two crafts share one engine: curiosity. Asking how it works, asking why it fails, and telling the story honestly either way. If you are building something meaningful, he would like to hear about it.',
   ],
   photos: [
@@ -54,7 +79,7 @@ export const about = {
   facts: [
     ['Lives in', 'Abuja, Nigeria'],
     ['Email', 'obx@wearehackerone.com'],
-    ['Currently', 'Co-founding Cyphra & directing at Icon Digital Edge'],
+    ['Currently', 'Co-founding Cyphra & directing at Icon Digital Labs'],
   ],
 };
 
@@ -68,8 +93,8 @@ export const reel = {
 export const worksDone = {
   kicker: '02',
   title: 'Works Done',
-  sub: 'One stage each for security, film and backend. The reel advances on its own; click a segment to take over.',
-  frame: { brand: 'OBX/WORKS', meta: ['6 roles', 'security · film · backend', '2025/2026 exp.'] },
+  sub: 'One stage each for the work, twelve roles deep. The reel advances on its own; click a segment to take over.',
+  frame: { brand: 'OBX/WORKS', meta: ['12 roles', 'security · film · cloud · builds', '2021/2026'] },
   roles: [
     {
       idx: 'ROLE 01',
@@ -77,14 +102,15 @@ export const worksDone = {
       body: 'Co-founded a cybersecurity consulting firm. Penetration testing, vulnerability assessments and security advisory for real products, from the first scoping call to the final report.',
       stack: 'Offensive Security · VAPT · Advisory',
       headline: 'Security consulting, scoping call to final report',
-      img: null,
-      tileColor: 'green',
-      mark: '#',
-      href: null,
+      img: '/images/work-cyphra.jpg',
+      tileColor: null,
+      mark: null,
+      href: 'https://cyphraltd.tech/',
+      ext: true,
     },
     {
       idx: 'ROLE 02',
-      title: 'Icon Digital Edge',
+      title: 'Icon Digital Labs',
       body: 'Direct the creative side of client productions, currently SFH Access for the Society For HealthCare Access. Wrote, edited, directed and pulled 1st AC duty for the DOP across skits, talking heads and a podcast session.',
       stack: 'Direction · Writing · Editing · 1st AC',
       headline: 'Film and branded content, directed end to end',
@@ -92,6 +118,7 @@ export const worksDone = {
       tileColor: null,
       mark: null,
       href: '/filmography',
+      ext: false,
     },
     {
       idx: 'ROLE 03',
@@ -99,21 +126,23 @@ export const worksDone = {
       body: 'Lead authorized penetration tests across production web, mobile and API infrastructure for a P2P trading platform. Reported sensitive data exposure, access control weaknesses and business logic flaws in payment workflows with risk based priorities.',
       stack: 'Web · API · Mobile · DeFi',
       headline: 'Pentesting a P2P trading platform',
-      img: '/images/thumb-kynettic.jpg',
+      img: '/images/work-kynettic.jpg',
       tileColor: null,
       mark: null,
-      href: null,
+      href: 'https://kynettic.com/',
+      ext: true,
     },
     {
       idx: 'ROLE 04',
-      title: 'Gigafro',
-      body: 'Evaluated platform security across real time geolocation, gig dispatch and worker ranking systems. Vulnerability assessments of the marketplace web, mobile and backend, covering authentication, authorization and business logic.',
+      title: 'Streetvibex (Gigafro)',
+      body: 'Security consulting for the gig marketplace, now live as Streetvibex. Evaluated real time geolocation, gig dispatch and worker ranking systems across web, mobile and backend, covering authentication, authorization and business logic.',
       stack: 'VAPT · Business Logic · APIs',
       headline: 'Security across a gig marketplace',
-      img: '/images/thumb-gigafro.jpg',
+      img: '/images/work-streetvibex.jpg',
       tileColor: null,
       mark: null,
-      href: null,
+      href: 'https://streetvibex.com/',
+      ext: true,
     },
     {
       idx: 'ROLE 05',
@@ -121,10 +150,11 @@ export const worksDone = {
       body: 'Enterprise network infrastructure at the emergency management agency: fibre optic links, MikroTik and Cisco gear, and Mission Control Center support with GIS geolocation and distress signal tracking. Deployed Active Directory and an interdepartmental file management system.',
       stack: 'MikroTik · Cisco · AD · GIS · MCC',
       headline: 'Networks and Mission Control support',
-      img: null,
-      tileColor: 'paper',
-      mark: '::',
-      href: null,
+      img: '/images/work-nema.jpg',
+      tileColor: null,
+      mark: null,
+      href: 'https://nema-app-demo.vercel.app/',
+      ext: true,
     },
     {
       idx: 'ROLE 06',
@@ -132,39 +162,127 @@ export const worksDone = {
       body: 'Backend services and REST APIs with NestJS and PostgreSQL for authentication, ticketing and core workflows. Designed the MongoDB data access architecture and set up CI/CD with AWS CloudFormation.',
       stack: 'NestJS · PostgreSQL · MongoDB · AWS',
       headline: 'Backend APIs with NestJS and PostgreSQL',
-      img: null,
-      tileColor: 'sky',
-      mark: '>_',
+      img: '/images/work-phlexit.jpg',
+      tileColor: null,
+      mark: null,
+      href: 'https://www.myphlexit.com/',
+      ext: true,
+    },
+    {
+      idx: 'ROLE 07',
+      title: 'Stone Rockers',
+      body: 'Client build under Icon Digital Labs for an engineering construction company: marketing site with isometric 3D visuals, project showcase and a direct contact funnel.',
+      stack: 'Web · 3D Visuals · Client Build',
+      headline: 'Engineering company web presence',
+      img: '/images/work-stonerockers.jpg',
+      tileColor: null,
+      mark: null,
+      href: 'https://stonerockers.com/',
+      ext: true,
+    },
+    {
+      idx: 'ROLE 08',
+      title: 'Marble Foods',
+      body: 'Client build for an agricultural commodities company: product catalogue across six value chains, sustainability story, order tracking and insights.',
+      stack: 'Web · Catalogue · Tracking',
+      headline: 'Agro commodities, six value chains',
+      img: '/images/work-marblefoods.jpg',
+      tileColor: null,
+      mark: null,
+      href: 'https://marble-foods-umber.vercel.app/',
+      ext: true,
+    },
+    {
+      idx: 'ROLE 09',
+      title: 'Simdozi International',
+      body: 'Client build for an agro investment group: national presence map for Orange-Fleshed Sweet Potato programs across Nigerian states, products and value chain projects.',
+      stack: 'Web · Data Map · Programs',
+      headline: 'National OFSP presence map',
+      img: '/images/work-simdozi.jpg',
+      tileColor: null,
+      mark: null,
+      href: 'https://www.simdoziinternationaltd.com/',
+      ext: true,
+    },
+    {
+      idx: 'ROLE 10',
+      title: 'AOA Homes',
+      body: 'Client build for a real estate and construction brand: property showcase, seasonal campaigns and a contact funnel that turns viewers into site visits.',
+      stack: 'Web · Real Estate · Campaigns',
+      headline: 'Real estate brand and listings',
+      img: '/images/work-aoahomes.jpg',
+      tileColor: null,
+      mark: null,
+      href: 'https://www.aoahomes.com/',
+      ext: true,
+    },
+    {
+      idx: 'ROLE 11',
+      title: '234coins',
+      body: 'AWS cloud engineering for a web3 gaming platform: IAM service roles, CORS and deployment reliability, and real time Redis monitoring for token loading and gameplay sync across regions, including two player Unity games.',
+      stack: 'AWS IAM · Redis · Unity Games',
+      headline: 'Cloud engineering for Unity games',
+      img: '/images/thumb-234coins.jpg',
+      tileColor: null,
+      mark: null,
       href: null,
+      ext: false,
+    },
+    {
+      idx: 'ROLE 12',
+      title: 'ATL Labs (PinkDraconian)',
+      body: 'Technical security writing for a security education programme: RBAC courseware covering access control architecture, policy design and enforcement, plus course visualization content.',
+      stack: 'RBAC · Courseware · Technical Writing',
+      headline: 'RBAC security courseware',
+      img: '/images/thumb-atl.jpg',
+      tileColor: null,
+      mark: null,
+      href: null,
+      ext: false,
     },
   ],
 };
 
 export const educationBlock = {
   kicker: '03',
-  title: 'Education',
-  sub: 'One degree in progress, one certification that actually tested me.',
+  title: 'Education & License',
+  sub: 'One degree, one license that actually tested me, and the papers behind both.',
   schools: [
     {
       school: 'Federal University of Technology, Minna',
       degree: 'B.Tech, CyberSecurity Science',
       dates: '2021 - 2026',
-      note: 'Thesis on a secure telemetry-driven code mutation framework for EDR resilience testing in Windows environments.',
-    },
-    {
-      school: 'Hack TheBox Academy',
-      degree: 'Certified Penetration Testing Specialist (CPTS)',
-      dates: 'February 2024 · HTBCERT-2508B8ABE8',
-      note: 'Active Directory exploitation, penetration testing, vulnerability assessment, reverse engineering and reporting.',
+      note: 'Focused on operating systems, Windows internals, endpoint security and telemetry research; developed custom Windows runtime and security tooling with Python and the Win32 API.',
     },
   ],
+  papers: [
+    {
+      idx: 'PAPER 01',
+      title: 'Design and Implementation of a Secure Telemetry-Driven Code Mutation Framework for Controlled Endpoint Detection and Response Resilience Testing in Windows Environments',
+      meta: 'B.Tech Thesis · Federal University of Technology, Minna · 2026',
+    },
+    {
+      idx: 'PAPER 02',
+      title: 'Conversational Artificial Intelligence for Dementia Care: Emotion-Aware Dialogue Design and System Architecture',
+      meta: 'Technical Report, with Seun Ajayi · NCAIR, Abuja · 2025',
+    },
+  ],
+  license: {
+    name: 'Certified Penetration Testing Specialist',
+    issuer: 'Hack The Box Academy',
+    dates: 'Issued Feb 2024 · ID HTBCERT-2508B8ABE8',
+    note: 'Active Directory exploitation, penetration testing, vulnerability assessment, thick client enumeration, reverse engineering and reporting.',
+    img: '/images/cert.jpg',
+    imgCaption: 'CPTS · HTBCERT-2508B8ABE8',
+  },
 };
 
 export const projectsBlock = {
   kicker: '04',
   title: 'Projects',
-  sub: "Ideas I had and ran with. Some shipped, all taught me something.",
-  window: { left: '6 items', mid: '2026 K in disk', right: 'curiosity available' },
+  sub: "Ideas I had and ran with. Some shipped, all taught me something. Hover a tile for the arrow; everything points somewhere.",
+  window: { left: '7 items', mid: '2026 K in disk', right: 'curiosity available' },
+  github: 'https://github.com/d3vobed',
   projects: [
     {
       icon: 'film',
@@ -172,13 +290,26 @@ export const projectsBlock = {
       name: 'Video Storybook',
       body: 'AI video editing application that turns still images into wide angled shots, event continuity and dynamic motion for storyboard previews.',
       tags: 'MiDaS · TensorFlow · ControlNet · ML Kit',
+      href: 'https://github.com/d3vobed',
+      ext: true,
     },
     {
-      icon: 'smartphone',
-      year: '2024',
-      name: 'Azure Stack USSD Service',
-      body: "Scalable USSD service on Azure Stack Hub for enterprise mobile access to USSD services on network, with Africa's Talking.",
-      tags: 'USSD · ASP.NET Web API · Azure',
+      icon: 'shield',
+      year: '2025',
+      name: 'NEMA Response System',
+      body: 'Role based incident response platform for emergency workflows: reporter, responder, admin and super admin portals for incident submission, assignment and live response tracking.',
+      tags: 'Incident Response · RBAC · Live Demo',
+      href: 'https://nema-app-demo.vercel.app/',
+      ext: true,
+    },
+    {
+      icon: 'clapper',
+      year: '2026',
+      name: 'Change',
+      body: 'My short film. A 14 minute crime thriller published under Tech Cinema, listed on TMDB, with the full stills gallery in the filmography.',
+      tags: 'Direction · Screenwriting · 14 min',
+      href: '/filmography/change',
+      ext: false,
     },
     {
       icon: 'navigation',
@@ -186,6 +317,8 @@ export const projectsBlock = {
       name: 'LiDAR Spatial Assistant',
       body: 'iOS app using device LiDAR for real time 3D room scanning and object detection with audio navigation cues for blind users. Gemini hackathon special recognition.',
       tags: 'React Native · YOLOv9 · ARCore',
+      href: 'https://github.com/d3vobed',
+      ext: true,
     },
     {
       icon: 'terminal',
@@ -193,6 +326,8 @@ export const projectsBlock = {
       name: 'Autobot OS',
       body: 'Custom Python operating system runtime to observe execution paths and collect endpoint telemetry for EDR resilience research.',
       tags: 'Python · Win32 API · ETW',
+      href: 'https://github.com/d3vobed',
+      ext: true,
     },
     {
       icon: 'activity',
@@ -200,51 +335,79 @@ export const projectsBlock = {
       name: 'EtwScope',
       body: 'Windows telemetry tooling for tracing and visibility research, the companion to my thesis work on EDR resilience.',
       tags: 'ETW · C · Python',
+      href: 'https://github.com/d3vobed',
+      ext: true,
     },
     {
-      icon: 'monitor',
-      year: '2026',
-      name: 'obx03.tech',
-      body: 'This site. Hand built with Next.js, dither textures, film grain and one floating camera too many.',
-      tags: 'Next.js · Tailwind',
+      icon: 'smartphone',
+      year: '2024',
+      name: 'Azure Stack USSD Service',
+      body: "Scalable USSD service on Azure Stack Hub for enterprise mobile access to USSD services on network, with Africa's Talking.",
+      tags: 'USSD · ASP.NET Web API · Azure',
+      href: 'https://github.com/d3vobed',
+      ext: true,
     },
   ],
 };
 
 export const honorsBlock = {
   kicker: '05',
-  title: 'Honors',
+  title: 'Honors, Awards, Talks & Recognition',
   sub: 'Things I am quietly proud of.',
   honors: [
     {
       icon: 'sparkles',
       color: 'sky',
       title: 'Gemini Hackathon Recognition',
-      body: 'Special recognition for the LiDAR spatial assistant for blind users.',
+      body: 'Special recognition for the LiDAR spatial assistant for blind users, 2026.',
     },
     {
       icon: 'shield',
       color: 'pink',
       title: 'CodeSandbox CVE Credited',
-      body: 'Credited on GHSA-5jw5-g7mr-h26r for a high severity security report on CodeSandbox.',
+      body: 'Credited on GHSA-5jw5-g7mr-h26r for a high severity security report, 2024.',
     },
     {
       icon: 'trophy',
       color: 'green',
       title: 'NCAIR Hackathon Winner',
-      body: '$1,000 grand prize for a conversational AI companion for dementia care.',
+      body: '$1,000 grand prize for a conversational AI companion for dementia care, 2025.',
     },
     {
       icon: 'bug',
       color: 'yellow',
       title: 'HackerOne X Bounty',
-      body: 'Improper access control on X (Twitter), critical severity, $2K bounty on HackerOne.',
+      body: 'Improper access control on X (Twitter), critical severity, $2K bounty, 2023.',
     },
     {
-      icon: 'chrome',
+      icon: 'flag',
       color: 'orange',
-      title: 'Google Chrome Bug Found',
-      body: 'Found and responsibly disclosed a security bug in Google Chrome.',
+      title: 'CyberSafe HQ HackTheBox',
+      body: 'First place winner in the HackTheBox capture the flag, 2023.',
+    },
+    {
+      icon: 'medal',
+      color: 'paper',
+      title: 'CPTS Certified',
+      body: 'Certified Penetration Testing Specialist, Hack The Box, Feb 2024.',
+    },
+    {
+      icon: 'mic',
+      color: 'sky',
+      title: 'Talk · CyberNexus Starter',
+      body: 'Threat detection approaches for iOS app architecture, malware analysis and reverse engineering, FUT Minna, 2026.',
+    },
+    {
+      icon: 'mic',
+      color: 'pink',
+      title: 'Talk · NACSSS Awareness Month',
+      body: 'Wireless phishing attacks and awareness with Airgeddon, Al-Amin Secondary School, 2023.',
+    },
+    {
+      icon: 'users',
+      color: 'green',
+      title: 'Campus Lead · CSEAN',
+      body: 'Led the CSEAN student chapter on campus: initiatives, engagement and technical learning, 2024 - 2025.',
     },
   ],
 };
@@ -366,3 +529,10 @@ export const externalWriting = [
   { title: 'Technical notes & research', tag: 'GitHub', url: 'https://github.com/d3vobed' },
   { title: 'TryHackMe profile', tag: 'TryHackMe', url: 'https://tryhackme.com/p/obx03' },
 ];
+
+/* ---------------- cv (served for the chat widget) ---------------- */
+
+export const cvFile = {
+  href: '/files/abang-obed-cv.pdf',
+  label: 'Download the CV (PDF)',
+};

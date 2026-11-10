@@ -20,7 +20,7 @@ const TOPICS = {
     question: 'Who are you?',
     label: 'About me',
     answer:
-      "I'm Abang Obed, a cybersecurity researcher and filmmaker in Abuja, Nigeria. I take systems apart to see how they fail, and I make films that ask the same questions about people. Right now I'm co-founding Cyphra, a cybersecurity consulting firm, and directing film work under Icon Digital Edge.",
+      "I'm Abang Obed, a cybersecurity researcher and filmmaker in Abuja, Nigeria. I take systems apart to see how they fail, and I make films that ask the same questions about people. Right now I'm co-founding Cyphra, a cybersecurity consulting firm, and directing film work under Icon Digital Labs.",
     follow: ['films', 'security', 'cyphra', 'contact'],
     links: [
       { href: '/filmography', label: 'Filmography' },
@@ -75,12 +75,23 @@ const TOPICS = {
     question: 'What security work do you do?',
     label: 'Security',
     answer:
-      'Offensive security mostly: penetration testing, reverse engineering, malware and application security research. I lead authorized pentests on a P2P trading platform at Kynettic, assessed the Gigafro marketplace, and I spend a lot of time on Windows internals and EDR telemetry research.',
+      'Offensive security mostly: penetration testing, reverse engineering, malware and application security research. I lead authorized pentests on a P2P trading platform at Kynettic, assessed the Gigafro marketplace, now Streetvibex, and I spend a lot of time on Windows internals and EDR telemetry research.',
     follow: ['cyphra', 'honors', 'experience'],
     links: [{ href: '/blog', label: 'Security writeups' }],
     keywords: [
       'security', 'pentest', 'pentesting', 'penetration', 'bug', 'bugs', 'vulnerability', 'malware',
       'reverse', 'appsec', 'exploit', 'edr', 'windows', 'telemetry', 'vapt', 'offensive',
+    ],
+  },
+  cv: {
+    question: 'Can I grab your CV?',
+    label: 'CV',
+    answer:
+      'Sure. The full CV is one click away: security research on one side, film work on the other, dates and receipts included. It downloads as a PDF.',
+    follow: ['experience', 'security', 'contact'],
+    links: [{ href: '/files/abang-obed-cv.pdf', label: 'Download the CV (PDF)', download: true }],
+    keywords: [
+      'cv', 'resume', 'curriculum', 'vitae', 'download', 'pdf', 'doc', 'document',
     ],
   },
   cyphra: {
@@ -96,7 +107,7 @@ const TOPICS = {
     question: 'Where have you worked?',
     label: 'Experience',
     answer:
-      'Right now: co-founding Cyphra, creative director at Icon Digital Edge, lead security engineer at Kynettic, and system network administrator at NEMA. Before that, security consulting at Gigafro and backend development at Myphlexit. The short version lives in the works section.',
+      'Right now: co-founding Cyphra, creative director at Icon Digital Labs, lead security engineer at Kynettic, and system network administrator at NEMA. Before that, security consulting at Gigafro and backend development at Myphlexit. The short version lives in the works section.',
     follow: ['security', 'cyphra', 'projects'],
     links: [{ href: '/#about', label: 'About this Obed' }],
     keywords: [
@@ -120,7 +131,7 @@ const TOPICS = {
     question: 'Any awards or bugs?',
     label: 'Honors',
     answer:
-      "Some things I'm quietly proud of: found and responsibly disclosed bugs in Google Chrome and CodeSandbox, credited on a security advisory, an improper access control report on X (Twitter) through HackerOne, the NCAIR hackathon grand prize, and special recognition at the Gemini hackathon.",
+      "Some things I'm quietly proud of: found and responsibly disclosed bugs in CodeSandbox, credited on a security advisory, an improper access control report on X (Twitter) through HackerOne, the NCAIR hackathon grand prize, special recognition at the Gemini hackathon, and talks at CyberNexus and NACSSS.",
     follow: ['security', 'cyphra', 'projects'],
     links: [],
     keywords: [
@@ -158,7 +169,7 @@ const TOPICS = {
   },
 };
 
-const ROOT = ['films', 'security', 'cyphra', 'experience', 'projects', 'honors', 'blog', 'contact'];
+const ROOT = ['security', 'films', 'cv', 'cyphra', 'experience', 'projects', 'honors', 'contact'];
 const STORE_TURNS = 'obx-chat:v1';
 const STORE_OPEN = 'obx-chat:open';
 const DUR_PER_WORD = 26;
@@ -245,7 +256,11 @@ function Turn({ topic, instant, asked, onAsk }) {
       {done && t.links?.length ? (
         <div className='cx-links' style={{ animationDelay: '120ms' }}>
           {t.links.map((l) =>
-            l.href.startsWith('/') ? (
+            l.download ? (
+              <a key={l.label} href={l.href} className='cx-link cx-link--dl' download>
+                {l.label} ↓
+              </a>
+            ) : l.href.startsWith('/') ? (
               <a key={l.label} href={l.href} className='cx-link'>
                 {l.label} →
               </a>
@@ -383,7 +398,7 @@ export function ChatWidget() {
                   <p className='cx-user'>{t.replace('__miss__:', '')}</p>
                 </div>
                 <p className='cx-answer'>
-                  I did not catch that one. I can talk about the films, the security work, Cyphra, the projects, or how to reach me. Try one of these.
+                  I did not catch that one. I can talk about the films, the security work, Cyphra, the projects, the CV, or how to reach me. Try one of these.
                 </p>
               </section>
             ) : (
@@ -431,13 +446,31 @@ export function ChatWidget() {
         </form>
       </div>
 
-      <button
-        type='button'
-        className='cx-fab'
-        aria-label={open ? 'Close chat' : 'Ask me about my work'}
-        aria-expanded={open}
-        onClick={() => (open ? onClose() : onOpen())}
-      >
+      <div className='cx-dock'>
+        <div className='cx-socials'>
+          <a href='https://www.instagram.com/obed.eee' className='cx-soc' target='_blank' rel='noopener noreferrer' aria-label='Instagram' title='Instagram'>
+            <svg width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' aria-hidden='true'><rect x='2' y='2' width='20' height='20' rx='5' /><circle cx='12' cy='12' r='4' /><line x1='17.5' y1='6.5' x2='17.51' y2='6.5' /></svg>
+          </a>
+          <a href='https://x.com/obedeee_Jr' className='cx-soc' target='_blank' rel='noopener noreferrer' aria-label='X (Twitter)' title='X'>
+            <svg width='13' height='13' viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'><path d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z' /></svg>
+          </a>
+          <a href='https://www.linkedin.com/in/obx03' className='cx-soc' target='_blank' rel='noopener noreferrer' aria-label='LinkedIn' title='LinkedIn'>
+            <svg width='14' height='14' viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'><path d='M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zM7.119 20.452H3.554V9h3.565v11.452z' /></svg>
+          </a>
+          <a href='https://medium.com/@obx03' className='cx-soc' target='_blank' rel='noopener noreferrer' aria-label='Medium' title='Medium'>
+            <svg width='15' height='15' viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'><path d='M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z' /></svg>
+          </a>
+          <a href='https://github.com/d3vobed' className='cx-soc' target='_blank' rel='noopener noreferrer' aria-label='GitHub' title='GitHub'>
+            <svg width='15' height='15' viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'><path d='M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12' /></svg>
+          </a>
+        </div>
+        <button
+          type='button'
+          className='cx-fab'
+          aria-label={open ? 'Close chat' : 'Ask me about my work'}
+          aria-expanded={open}
+          onClick={() => (open ? onClose() : onOpen())}
+        >
         {open ? (
           <svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2.2' strokeLinecap='round' aria-hidden='true'>
             <path d='M6 6l12 12M18 6L6 18' />
@@ -447,7 +480,8 @@ export function ChatWidget() {
             <path d='M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12z' />
           </svg>
         )}
-      </button>
+        </button>
+      </div>
     </div>
   );
 }

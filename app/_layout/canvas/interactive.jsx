@@ -525,3 +525,130 @@ export function ContactGame() {
     </div>
   );
 }
+
+/* ================= hero notepad (click the terminal tile) ================= */
+
+export function HeroNotepad({ tile, title, seed }) {
+  const [open, setOpen] = useState(false);
+  const [text, setText] = useState(seed);
+  const [ready, setReady] = useState(false);
+  const areaRef = useRef(null);
+
+  const KEY = 'obx-notepad:v1';
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(KEY);
+      if (saved !== null) setText(saved);
+    } catch (e) {
+      /* private mode */
+    }
+    setReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return undefined;
+    const t = setTimeout(() => {
+      try {
+        localStorage.setItem(KEY, text);
+      } catch (e) {
+        /* ignore */
+      }
+    }, 350);
+    return () => clearTimeout(t);
+  }, [text, ready]);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
+  const TerminalIcon = Terminal;
+
+  return (
+    <>
+      <button
+        type='button'
+        className={`cv-float cv-tile cv-tile--${tile.color} cv-tile--clickable`}
+        style={{ position: 'absolute', zIndex: 1, ...tile.style }}
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-label='Open the notepad'
+        title='click me: open the notepad'
+      >
+        <TerminalIcon size={19} />
+      </button>
+
+      {open ? (
+        <div className='cv-notepad' role='dialog' aria-label='Notepad'>
+          <div className='cv-window-bar'>
+            <span className='wb-dots' aria-hidden='true'>
+              <i />
+              <i />
+              <i />
+            </span>
+            <span className='wb-title'>{title} — notepad</span>
+            <span className='wb-spacer' />
+            <button
+              type='button'
+              className='np-close'
+              aria-label='Close notepad'
+              onClick={() => setOpen(false)}
+            >
+              <X size={13} />
+            </button>
+          </div>
+          <textarea
+            ref={areaRef}
+            className='np-area'
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            spellCheck={false}
+            aria-label='Notepad text area'
+          />
+          <div className='np-foot mono'>
+            <span>autosaves on this device</span>
+            <span>{text.length} chars</span>
+            <span>ESC to close</span>
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+}
+
+/* ================= scroll progress hairline ================= */
+
+export function ScrollProgress() {
+  const [p, setP] = useState(0);
+
+  useEffect(() => {
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const el = document.documentElement;
+        const max = el.scrollHeight - el.clientHeight;
+        setP(max > 0 ? Math.min(1, el.scrollTop / max) : 0);
+      });
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+
+  return (
+    <div className='cv-progress' aria-hidden='true'>
+      <span style={{ transform: `scaleX(${p})` }} />
+    </div>
+  );
+}

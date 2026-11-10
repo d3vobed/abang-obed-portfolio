@@ -3,11 +3,13 @@ import {
   ArrowUpRight,
   Bug,
   Camera,
-  Chrome,
   Cpu,
   Film,
+  Flag,
   Heart,
   Lock,
+  Medal,
+  Mic,
   Monitor,
   Navigation,
   ShieldCheck,
@@ -15,6 +17,7 @@ import {
   Sparkles,
   Terminal,
   Trophy,
+  Users,
   Wifi,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -163,14 +166,55 @@ export function PresetCard({ idx, title, body, stack, href = null, dark = false 
   );
 }
 
-/* ---------- honors ---------- */
+/* ---------- education: paper cards (futc preset behavior) ---------- */
+
+export function PaperCard({ idx, title, meta }) {
+  return (
+    <div className='cv-paper'>
+      <div className='paper-top'>
+        <span className='idx dep'>{idx}</span>
+        <span className='paper-fold' aria-hidden='true' />
+      </div>
+      <h3>{title}</h3>
+      <p className='paper-meta'>{meta}</p>
+      <span className='stack'>publication · read on request</span>
+    </div>
+  );
+}
+
+/* ---------- education: license card with the cert image ---------- */
+
+export function LicenseCard({ license }) {
+  return (
+    <div className='cv-license'>
+      <figure className='cv-photo cert-photo'>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={license.img} alt={license.name} loading='lazy' />
+        <figcaption>{license.imgCaption}</figcaption>
+      </figure>
+      <div className='cv-license-body'>
+        <p className='cv-kicker' style={{ margin: 0 }}>LICENSE</p>
+        <h3>{license.name}</h3>
+        <p className='lic-issuer'>{license.issuer}</p>
+        <p className='lic-note'>{license.note}</p>
+        <span className='stack'>{license.dates}</span>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- honors (3x3 grid) ---------- */
 
 const HONOR_ICONS = {
   sparkles: Sparkles,
   shield: ShieldCheck,
   trophy: Trophy,
   bug: Bug,
-  chrome: Chrome,
+  chrome: Camera,
+  flag: Flag,
+  medal: Medal,
+  mic: Mic,
+  users: Users,
 };
 
 const HONOR_BG = {
@@ -184,7 +228,7 @@ const HONOR_BG = {
 
 export function Honors({ honors = [] }) {
   return (
-    <div className='cv-honors'>
+    <div className='cv-honors cv-honors--grid'>
       {honors.map((h) => {
         const Icon = HONOR_ICONS[h.icon] || Sparkles;
         return (
@@ -203,16 +247,54 @@ export function Honors({ honors = [] }) {
   );
 }
 
-/* ---------- projects window (futc OS style) ---------- */
+/* ---------- projects window (futc OS style, hover arrow links) ---------- */
 
 const PROJ_ICONS = {
   film: Film,
+  clapper: Film,
   smartphone: Smartphone,
   navigation: Navigation,
   terminal: Terminal,
   activity: Activity,
   monitor: Monitor,
+  shield: ShieldCheck,
 };
+
+function ProjTile({ p }) {
+  const Icon = PROJ_ICONS[p.icon] || Sparkles;
+  const inner = (
+    <>
+      <span className='pt-arrow' aria-hidden='true'>
+        <ArrowUpRight size={18} />
+      </span>
+      <span className='pt-icon cv-tile cv-tile--paper'>
+        <Icon size={17} />
+      </span>
+      <div className='pt-head'>
+        <h3>{p.name}</h3>
+        <span className='pt-year'>{p.year}</span>
+      </div>
+      <p>{p.body}</p>
+      <span className='pt-tags'>{p.tags}</span>
+    </>
+  );
+
+  if (!p.href) {
+    return <div className='cv-proj-tile'>{inner}</div>;
+  }
+  if (p.ext) {
+    return (
+      <a href={p.href} className='cv-proj-tile' target='_blank' rel='noopener noreferrer'>
+        {inner}
+      </a>
+    );
+  }
+  return (
+    <Link href={p.href} className='cv-proj-tile'>
+      {inner}
+    </Link>
+  );
+}
 
 export function ProjectWindow({ left, mid, right, projects = [] }) {
   return (
@@ -223,22 +305,9 @@ export function ProjectWindow({ left, mid, right, projects = [] }) {
         <span>{right}</span>
       </div>
       <div className='cv-projgrid'>
-        {projects.map((p) => {
-          const Icon = PROJ_ICONS[p.icon] || Sparkles;
-          return (
-            <div className='cv-proj-tile' key={p.name}>
-              <span className='pt-icon cv-tile cv-tile--paper'>
-                <Icon size={17} />
-              </span>
-              <div className='pt-head'>
-                <h3>{p.name}</h3>
-                <span className='pt-year'>{p.year}</span>
-              </div>
-              <p>{p.body}</p>
-              <span className='pt-tags'>{p.tags}</span>
-            </div>
-          );
-        })}
+        {projects.map((p) => (
+          <ProjTile key={p.name} p={p} />
+        ))}
       </div>
     </div>
   );

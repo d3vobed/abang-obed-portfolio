@@ -7,6 +7,7 @@ import {
   floatTiles,
   hero,
   honorsBlock,
+  notepad,
   profile,
   projectsBlock,
   reel,
@@ -17,13 +18,16 @@ import {
   ContactBand,
   FloatTiles,
   HandLabel,
+  HeroNotepad,
   Honors,
+  LicenseCard,
+  PaperCard,
   PresetCard,
   ProjectWindow,
   Reel,
   Rise,
+  ScrollProgress,
   SectionHead,
-  Sel,
   SiteFooter,
   Typed,
   WorksPlaylist,
@@ -32,68 +36,99 @@ import {
 import './canvas.css';
 
 export default function Home() {
+  const notepadTile = floatTiles.find((t) => t.action === 'notepad');
+  const staticTiles = floatTiles.filter((t) => t.action !== 'notepad');
+
   return (
     <main>
-      {/* ================= hero: one window, three floating objects ================= */}
-      <section style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(36px, 6vw, 80px) 0 36px' }}>
-        <FloatTiles tiles={floatTiles} />
+      <ScrollProgress />
 
-        <div className='wrap' style={{ position: 'relative', zIndex: 2, display: 'grid', justifyItems: 'center' }}>
-          <Rise>
-            <HandLabel>{hero.label}</HandLabel>
-          </Rise>
+      {/* ================= hero: full height, rails both sides, floating objects ================= */}
+      <section className='cv-hero' style={{ position: 'relative', overflow: 'hidden' }}>
+        <FloatTiles tiles={staticTiles} />
+        {notepadTile ? <HeroNotepad tile={notepadTile} title={notepad.title} seed={notepad.seed} /> : null}
 
-          <Rise delay={80}>
-            <div className='cv-hero-window'>
-              <div className='cv-window-bar'>
-                <span className='wb-dots' aria-hidden='true'>
-                  <i />
-                  <i />
-                  <i />
-                </span>
-                <span className='wb-title'>{hero.window}</span>
-                <span className='wb-spacer' />
-              </div>
+        <div className='wrap cv-hero-grid'>
+          {/* left rail */}
+          <aside className='cv-hero-rail cv-hero-rail--left' aria-label='Quick facts'>
+            <div className='rail-item'>
+              <p className='rail-kicker mono'>now</p>
+              <p className='rail-val'>{hero.now}</p>
+            </div>
+            <div className='rail-item'>
+              <p className='rail-kicker mono'>focus</p>
+              <p className='rail-val'>{hero.focus}</p>
+            </div>
+            <div className='rail-item'>
+              <p className='rail-kicker mono'>cert</p>
+              <p className='rail-val'>{hero.cert}</p>
+            </div>
+          </aside>
 
-              <div className='cv-hero-window-body'>
-                <h1 className='cv-hero-name'>{profile.name}</h1>
-                <Typed />
-                <p className='cv-hero-intro'>{hero.intro}</p>
+          {/* center window */}
+          <div className='cv-hero-center'>
+            <Rise>
+              <HandLabel>{hero.label}</HandLabel>
+            </Rise>
 
-                <p className='mono cv-hero-status'>
-                  <span
-                    style={{
-                      width: 9,
-                      height: 9,
-                      borderRadius: 99,
-                      background: 'var(--green)',
-                      display: 'inline-block',
-                      boxShadow: '0 0 0 4px rgba(41, 165, 108, .18)',
-                    }}
-                  />
-                  {profile.availability}
-                </p>
+            <Rise delay={80}>
+              <div className='cv-hero-window'>
+                <div className='cv-window-bar'>
+                  <span className='wb-dots' aria-hidden='true'>
+                    <i />
+                    <i />
+                    <i />
+                  </span>
+                  <span className='wb-title'>{hero.window}</span>
+                  <span className='wb-spacer' />
+                </div>
 
-                <div className='cv-hero-actions'>
-                  <Link href='/contact' className='cv-btn cv-btn--ink'>
-                    Contact me <ArrowUpRight size={14} />
-                  </Link>
-                  <a href='#about' className='cv-btn'>
-                    Scroll down <ArrowDown size={14} />
-                  </a>
+                <div className='cv-hero-window-body'>
+                  <h1 className='cv-hero-name'>{profile.name}</h1>
+                  <Typed />
+                  <p className='cv-hero-intro'>{hero.intro}</p>
+
+                  <p className='mono cv-hero-status'>
+                    <span
+                      style={{
+                        width: 9,
+                        height: 9,
+                        borderRadius: 99,
+                        background: 'var(--green)',
+                        display: 'inline-block',
+                        boxShadow: '0 0 0 4px rgba(41, 165, 108, .18)',
+                      }}
+                    />
+                    {profile.availability}
+                  </p>
+
+                  <div className='cv-hero-actions'>
+                    <a href='#about' className='cv-btn cv-btn--ink'>
+                      Scroll down <ArrowDown size={14} />
+                    </a>
+                    <a href='#works' className='cv-btn'>
+                      See the works <ArrowUpRight size={14} />
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Rise>
-        </div>
-      </section>
+            </Rise>
 
-      {/* ================= highlights reel ================= */}
-      <section className='cv-section' style={{ paddingTop: 0 }}>
-        <div className='wrap'>
-          <Rise>
-            <Reel src='/videos/highlights.mp4' poster={reel.poster} sub={reel.sub} />
-          </Rise>
+            <Rise delay={160}>
+              <p className='cv-hero-hint mono'>{hero.hint}</p>
+            </Rise>
+          </div>
+
+          {/* right rail */}
+          <aside className='cv-hero-rail cv-hero-rail--right' aria-label='Jump to section'>
+            {hero.rails.map((r) => (
+              <a key={r.n} href={r.href} className='rail-jump'>
+                <span className='dep rail-n'>{r.n}</span>
+                <span>{r.label}</span>
+                <ArrowDown size={12} aria-hidden='true' />
+              </a>
+            ))}
+          </aside>
         </div>
       </section>
 
@@ -131,8 +166,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= 02 works done (preset frame) ================= */}
-      <section className='cv-section'>
+      {/* ================= 02 works done (experiments playlist) ================= */}
+      <section className='cv-section' id='works'>
         <div className='wrap'>
           <Rise>
             <SectionHead kicker={worksDone.kicker} title={worksDone.title} sub={worksDone.sub} />
@@ -143,31 +178,50 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= 03 education ================= */}
-      <section className='cv-section'>
+      {/* ================= 03 education & license ================= */}
+      <section className='cv-section' id='education'>
         <div className='wrap'>
           <Rise>
-            <SectionHead kicker={educationBlock.kicker} title={educationBlock.title} sub={educationBlock.sub} />
+            <SectionHead
+              kicker={educationBlock.kicker}
+              title={educationBlock.title}
+              sub={educationBlock.sub}
+            />
           </Rise>
-          <Rise delay={60}>
-            <div className='cv-presets'>
-              {educationBlock.schools.map((s, i) => (
-                <PresetCard
-                  key={s.school}
-                  idx={`EDU 0${i + 1}`}
-                  title={s.school}
-                  body={`${s.degree}. ${s.note}`}
-                  stack={s.dates}
-                  dark={i % 2 === 1}
-                />
+
+          <div className='cv-edu-grid'>
+            <div className='cv-edu-col'>
+              <Rise delay={40}>
+                <div className='cv-presets cv-presets--single'>
+                  {educationBlock.schools.map((s, i) => (
+                    <PresetCard
+                      key={s.school}
+                      idx={`EDU 0${i + 1}`}
+                      title={s.school}
+                      body={`${s.degree}. ${s.note}`}
+                      stack={s.dates}
+                      dark={i % 2 === 1}
+                    />
+                  ))}
+                </div>
+              </Rise>
+
+              {educationBlock.papers.map((p, i) => (
+                <Rise key={p.idx} delay={100 + i * 80}>
+                  <PaperCard idx={p.idx} title={p.title} meta={p.meta} />
+                </Rise>
               ))}
             </div>
-          </Rise>
+
+            <Rise delay={140} className='cv-edu-col-r'>
+              <LicenseCard license={educationBlock.license} />
+            </Rise>
+          </div>
         </div>
       </section>
 
       {/* ================= 04 projects (OS window) ================= */}
-      <section className='cv-section'>
+      <section className='cv-section' id='projects'>
         <div className='wrap'>
           <Rise>
             <SectionHead kicker={projectsBlock.kicker} title={projectsBlock.title} sub={projectsBlock.sub} />
@@ -183,8 +237,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= 05 honors ================= */}
-      <section className='cv-section'>
+      {/* ================= 05 honors (3x3) ================= */}
+      <section className='cv-section' id='honors'>
         <div className='wrap'>
           <Rise>
             <SectionHead kicker={honorsBlock.kicker} title={honorsBlock.title} sub={honorsBlock.sub} />
@@ -196,6 +250,16 @@ export default function Home() {
       </section>
 
       <ContactBand />
+
+      {/* ================= highlights reel (closing frame) ================= */}
+      <section className='cv-section' style={{ paddingTop: 0 }}>
+        <div className='wrap'>
+          <Rise>
+            <Reel src='/videos/highlights.mp4' poster={reel.poster} sub={reel.sub} />
+          </Rise>
+        </div>
+      </section>
+
       <SiteFooter />
     </main>
   );

@@ -18,6 +18,43 @@ import {
 
 import { typedRoles } from '@/data';
 
+/* ================= scroll rise (swift ui style reveal) ================= */
+
+export function Rise({ children, delay = 0, className = '', style }) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setInView(true);
+      return undefined;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setInView(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -6% 0px' },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`rise ${inView ? 'in' : ''} ${className}`}
+      style={{ '--rise-delay': `${delay}ms`, ...style }}
+    >
+      {children}
+    </div>
+  );
+}
+
 /* ================= typed role line (futc style) ================= */
 
 export function Typed({ className = '' }) {
@@ -210,11 +247,9 @@ export function Reel({ src, poster, sub }) {
   );
 }
 
-/* ================= about photos (show in color) ================= */
+/* ================= about photos (gray by default, color on hover) ================= */
 
 export function AboutPhotos({ photos = [], children = null }) {
-  const [color, setColor] = useState(false);
-
   return (
     <div
       style={{
@@ -225,23 +260,15 @@ export function AboutPhotos({ photos = [], children = null }) {
       }}
       className='cv-about-grid'
     >
-      <figure className={`cv-photo ${color ? 'color' : ''}`} style={{ aspectRatio: '4 / 5' }}>
+      <figure className='cv-photo' style={{ aspectRatio: '4 / 5' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={photos[0]?.src} alt={photos[0]?.caption || 'photo'} />
         <figcaption>{photos[0]?.caption}</figcaption>
       </figure>
 
-      <div style={{ display: 'grid', gap: 16, justifyItems: 'start' }}>
-        {children}
-        <button type='button' className='cv-mini-btn' aria-pressed={color} onClick={() => setColor((v) => !v)}>
-          {color ? 'Show in gray' : 'Show in color'}
-        </button>
-      </div>
+      <div style={{ display: 'grid', gap: 16, justifyItems: 'start' }}>{children}</div>
 
-      <figure
-        className={`cv-photo ${color ? 'color' : ''}`}
-        style={{ aspectRatio: '4 / 5', marginTop: 34 }}
-      >
+      <figure className='cv-photo' style={{ aspectRatio: '4 / 5', marginTop: 34 }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={photos[1]?.src} alt={photos[1]?.caption || 'photo'} />
         <figcaption>{photos[1]?.caption}</figcaption>

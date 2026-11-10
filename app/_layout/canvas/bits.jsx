@@ -1,13 +1,17 @@
 import {
-  ArrowDown,
+  Activity,
   ArrowUpRight,
-  Award,
   Bug,
   Camera,
+  Chrome,
   Cpu,
+  Film,
   Heart,
   Lock,
-  Medal,
+  Monitor,
+  Navigation,
+  ShieldCheck,
+  Smartphone,
   Sparkles,
   Terminal,
   Trophy,
@@ -15,7 +19,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-import { profile, socialMedias, tickerWords } from '@/data';
+import { profile, socialMedias } from '@/data';
 
 import { Clock } from './topbar';
 
@@ -26,14 +30,6 @@ export function Sticker({ children, color = 'sky', className = '', style }) {
     <span className={`cv-sticker cv-sticker--${color} ${className}`} style={style}>
       {children}
     </span>
-  );
-}
-
-export function NoteSticky({ children, className = '', style }) {
-  return (
-    <div className={`cv-sticky ${className}`} style={style}>
-      {children}
-    </div>
   );
 }
 
@@ -52,20 +48,6 @@ export function HandLabel({ children, className = '', style }) {
     <span className={`cv-hand-label ${className}`} style={style}>
       {children}
     </span>
-  );
-}
-
-export function TagBlock({ children, title, className = '' }) {
-  return (
-    <div className={`cv-honor ${className}`}>
-      <span className='medal cv-tile--paper'>
-        <Sparkles size={15} />
-      </span>
-      <div>
-        <h4>{title}</h4>
-        <p>{children}</p>
-      </div>
-    </div>
   );
 }
 
@@ -139,24 +121,25 @@ export function FloatTiles({ tiles = [] }) {
   );
 }
 
-/* ---------- ticker ---------- */
+/* ---------- preset frame (the FUTCFILM box, my own version) ---------- */
 
-export function Ticker() {
-  const seq = [...tickerWords, ...tickerWords];
+export function PresetFrame({ brand, meta = [], children }) {
   return (
-    <div className='cv-ticker' aria-hidden='true'>
-      <div className='cv-ticker-track'>
-        {seq.map((w, i) => (
-          <span key={i}>
-            {w} <i>+</i>
-          </span>
-        ))}
+    <div className='cv-frame'>
+      <div className='cv-frame-head'>
+        <span className='cv-frame-brand'>{brand}</span>
+        <span className='cv-frame-meta'>
+          {meta.map((m) => (
+            <span key={m}>{m}</span>
+          ))}
+        </span>
       </div>
+      <div className='cv-frame-body'>{children}</div>
     </div>
   );
 }
 
-/* ---------- presets ---------- */
+/* ---------- preset cards ---------- */
 
 export function PresetCard({ idx, title, body, stack, href = null, dark = false }) {
   const inner = (
@@ -182,7 +165,14 @@ export function PresetCard({ idx, title, body, stack, href = null, dark = false 
 
 /* ---------- honors ---------- */
 
-const HONOR_ICONS = [Medal, Trophy, Award, Sparkles, Medal, Trophy];
+const HONOR_ICONS = {
+  sparkles: Sparkles,
+  shield: ShieldCheck,
+  trophy: Trophy,
+  bug: Bug,
+  chrome: Chrome,
+};
+
 const HONOR_BG = {
   pink: 'cv-tile--pink',
   yellow: 'cv-tile--yellow',
@@ -195,8 +185,8 @@ const HONOR_BG = {
 export function Honors({ honors = [] }) {
   return (
     <div className='cv-honors'>
-      {honors.map((h, i) => {
-        const Icon = HONOR_ICONS[i % HONOR_ICONS.length];
+      {honors.map((h) => {
+        const Icon = HONOR_ICONS[h.icon] || Sparkles;
         return (
           <div className='cv-honor' key={h.title}>
             <span className={`medal cv-tile ${HONOR_BG[h.color] || HONOR_BG.paper}`}>
@@ -209,6 +199,47 @@ export function Honors({ honors = [] }) {
           </div>
         );
       })}
+    </div>
+  );
+}
+
+/* ---------- projects window (futc OS style) ---------- */
+
+const PROJ_ICONS = {
+  film: Film,
+  smartphone: Smartphone,
+  navigation: Navigation,
+  terminal: Terminal,
+  activity: Activity,
+  monitor: Monitor,
+};
+
+export function ProjectWindow({ left, mid, right, projects = [] }) {
+  return (
+    <div className='cv-projwin'>
+      <div className='cv-projwin-bar'>
+        <span>{left}</span>
+        <span>{mid}</span>
+        <span>{right}</span>
+      </div>
+      <div className='cv-projgrid'>
+        {projects.map((p) => {
+          const Icon = PROJ_ICONS[p.icon] || Sparkles;
+          return (
+            <div className='cv-proj-tile' key={p.name}>
+              <span className='pt-icon cv-tile cv-tile--paper'>
+                <Icon size={17} />
+              </span>
+              <div className='pt-head'>
+                <h3>{p.name}</h3>
+                <span className='pt-year'>{p.year}</span>
+              </div>
+              <p>{p.body}</p>
+              <span className='pt-tags'>{p.tags}</span>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -252,9 +283,9 @@ export function SiteFooter() {
           </div>
           <div className='foot-links'>
             <Link href='/'>Home</Link>
-            <Link href='/works/film'>Film Gallery</Link>
-            <Link href='/works/cybersecurity'>Cybersecurity</Link>
-            <Link href='/works/devops'>Developer Operations</Link>
+            <Link href='/filmography'>Filmography</Link>
+            <Link href='/filmography/change'>Change</Link>
+            <Link href='/filmography/sfh-access'>SFH Access</Link>
             <Link href='/blog'>Blog</Link>
             <Link href='/contact'>Contact</Link>
           </div>
@@ -275,5 +306,3 @@ export function SiteFooter() {
     </footer>
   );
 }
-
-export { ArrowDown };

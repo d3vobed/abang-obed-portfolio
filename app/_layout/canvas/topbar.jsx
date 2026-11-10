@@ -1,35 +1,16 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import {
-  ChevronDown,
-  Code2,
-  Film,
-  Heart,
-  Home,
-  Layers,
-  Menu,
-  Moon,
-  PenLine,
-  Shield,
-  Sun,
-  X,
-} from 'lucide-react';
+import { Menu, Moon, Sun, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const WORK_LINKS = [
-  { href: '/works/film', label: 'Film Gallery', sub: 'Change & SFH Access', Icon: Film },
-  { href: '/works/cybersecurity', label: 'Cybersecurity', sub: 'Assessments & research', Icon: Shield },
-  { href: '/works/devops', label: 'Developer Operations', sub: 'Backend, cloud & builds', Icon: Code2 },
-];
-
 const NAV = [
-  { href: '/', label: 'Home', Icon: Home },
-  { label: 'Works', Icon: Layers, dropdown: WORK_LINKS },
-  { href: '/blog', label: 'Blog', Icon: PenLine },
-  { href: '/contact', label: 'Contact', Icon: Heart },
+  { href: '/', label: 'Home' },
+  { href: '/filmography', label: 'Filmography' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 export function Clock({ className = '' }) {
@@ -89,74 +70,36 @@ function ThemeToggle() {
 
 export function TopBar() {
   const pathname = usePathname();
-  const [dropOpen, setDropOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const dropRef = useRef(null);
 
   const onDark = pathname === '/contact';
 
   useEffect(() => {
-    setDropOpen(false);
     setMobileOpen(false);
   }, [pathname]);
-
-  useEffect(() => {
-    const close = (e) => {
-      if (dropRef.current && !dropRef.current.contains(e.target)) setDropOpen(false);
-    };
-    document.addEventListener('pointerdown', close);
-    return () => document.removeEventListener('pointerdown', close);
-  }, []);
-
-  const worksActive = pathname.startsWith('/works');
 
   return (
     <header className={`cv-topbar ${onDark ? 'on-dark' : ''}`}>
       <div className='wrap'>
         <div className='cv-topbar-row'>
           <nav className={`cv-nav hide-mobile ${onDark ? 'cv-nav--dark' : ''}`} aria-label='Main'>
-            {NAV.map((item) =>
-              item.dropdown ? (
-                <div
-                  className='cv-drop'
-                  key={item.label}
-                  ref={dropRef}
-                  onMouseEnter={() => setDropOpen(true)}
-                  onMouseLeave={() => setDropOpen(false)}
-                >
-                  <button
-                    type='button'
-                    className={`navlink ${worksActive ? 'active' : ''}`}
-                    aria-expanded={dropOpen}
-                    aria-haspopup='true'
-                    onClick={() => setDropOpen((v) => !v)}
-                  >
-                    <item.Icon size={14} />
-                    {item.label}
-                    <ChevronDown
-                      size={12}
-                      style={{ transform: dropOpen ? 'rotate(180deg)' : 'none', transition: 'transform .15s' }}
-                    />
-                  </button>
-                  <div className={`cv-drop-panel ${dropOpen ? 'open' : ''}`}>
-                    {WORK_LINKS.map(({ href, label, sub, Icon }) => (
-                      <Link href={href} key={href}>
-                        <Icon size={15} />
-                        <span>
-                          {label}
-                          <small>{sub}</small>
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <Link href={item.href} key={item.href} className={pathname === item.href ? 'active' : ''}>
-                  <item.Icon size={14} />
-                  {item.label}
-                </Link>
-              ),
-            )}
+            {NAV.map((item) => (
+              <Link
+                href={item.href}
+                key={item.href}
+                className={
+                  item.href === '/'
+                    ? pathname === '/' || pathname.startsWith('/filmography')
+                      ? 'active'
+                      : ''
+                    : pathname === item.href || pathname.startsWith(item.href)
+                      ? 'active'
+                      : ''
+                }
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
 
           <button
@@ -172,16 +115,11 @@ export function TopBar() {
           <div className='cv-top-right'>
             <Clock />
             <ThemeToggle />
-            <span className='cv-avatar-btn'>
+            <Link href='/' className='cv-avatar-btn' aria-label='Home'>
               <span className='cv-avatar'>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src='/images/avatar.jpg' alt='obx03 avatar' />
               </span>
-              <span className='cv-count'>03</span>
-            </span>
-            <Link href='/contact' className='cv-btn hide-mobile'>
-              <Heart size={14} />
-              Contact
             </Link>
           </div>
         </div>
@@ -190,22 +128,15 @@ export function TopBar() {
       {mobileOpen ? (
         <div className='wrap'>
           <div className='cv-mobile-panel'>
-            {NAV.map((item) =>
-              item.dropdown ? (
-                <div key={item.label}>
-                  <span className='grp'>Works</span>
-                  {WORK_LINKS.map(({ href, label }) => (
-                    <Link href={href} key={href} className={`sub ${pathname === href ? 'active' : ''}`}>
-                      {label}
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <Link href={item.href} key={item.href} className={pathname === item.href ? 'active' : ''}>
-                  {item.label}
-                </Link>
-              ),
-            )}
+            {NAV.map((item) => (
+              <Link
+                href={item.href}
+                key={item.href}
+                className={pathname === item.href || pathname.startsWith(item.href) ? 'active' : ''}
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
         </div>
       ) : null}

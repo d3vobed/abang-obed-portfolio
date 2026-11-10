@@ -1,16 +1,16 @@
-import { ArrowDown, ArrowUpRight, Heart } from 'lucide-react';
+import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 
 import {
   about,
   educationBlock,
   floatTiles,
-  heroStickers,
+  hero,
   honorsBlock,
-  make,
   profile,
   projectsBlock,
   reel,
+  worksDone,
 } from '@/data';
 import {
   AboutPhotos,
@@ -18,178 +18,186 @@ import {
   FloatTiles,
   HandLabel,
   Honors,
-  OrbitField,
   PresetCard,
+  PresetFrame,
+  ProjectWindow,
   Reel,
+  Rise,
   SectionHead,
   Sel,
   SiteFooter,
-  Sticker,
-  Ticker,
   Typed,
 } from '@/layout';
 
 import './canvas.css';
 
-const STICKER_POS = {
-  top: { top: '-6px', left: '12%', '--rot': '-4deg' },
-  left: { top: '38%', left: '-10px', '--rot': '-10deg' },
-  right: { top: '16%', right: '-6px', '--rot': '9deg' },
-  bleft: { bottom: '10%', left: '2%', '--rot': '6deg' },
-  bright: { bottom: '4%', right: '4%', '--rot': '-7deg' },
-};
-
 export default function Home() {
   return (
     <main>
-      {/* ================= hero ================= */}
-      <section style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(40px, 7vw, 90px) 0 30px' }}>
-        <OrbitField />
+      {/* ================= hero: one window, three floating objects ================= */}
+      <section style={{ position: 'relative', overflow: 'hidden', padding: 'clamp(36px, 6vw, 80px) 0 36px' }}>
         <FloatTiles tiles={floatTiles} />
 
-        <div className='wrap' style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
-          {heroStickers.map((s) => (
-            <Sticker
-              key={s.label}
-              color={s.color}
-              className='cv-float cv-hero-sticker'
-              style={{ position: 'absolute', zIndex: 1, ...STICKER_POS[s.className] }}
-            >
-              {s.label}
-            </Sticker>
-          ))}
+        <div className='wrap' style={{ position: 'relative', zIndex: 2, display: 'grid', justifyItems: 'center' }}>
+          <Rise>
+            <HandLabel>{hero.label}</HandLabel>
+          </Rise>
 
-          <HandLabel className='cv-float' style={{ display: 'inline-block', '--rot': '0deg', '--dur': '6s' }}>
-            my name is
-          </HandLabel>
+          <Rise delay={80}>
+            <div className='cv-hero-window'>
+              <div className='cv-window-bar'>
+                <span className='wb-dots' aria-hidden='true'>
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                <span className='wb-title'>{hero.window}</span>
+                <span className='wb-spacer' />
+              </div>
 
-          <Sel style={{ display: 'inline-block', margin: '10px auto 18px', background: 'transparent' }}>
-            <h1 className='cv-pixel-title'>{profile.firstName}</h1>
-          </Sel>
+              <div className='cv-hero-window-body'>
+                <h1 className='cv-hero-name'>{profile.name}</h1>
+                <Typed />
+                <p className='cv-hero-intro'>{hero.intro}</p>
 
-          <div className='cv-float' style={{ '--dur': '8.5s' }}>
-            <Typed className='cv-float' />
-          </div>
+                <p className='mono cv-hero-status'>
+                  <span
+                    style={{
+                      width: 9,
+                      height: 9,
+                      borderRadius: 99,
+                      background: 'var(--green)',
+                      display: 'inline-block',
+                      boxShadow: '0 0 0 4px rgba(41, 165, 108, .18)',
+                    }}
+                  />
+                  {profile.availability}
+                </p>
 
-          <p
-            className='mono'
-            style={{ fontSize: 12, marginTop: 14, display: 'inline-flex', alignItems: 'center', gap: 8 }}
-          >
-            <span
-              style={{
-                width: 9,
-                height: 9,
-                borderRadius: 99,
-                background: 'var(--green)',
-                display: 'inline-block',
-                boxShadow: '0 0 0 4px rgba(41, 165, 108, .18)',
-              }}
-            />
-            {profile.availability}
-          </p>
-
-          <div style={{ marginTop: 22 }}>
-            <a href='#about' className='cv-btn'>
-              <ArrowDown size={14} />
-              Scroll
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <Ticker />
-
-      {/* ================= 01 about ================= */}
-      <section className='cv-section' id='about'>
-        <div className='wrap'>
-          <SectionHead kicker={about.kicker} title={about.title} sub={about.sub} />
-          <AboutPhotos photos={about.photos}>
-            {about.paragraphs.map((p) => (
-              <p key={p.slice(0, 24)} style={{ margin: 0, maxWidth: 560 }}>
-                {p}
-              </p>
-            ))}
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 4 }}>
-              <a href={about.cv} className='cv-btn cv-btn--ink' target='_blank' rel='noopener'>
-                Grab the CV
-              </a>
-              <Link href='/contact' className='cv-btn'>
-                Say hello <ArrowUpRight size={14} />
-              </Link>
+                <div className='cv-hero-actions'>
+                  <Link href='/contact' className='cv-btn cv-btn--ink'>
+                    Contact me <ArrowUpRight size={14} />
+                  </Link>
+                  <a href='#about' className='cv-btn'>
+                    Scroll down <ArrowDown size={14} />
+                  </a>
+                </div>
+              </div>
             </div>
-          </AboutPhotos>
+          </Rise>
         </div>
       </section>
 
       {/* ================= highlights reel ================= */}
-      <section className='cv-section'>
+      <section className='cv-section' style={{ paddingTop: 0 }}>
         <div className='wrap'>
-          <Reel src='/videos/highlights.mp4' poster={reel.poster} sub={reel.sub} />
+          <Rise>
+            <Reel src='/videos/highlights.mp4' poster={reel.poster} sub={reel.sub} />
+          </Rise>
         </div>
       </section>
 
-      {/* ================= 02 what i make ================= */}
+      {/* ================= 01 about ================= */}
+      <section className='cv-section' id='about'>
+        <div className='wrap'>
+          <Rise>
+            <SectionHead kicker={about.kicker} title={about.title} sub={about.sub} />
+          </Rise>
+          <Rise delay={60}>
+            <AboutPhotos photos={about.photos}>
+              {about.paragraphs.map((p) => (
+                <p key={p.slice(0, 24)} style={{ margin: 0, maxWidth: 560 }}>
+                  {p}
+                </p>
+              ))}
+              <dl className='cv-facts'>
+                {about.facts.map(([t, d]) => (
+                  <div key={t}>
+                    <dt>{t}</dt>
+                    <dd>{d}</dd>
+                  </div>
+                ))}
+              </dl>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                <Link href='/filmography' className='cv-btn'>
+                  Watch the films <ArrowUpRight size={14} />
+                </Link>
+                <Link href='/contact' className='cv-btn'>
+                  Say hello <ArrowUpRight size={14} />
+                </Link>
+              </div>
+            </AboutPhotos>
+          </Rise>
+        </div>
+      </section>
+
+      {/* ================= 02 works done (preset frame) ================= */}
       <section className='cv-section'>
         <div className='wrap'>
-          <SectionHead
-            kicker={make.kicker}
-            title={make.title}
-            sub={make.sub}
-            right={
-              <Link href='/works/film' className='cv-btn'>
-                All works <ArrowUpRight size={14} />
-              </Link>
-            }
-          />
-          <div className='cv-presets'>
-            {make.presets.map((p) => (
-              <PresetCard key={p.idx} {...p} />
-            ))}
-          </div>
+          <Rise>
+            <SectionHead kicker={worksDone.kicker} title={worksDone.title} sub={worksDone.sub} />
+          </Rise>
+          <Rise delay={60}>
+            <PresetFrame brand={worksDone.frame.brand} meta={worksDone.frame.meta}>
+              <div className='cv-presets'>
+                {worksDone.roles.map((p) => (
+                  <PresetCard key={p.idx} {...p} />
+                ))}
+              </div>
+            </PresetFrame>
+          </Rise>
         </div>
       </section>
 
       {/* ================= 03 education ================= */}
       <section className='cv-section'>
         <div className='wrap'>
-          <SectionHead kicker={educationBlock.kicker} title={educationBlock.title} sub={educationBlock.sub} />
-          <div className='cv-presets'>
-            {educationBlock.schools.map((s, i) => (
-              <PresetCard
-                key={s.school}
-                idx={`EDU 0${i + 1}`}
-                title={s.school}
-                body={`${s.degree}. ${s.note}`}
-                stack={s.dates}
-                dark={i % 2 === 1}
-              />
-            ))}
-          </div>
+          <Rise>
+            <SectionHead kicker={educationBlock.kicker} title={educationBlock.title} sub={educationBlock.sub} />
+          </Rise>
+          <Rise delay={60}>
+            <div className='cv-presets'>
+              {educationBlock.schools.map((s, i) => (
+                <PresetCard
+                  key={s.school}
+                  idx={`EDU 0${i + 1}`}
+                  title={s.school}
+                  body={`${s.degree}. ${s.note}`}
+                  stack={s.dates}
+                  dark={i % 2 === 1}
+                />
+              ))}
+            </div>
+          </Rise>
         </div>
       </section>
 
-      {/* ================= 04 projects ================= */}
+      {/* ================= 04 projects (OS window) ================= */}
       <section className='cv-section'>
         <div className='wrap'>
-          <SectionHead kicker={projectsBlock.kicker} title={projectsBlock.title} sub={projectsBlock.sub} />
-          <div className='cv-projlist'>
-            {projectsBlock.projects.map((p) => (
-              <div className='cv-proj' key={p.name}>
-                <span className='year'>{p.year}</span>
-                <h3>{p.name}</h3>
-                <p>{p.body}</p>
-                <span className='tags'>{p.tags}</span>
-              </div>
-            ))}
-          </div>
+          <Rise>
+            <SectionHead kicker={projectsBlock.kicker} title={projectsBlock.title} sub={projectsBlock.sub} />
+          </Rise>
+          <Rise delay={60}>
+            <ProjectWindow
+              left={projectsBlock.window.left}
+              mid={projectsBlock.window.mid}
+              right={projectsBlock.window.right}
+              projects={projectsBlock.projects}
+            />
+          </Rise>
         </div>
       </section>
 
       {/* ================= 05 honors ================= */}
       <section className='cv-section'>
         <div className='wrap'>
-          <SectionHead kicker={honorsBlock.kicker} title={honorsBlock.title} sub={honorsBlock.sub} />
-          <Honors honors={honorsBlock.honors} />
+          <Rise>
+            <SectionHead kicker={honorsBlock.kicker} title={honorsBlock.title} sub={honorsBlock.sub} />
+          </Rise>
+          <Rise delay={60}>
+            <Honors honors={honorsBlock.honors} />
+          </Rise>
         </div>
       </section>
 

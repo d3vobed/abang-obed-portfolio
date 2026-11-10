@@ -21,94 +21,97 @@ export const typedRoles = [
   'Security Researcher',
   'Filmmaker',
   'Reverse Engineer',
-  'Backend Developer',
   'Storyteller',
 ];
 
-export const heroStickers = [
-  { label: 'Security × Cinema', color: 'orange', className: 'top' },
-  { label: 'Security Engineer.', color: 'green', className: 'left' },
-  { label: 'CPTS Certified', color: 'pink', className: 'right' },
-  { label: 'Codesandbox CVE Credited', color: 'sky', className: 'bleft' },
-  { label: 'HackerOne Bounty', color: 'yellow', className: 'bright' },
-];
-
-/* floating dev objects around the hero (futc-style, but hacking themed) */
+/* floating dev objects around the hero. three, slow, quiet. */
 export const floatTiles = [
-  { icon: 'camera', color: 'pink', style: { top: '16%', left: '6%', '--rot': '-6deg', '--dur': '7.5s' } },
-  { icon: 'terminal', color: 'paper', style: { top: '12%', right: '8%', '--rot': '5deg', '--dur': '6.5s', '--delay': '.6s' } },
-  { icon: 'bug', color: 'green', style: { top: '52%', left: '3%', '--rot': '-4deg', '--dur': '8s', '--delay': '1.1s' } },
-  { icon: 'lock', color: 'yellow', style: { top: '58%', right: '4%', '--rot': '7deg', '--dur': '7s', '--delay': '.3s' } },
-  { icon: 'wifi', color: 'sky', style: { top: '78%', left: '12%', '--rot': '3deg', '--dur': '9s', '--delay': '.9s' } },
-  { icon: 'cpu', color: 'sky', style: { top: '30%', right: '2%', '--rot': '-7deg', '--dur': '7.8s', '--delay': '1.4s' } },
+  { icon: 'camera', color: 'pink', style: { top: '13%', left: '4%', '--rot': '-6deg', '--dur': '9s' } },
+  { icon: 'terminal', color: 'paper', style: { top: '14%', right: '8%', '--rot': '5deg', '--dur': '8s', '--delay': '.8s' } },
+  { icon: 'bug', color: 'green', style: { top: '64%', left: '5%', '--rot': '-4deg', '--dur': '10s', '--delay': '1.4s' } },
 ];
 
-export const tickerWords = [
-  'Security × Cinema',
-  'CPTS Certified',
-  'CVE Credited',
-  'HackerOne',
-  'Filmmaker',
-  'Abuja NG',
-  'Open to Work',
-];
+export const hero = {
+  window: 'welcome.txt',
+  label: 'hello, my name is',
+  intro: 'I break systems to make them safer, and make films that stick.',
+};
 
 export const about = {
   kicker: '01',
-  title: 'About Me',
-  sub: 'You scrolled past the hero. It gets better down here.',
+  title: 'About This Obed...',
+  sub: 'The short version. The honest one.',
   paragraphs: [
-    'I am a curious person. I like building things and taking them apart to see how they work.',
-    'That curiosity pulled me into cybersecurity. I work across offensive security, reverse engineering, malware and application security research. Most of my time goes into how systems behave, how vulnerabilities show up, and how attacks actually work under the surface. I enjoy turning ideas into tools and research people can actually use, for challenges like hackathons.',
-    'Outside security I write and make films. It sounds like a different world but it runs on the same curiosity. Asking questions, solving problems, telling stories that matter.',
-    'Always learning, always building. If you enjoy solving meaningful problems, I would like to hear from you.',
+    'Obed is a cybersecurity researcher and filmmaker based in Abuja, Nigeria. He spends most days studying how systems break, and most nights turning what he finds into tools, writeups or stories.',
+    'He just co-founded Cyphra, a cybersecurity consulting firm, where penetration tests and security assessments are the daily bread. He has found and responsibly disclosed bugs in products like CodeSandbox, X (Twitter) and Google Chrome, holds the CPTS certification, and keeps a running list of things he still wants to break.',
+    'On the other screen he works as creative director at Icon Digital Edge. There he wrote, directed and edited SFH Access for the Society For HealthCare Access, pulling first AC duty for the DOP. His short film Change (2026) lives under Tech Cinema on YouTube.',
+    'The two crafts share one engine: curiosity. Asking how it works, asking why it fails, and telling the story honestly either way. If you are building something meaningful, he would like to hear about it.',
   ],
   photos: [
     { src: '/images/about.jpg', caption: 'Abuja, NG', className: 'left' },
     { src: '/images/avatar.jpg', caption: 'obx03', className: 'right' },
   ],
-  cv: '/files/abang-obed-resume.pdf',
+  facts: [
+    ['Lives in', 'Abuja, Nigeria'],
+    ['Email', 'obx@wearehackerone.com'],
+    ['Currently', 'Co-founding Cyphra & directing at Icon Digital Edge'],
+  ],
 };
 
 export const reel = {
   title: 'highlights',
   ext: '.mov',
-  sub: 'A looping reel of frames from my films, research and builds. Dither it if you like.',
+  sub: 'A looping reel of frames from my films, research and builds.',
   poster: '/images/change-poster.jpg',
 };
 
-export const make = {
+export const worksDone = {
   kicker: '02',
-  title: 'What I Make',
-  sub: 'Security, film & software. Sometimes all three in one week.',
-  presets: [
+  title: 'Works Done',
+  sub: 'Security, film & backend. Sometimes all three in one week.',
+  frame: { brand: 'OBX/WORKS', meta: ['6 roles', 'security · film · backend', '2025/2026 exp.'] },
+  roles: [
     {
-      idx: 'PRESET 01',
-      title: 'Offensive Security',
-      body: 'Web, API and mobile penetration testing, DeFi protocol reviews, vulnerability research and responsible disclosure.',
-      stack: 'Kynettic · Gigafro · HackerOne · CVE',
-      href: '/works/cybersecurity',
+      idx: 'ROLE 01',
+      title: 'Cyphra, Co-Founder',
+      body: 'Co-founded a cybersecurity consulting firm. Penetration testing, vulnerability assessments and security advisory for real products, from the first scoping call to the final report.',
+      stack: 'Offensive Security · VAPT · Advisory',
+      href: null,
     },
     {
-      idx: 'PRESET 02',
-      title: 'Film & Creative Direction',
-      body: 'Writing, directing and editing. Change (2026) and creative direction for SFH Access at Icon Digital Edge.',
-      stack: 'Change · SFH Access · Tech Cinema',
-      href: '/works/film',
+      idx: 'ROLE 02',
+      title: 'Icon Digital Edge, Creative Director',
+      body: 'Direct the creative side of client productions, currently SFH Access for the Society For HealthCare Access. Wrote, edited, directed and pulled 1st AC duty for the DOP across skits, talking heads and a podcast session.',
+      stack: 'Direction · Writing · Editing · 1st AC',
+      href: '/filmography/sfh-access',
     },
     {
-      idx: 'PRESET 03',
-      title: 'Networks & Operations',
-      body: 'Enterprise network administration, Active Directory, security monitoring and Mission Control support at NEMA.',
-      stack: 'MikroTik · Cisco · GIS · MCC',
-      href: '/works/cybersecurity',
+      idx: 'ROLE 03',
+      title: 'Kynettic, Lead Security Engineer',
+      body: 'Lead authorized penetration tests across production web, mobile and API infrastructure for a P2P trading platform. Reported sensitive data exposure, access control weaknesses and business logic flaws in payment workflows with risk based priorities.',
+      stack: 'Web · API · Mobile · DeFi',
+      href: null,
     },
     {
-      idx: 'PRESET 04',
-      title: 'Software & Backend',
-      body: 'REST APIs, data access architecture and CI/CD pipelines for products that carry real traffic.',
-      stack: 'NestJS · PostgreSQL · AWS · MongoDB',
-      href: '/works/devops',
+      idx: 'ROLE 04',
+      title: 'Gigafro, Security Consultant',
+      body: 'Evaluated platform security across real time geolocation, gig dispatch and worker ranking systems. Vulnerability assessments of the marketplace web, mobile and backend, covering authentication, authorization and business logic.',
+      stack: 'VAPT · Business Logic · APIs',
+      href: null,
+    },
+    {
+      idx: 'ROLE 05',
+      title: 'NEMA, System Network Administrator',
+      body: 'Enterprise network infrastructure at the emergency management agency: fibre optic links, MikroTik and Cisco gear, and Mission Control Center support with GIS geolocation and distress signal tracking. Deployed Active Directory and an interdepartmental file management system.',
+      stack: 'MikroTik · Cisco · AD · GIS · MCC',
+      href: null,
+    },
+    {
+      idx: 'ROLE 06',
+      title: 'Myphlexit, Staff Backend Developer',
+      body: 'Backend services and REST APIs with NestJS and PostgreSQL for authentication, ticketing and core workflows. Designed the MongoDB data access architecture and set up CI/CD with AWS CloudFormation.',
+      stack: 'NestJS · PostgreSQL · MongoDB · AWS',
+      href: null,
     },
   ],
 };
@@ -136,31 +139,50 @@ export const educationBlock = {
 export const projectsBlock = {
   kicker: '04',
   title: 'Projects',
-  sub: 'Side builds that turned into real tools.',
+  sub: "Ideas I had and ran with. Some shipped, all taught me something.",
+  window: { left: '6 items', mid: '2026 K in disk', right: 'curiosity available' },
   projects: [
     {
+      icon: 'film',
       year: '2025',
       name: 'Video Storybook',
-      body: 'AI video editing application that turns still images into wide angled shots, event continuity and dynamic motion for storyboard previews. Built with MiDaS, TensorFlow, ControlNet, Skia and ML Kit.',
-      tags: 'React Native · MLKit · MiDaS',
+      body: 'AI video editing application that turns still images into wide angled shots, event continuity and dynamic motion for storyboard previews.',
+      tags: 'MiDaS · TensorFlow · ControlNet · ML Kit',
     },
     {
+      icon: 'smartphone',
       year: '2024',
       name: 'Azure Stack USSD Service',
-      body: 'Scalable USSD service on Azure Stack Hub for enterprise mobile access to USSD services on network, with Africa\'s Talking.',
+      body: "Scalable USSD service on Azure Stack Hub for enterprise mobile access to USSD services on network, with Africa's Talking.",
       tags: 'USSD · ASP.NET Web API · Azure',
     },
     {
+      icon: 'navigation',
       year: '2026',
       name: 'LiDAR Spatial Assistant',
-      body: 'iOS app using device LiDAR for real time 3D room scanning and object detection with YOLOv9 and ARCore, audio navigation cues for blind users. Gemini Hackathon special recognition.',
+      body: 'iOS app using device LiDAR for real time 3D room scanning and object detection with audio navigation cues for blind users. Gemini hackathon special recognition.',
       tags: 'React Native · YOLOv9 · ARCore',
     },
     {
+      icon: 'terminal',
       year: '2023',
       name: 'Autobot OS',
       body: 'Custom Python operating system runtime to observe execution paths and collect endpoint telemetry for EDR resilience research.',
       tags: 'Python · Win32 API · ETW',
+    },
+    {
+      icon: 'activity',
+      year: '2024',
+      name: 'EtwScope',
+      body: 'Windows telemetry tooling for tracing and visibility research, the companion to my thesis work on EDR resilience.',
+      tags: 'ETW · C · Python',
+    },
+    {
+      icon: 'monitor',
+      year: '2026',
+      name: 'obx03.tech',
+      body: 'This site. Hand built with Next.js, dither textures, film grain and one floating camera too many.',
+      tags: 'Next.js · Tailwind',
     },
   ],
 };
@@ -171,141 +193,65 @@ export const honorsBlock = {
   sub: 'Things I am quietly proud of.',
   honors: [
     {
-      color: 'pink',
-      title: 'CodeSandbox CVE Credited',
-      body: 'Credited on GHSA-5jw5-g7mr-h26r for a high severity security report on CodeSandbox.',
-    },
-    {
-      color: 'yellow',
-      title: 'HackerOne X Bounty',
-      body: 'Improper access control on X (Twitter), critical severity, $2K bounty on HackerOne.',
-    },
-    {
-      color: 'green',
-      title: 'NCAIR Hackathon Winner',
-      body: '$1,000 grand prize for a conversational AI companion for dementia care.',
-    },
-    {
+      icon: 'sparkles',
       color: 'sky',
       title: 'Gemini Hackathon Recognition',
       body: 'Special recognition for the LiDAR spatial assistant for blind users.',
     },
     {
+      icon: 'shield',
+      color: 'pink',
+      title: 'CodeSandbox CVE Credited',
+      body: 'Credited on GHSA-5jw5-g7mr-h26r for a high severity security report on CodeSandbox.',
+    },
+    {
+      icon: 'trophy',
+      color: 'green',
+      title: 'NCAIR Hackathon Winner',
+      body: '$1,000 grand prize for a conversational AI companion for dementia care.',
+    },
+    {
+      icon: 'bug',
+      color: 'yellow',
+      title: 'HackerOne X Bounty',
+      body: 'Improper access control on X (Twitter), critical severity, $2K bounty on HackerOne.',
+    },
+    {
+      icon: 'chrome',
       color: 'orange',
-      title: 'CyberSafe HQ 1st Place',
-      body: 'First place, HackTheBox CyberSafe HQ CTF.',
-    },
-    {
-      color: 'paper',
-      title: 'NACSSS Awareness Lead',
-      body: 'Designed the graphics and demo concepts for Cybersecurity Awareness Month at FUT Minna.',
+      title: 'Google Chrome Bug Found',
+      body: 'Found and responsibly disclosed a security bug in Google Chrome.',
     },
   ],
 };
 
-/* ---------------- works ---------------- */
+/* ---------------- filmography ---------------- */
 
-export const worksSecurity = {
-  slug: 'cybersecurity',
-  title: 'Cybersecurity',
-  sub: 'Assessments, research and network operations. Grouped like presets, because that is how my brain files them.',
-  presets: [
+export const filmography = {
+  kicker: 'WORKS / FILM',
+  title: 'The gallery',
+  sub: 'Two productions, hung properly. Click any still to see it big, the way a gallery intends.',
+  entries: [
     {
-      idx: 'SEC 01',
-      title: 'Kynettic, Lead Security Engineer',
-      body: 'Authorized penetration testing across production web, mobile and API infrastructure for a P2P trading platform. Found sensitive financial data exposure, user enumeration and access control weaknesses, plus business logic flaws in payment workflows and weak cryptographic entropy in biometric checks. Reported with risk based priorities so engineers could actually fix things.',
-      stack: 'Web · API · Mobile · DeFi · Reporting',
-      href: 'https://kynettic.com',
+      idx: 'FILM 01',
+      href: '/filmography/change',
+      cover: '/images/film-still.png',
+      title: 'Change',
+      sub: 'A Single Note. A Hundred Stories',
+      meta: '2026 · 14 min · Crime / Thriller',
+      credit: 'Written & directed by Abang Obed.',
     },
     {
-      idx: 'SEC 02',
-      title: 'Gigafro, Security Consultant',
-      body: 'Evaluated platform security across real time geolocation, gig dispatch, worker ranking and network based distribution. Vulnerability assessments of the marketplace web, mobile and backend, covering authentication, authorization, API endpoints, data handling and business logic.',
-      stack: 'VAPT · Business Logic · APIs',
-      href: 'https://gigafro.com',
-    },
-    {
-      idx: 'SEC 03',
-      title: 'NEMA, System Network Administrator',
-      body: 'Enterprise network infrastructure at the emergency management agency: fibre optic links, MikroTik and Cisco gear, security monitoring and access management. Supported Mission Control Center operations with GIS geolocation, triangulation and distress signal tracking. Deployed Active Directory and an interdepartmental digital file management system.',
-      stack: 'MikroTik · Cisco · AD · GIS · MCC',
-      href: null,
-    },
-    {
-      idx: 'SEC 04',
-      title: 'CodeSandbox, Vulnerability Report',
-      body: 'Reported a high severity security issue through the GitHub Security Advisory program. Officially credited on GHSA-5jw5-g7mr-h26r.',
-      stack: 'Responsible Disclosure · CVE',
-      href: 'https://github.com/code-sandbox/security-advisories/security/advisories/GHSA-5jw5-g7mr-h26r',
-    },
-    {
-      idx: 'SEC 05',
-      title: 'X (Twitter) via HackerOne',
-      body: 'Improper access control vulnerability classified as critical severity, recognized with a $2K bounty on HackerOne.',
-      stack: 'HackerOne · Access Control',
-      href: 'https://hackerone.com',
-    },
-    {
-      idx: 'SEC 06',
-      title: 'EtwScope & Windows Telemetry Research',
-      body: 'Built EtwScope and Autobot OS to observe execution paths and collect endpoint telemetry, researching how code level changes affect Windows security visibility and EDR resilience. Written up in my B.Tech thesis.',
-      stack: 'ETW · Win32 API · Python · EDR',
-      href: 'https://github.com/d3vobed',
+      idx: 'FILM 02',
+      href: '/filmography/sfh-access',
+      cover: '/images/sfh/sfh-3.jpg',
+      title: 'SFH Access',
+      sub: 'Society For HealthCare Access',
+      meta: '2026 · Skits · Talking Heads · Podcast',
+      credit: 'Creative direction under Icon Digital Edge.',
     },
   ],
 };
-
-export const worksDev = {
-  slug: 'devops',
-  title: 'Developer Operations',
-  sub: 'Backend engineering, cloud and the builds in between.',
-  presets: [
-    {
-      idx: 'DEV 01',
-      title: 'Myphlexit, Staff Backend Developer',
-      body: 'Backend services and REST APIs with NestJS and PostgreSQL powering authentication, ticket management and core workflows. Server side pagination, optimized queries and client caching for datasets over 50,000 records. Designed the MongoDB data access architecture and set up CI/CD with AWS CloudFormation.',
-      stack: 'NestJS · PostgreSQL · MongoDB · AWS',
-      href: null,
-    },
-    {
-      idx: 'DEV 02',
-      title: 'IDE Nigeria, Sr. Website Developer & System Architect',
-      body: 'Multi company operations platform on Node.js, Laravel, Three.js, C# and Azure with role based access control and a modular department structure. Mobile first Tailwind interfaces that cut page load times and lifted engagement by 57%.',
-      stack: 'Node.js · Laravel · Three.js · Azure',
-      href: null,
-    },
-    {
-      idx: 'DEV 03',
-      title: 'ATL Labs, Technical Security Writer',
-      body: 'Built RBAC security courseware covering access control architecture, policy design and enforcement, plus research and technical writing on identity management for a security education programme.',
-      stack: 'RBAC · Courseware · Research',
-      href: 'https://pinkdraconian.com',
-    },
-    {
-      idx: 'DEV 04',
-      title: '234coins.net, AWS Cloud Engineer',
-      body: 'Fixed AWS IAM service roles to resolve regional permission and upload failures on a Unity runtime, diagnosed CORS misconfigurations, and implemented real time Redis monitoring for token loading and device activity.',
-      stack: 'AWS IAM · Redis · Unity',
-      href: null,
-    },
-    {
-      idx: 'DEV 05',
-      title: 'EtwScope, Security Tooling',
-      body: 'Windows telemetry tooling for tracing and visibility research, the companion to my thesis work on EDR resilience.',
-      stack: 'ETW · C · Python',
-      href: 'https://github.com/d3vobed',
-    },
-    {
-      idx: 'DEV 06',
-      title: 'Video Storybook & Azure USSD',
-      body: 'AI video editing from still images (MiDaS, TensorFlow, ControlNet, Skia, ML Kit) and a scalable USSD service on Azure Stack Hub with Africa\'s Talking.',
-      stack: 'ML Kit · Azure · USSD',
-      href: '/blog',
-    },
-  ],
-};
-
-/* ---------------- film ---------------- */
 
 export const filmChange = {
   slug: 'change',
@@ -366,6 +312,11 @@ export const filmSfh = {
   credit: 'Wrote, edited, directed & 1st AC to the DOP.',
   links: [
     { label: 'TikTok @sfh_access', href: 'https://www.tiktok.com/@sfh_access' },
+  ],
+  stills: [
+    { src: '/images/sfh/sfh-1.jpg', caption: 'The full cast and crew, between takes' },
+    { src: '/images/sfh/sfh-2.jpg', caption: 'Podcast session, mid conversation' },
+    { src: '/images/sfh/sfh-3.jpg', caption: 'Rolling. 4K 25p on the interview setup' },
   ],
   videos: [
     { id: '7701765257068367125', label: 'Field day with the team' },

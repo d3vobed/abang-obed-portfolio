@@ -135,7 +135,7 @@ export function WorksPlaylist({ items = [] }) {
       </div>
 
       {/* segment timeline */}
-      <div className='wp-strip' ref={stripRef} role='tablist' aria-label='Works playlist'>
+      <div className='wp-strip stagger' ref={stripRef} role='tablist' aria-label='Works playlist'>
         {items.map((it, i) => (
           <button
             type='button'

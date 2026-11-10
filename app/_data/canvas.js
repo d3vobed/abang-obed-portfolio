@@ -6,7 +6,7 @@
 
 export const profile = {
   firstName: 'OBED',
-  name: 'Abang Obed',
+  name: 'Abang Obed (obx)',
   handle: 'obx03',
   headline: 'Cybersecurity Researcher | Filmmaker',
   email: 'obx@wearehackerone.com',
@@ -292,6 +292,7 @@ export const projectsBlock = {
       tags: 'MiDaS · TensorFlow · ControlNet · ML Kit',
       href: 'https://github.com/d3vobed',
       ext: true,
+      img: '/images/proj-storybook.jpg',
     },
     {
       icon: 'shield',
@@ -301,6 +302,7 @@ export const projectsBlock = {
       tags: 'Incident Response · RBAC · Live Demo',
       href: 'https://nema-app-demo.vercel.app/',
       ext: true,
+      img: '/images/work-nema.jpg',
     },
     {
       icon: 'clapper',
@@ -310,6 +312,7 @@ export const projectsBlock = {
       tags: 'Direction · Screenwriting · 14 min',
       href: '/filmography/change',
       ext: false,
+      img: '/images/change-poster.jpg',
     },
     {
       icon: 'navigation',
@@ -319,6 +322,7 @@ export const projectsBlock = {
       tags: 'React Native · YOLOv9 · ARCore',
       href: 'https://github.com/d3vobed',
       ext: true,
+      img: '/images/proj-lidar.jpg',
     },
     {
       icon: 'terminal',
@@ -328,6 +332,7 @@ export const projectsBlock = {
       tags: 'Python · Win32 API · ETW',
       href: 'https://github.com/d3vobed',
       ext: true,
+      img: '/images/screenshot-extra.png',
     },
     {
       icon: 'activity',
@@ -337,6 +342,7 @@ export const projectsBlock = {
       tags: 'ETW · C · Python',
       href: 'https://github.com/d3vobed',
       ext: true,
+      img: '/images/thumb-etwscope.jpg',
     },
     {
       icon: 'smartphone',
@@ -346,6 +352,7 @@ export const projectsBlock = {
       tags: 'USSD · ASP.NET Web API · Azure',
       href: 'https://github.com/d3vobed',
       ext: true,
+      img: '/images/proj-azure.jpg',
     },
     {
       icon: 'sparkles',
@@ -355,6 +362,7 @@ export const projectsBlock = {
       tags: 'Conversational AI · NCAIR · Grand Prize',
       href: 'https://github.com/d3vobed',
       ext: true,
+      img: '/images/proj-dementia.jpg',
     },
     {
       icon: 'monitor',
@@ -364,6 +372,7 @@ export const projectsBlock = {
       tags: 'Direction · Editing · Production',
       href: '/filmography/sfh-access',
       ext: false,
+      img: '/images/sfh/sfh-2.jpg',
     },
   ],
 };

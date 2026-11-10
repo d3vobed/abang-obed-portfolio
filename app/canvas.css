@@ -1666,24 +1666,63 @@ video {
    filmography wall, scroll rise
    ============================================================ */
 
-/* ---------- scroll rise ---------- */
+/* ---------- scroll rise (unravel on scroll) ---------- */
 
 .rise {
   opacity: 0;
-  transform: translateY(26px);
+  transform: translateY(30px) scale(0.988);
+  filter: blur(4px);
   transition:
-    opacity 0.65s ease,
-    transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
+    opacity 0.7s ease,
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.7s ease;
   transition-delay: var(--rise-delay, 0ms);
+  will-change: opacity, transform, filter;
 }
 
 .rise.in {
   opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+/* stagger cascade: children of .stagger unravel one after another
+   once their Rise wrapper comes in */
+.rise .stagger > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.55s ease,
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rise.in .stagger > * {
+  opacity: 1;
   transform: translateY(0);
 }
 
+.rise.in .stagger > :nth-child(1) { transition-delay: 60ms; }
+.rise.in .stagger > :nth-child(2) { transition-delay: 125ms; }
+.rise.in .stagger > :nth-child(3) { transition-delay: 190ms; }
+.rise.in .stagger > :nth-child(4) { transition-delay: 255ms; }
+.rise.in .stagger > :nth-child(5) { transition-delay: 320ms; }
+.rise.in .stagger > :nth-child(6) { transition-delay: 385ms; }
+.rise.in .stagger > :nth-child(7) { transition-delay: 450ms; }
+.rise.in .stagger > :nth-child(8) { transition-delay: 515ms; }
+.rise.in .stagger > :nth-child(9) { transition-delay: 580ms; }
+.rise.in .stagger > :nth-child(10) { transition-delay: 645ms; }
+.rise.in .stagger > :nth-child(11) { transition-delay: 710ms; }
+.rise.in .stagger > :nth-child(12) { transition-delay: 775ms; }
+
 @media (prefers-reduced-motion: reduce) {
   .rise {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+
+  .rise .stagger > * {
     opacity: 1;
     transform: none;
     transition: none;
@@ -1946,6 +1985,47 @@ video {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-soft);
+}
+
+/* project tile media header: image bleeds over the tile padding */
+.pt-media {
+  position: relative;
+  display: block;
+  width: calc(100% + 44px);
+  margin: -22px -22px 2px;
+  height: 140px;
+  overflow: hidden;
+  border-bottom: 1.5px solid var(--line);
+  background: var(--paper-2);
+}
+
+.pt-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cv-proj-tile:hover .pt-media img {
+  transform: scale(1.045);
+}
+
+.pt-media .pt-chip {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+}
+
+.pt-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(17, 18, 17, 0.22));
+  pointer-events: none;
 }
 
 /* ---------- filmography wall ---------- */
@@ -2697,14 +2777,18 @@ video {
   padding: clamp(20px, 3vw, 44px) 0 clamp(28px, 4vw, 56px);
 }
 
-/* voxel block field canvas (mouse + scroll reactive) */
+/* voxel block field canvas (mouse + scroll reactive).
+   canvas is a replaced element: inset alone does NOT stretch it,
+   it would keep its intrinsic 300x150. explicit 100% both ways. */
 .cv-blocks {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 0;
   pointer-events: none;
-  -webkit-mask-image: linear-gradient(#000 70%, transparent 98%);
-  mask-image: linear-gradient(#000 70%, transparent 98%);
+  -webkit-mask-image: linear-gradient(#000 78%, transparent 99%);
+  mask-image: linear-gradient(#000 78%, transparent 99%);
 }
 
 /* ---------- pixel dragon divider ---------- */
@@ -2789,6 +2873,18 @@ video {
 
 .cv-hero-name {
   font-size: clamp(40px, 7vw, 88px);
+}
+
+/* handwritten obx signature after the pixel name */
+.name-obx {
+  font-family: var(--font-hand), cursive;
+  font-size: 0.3em;
+  font-weight: 400;
+  color: var(--red);
+  vertical-align: super;
+  margin-left: 8px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 .cv-hero-hint {
@@ -3447,6 +3543,7 @@ a.cv-proj-tile,
   position: absolute;
   top: 16px;
   right: 16px;
+  z-index: 3; /* stay above the media header + its scrim */
   width: 34px;
   height: 34px;
   border: 1.5px solid var(--line);

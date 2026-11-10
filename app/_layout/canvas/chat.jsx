@@ -375,7 +375,7 @@ export function ChatWidget() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src='/images/avatar.jpg' alt='' width='30' height='30' className='cx-avatar' />
           <div>
-            <p className='cx-name'>Abang Obed</p>
+            <p className='cx-name'>Abang Obed (obx)</p>
             <p className='cx-sub'>Ask about my work</p>
           </div>
           <button type='button' className='cx-close' aria-label='Close chat' onClick={onClose}>

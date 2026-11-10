@@ -86,7 +86,9 @@ export default function Home() {
                 </div>
 
                 <div className='cv-hero-window-body'>
-                  <h1 className='cv-hero-name'>{profile.name}</h1>
+                  <h1 className='cv-hero-name'>
+                    {profile.name.replace(' (obx)', '')} <span className='name-obx'>(obx)</span>
+                  </h1>
                   <Typed />
                   <p className='cv-hero-intro'>{hero.intro}</p>
 
@@ -150,7 +152,7 @@ export default function Home() {
                   {p}
                 </p>
               ))}
-              <dl className='cv-facts'>
+              <dl className='cv-facts stagger'>
                 {about.facts.map(([t, d]) => (
                   <div key={t}>
                     <dt>{t}</dt>

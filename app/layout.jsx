@@ -5,7 +5,7 @@ import { ChatWidget, TopBar } from './_layout';
 
 export const metadata = {
   title: {
-    default: 'Abang Obed — obx03',
+    default: 'Abang Obed (obx)',
     template: '%s — obx03',
   },
   description:

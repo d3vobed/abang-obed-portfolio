@@ -660,7 +660,7 @@ export function ScrollProgress() {
 /* ================= block field (minecraft-ish voxel gradient, mouse + scroll reactive) ================= */
 
 const BLOCK_CELL = 22;
-const BLOCK_R = 150;
+const BLOCK_R = 190;
 
 export function BlockField() {
   const ref = useRef(null);
@@ -693,25 +693,39 @@ export function BlockField() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       W = canvas.clientWidth;
       H = canvas.clientHeight;
-      canvas.width = W * dpr;
-      canvas.height = H * dpr;
+      canvas.width = Math.max(1, W * dpr);
+      canvas.height = Math.max(1, H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
+    /* pointer energy anywhere on the hero: mouse, pen and touch drags all
+       feed the same target. -9999 parks the glow offscreen. */
     const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
-    const onMove = (e) => {
+    let lastInput = 0;
+    const feed = (x, y) => {
       const r = canvas.getBoundingClientRect();
-      mouse.tx = e.clientX - r.left;
-      mouse.ty = e.clientY - r.top;
+      mouse.tx = x - r.left;
+      mouse.ty = y - r.top;
+      lastInput = performance.now();
+    };
+    const onMove = (e) => {
+      if (e.pointerType === 'touch' && e.type === 'pointermove' && e.isPrimary === false) return;
+      feed(e.clientX, e.clientY);
+    };
+    const onTouch = (e) => {
+      const t = e.touches[0];
+      if (t) feed(t.clientX, t.clientY);
     };
     const onLeave = () => {
       mouse.tx = -9999;
       mouse.ty = -9999;
     };
     window.addEventListener('pointermove', onMove, { passive: true });
+    window.addEventListener('pointerdown', onMove, { passive: true });
+    window.addEventListener('touchmove', onTouch, { passive: true });
     document.documentElement.addEventListener('pointerleave', onLeave);
 
     const io = new IntersectionObserver((en) => {
@@ -725,9 +739,28 @@ export function BlockField() {
       return ((h ^ (h >> 16)) >>> 0) / 4294967295;
     };
 
-    const draw = () => {
-      mouse.x += (mouse.tx - mouse.x) * 0.16;
-      mouse.y += (mouse.ty - mouse.y) * 0.16;
+    /* idle wanderer: when nobody has moved for a while a slow probe
+       keeps crossing the field so the hero never sits dead */
+    let t0 = performance.now();
+    const wander = (now) => {
+      const t = (now - t0) / 1000;
+      return [
+        W * (0.5 + 0.38 * Math.sin(t * 0.33) * Math.cos(t * 0.17 + 1.2)),
+        H * (0.45 + 0.36 * Math.sin(t * 0.21 + 2.1) * Math.cos(t * 0.29)),
+      ];
+    };
+
+    const draw = (now) => {
+      /* ease toward the pointer; if the pointer has been still for 2.5s
+         hand control to the idle wanderer */
+      const idle = now - lastInput > 2500;
+      if (idle) {
+        const [wx, wy] = wander(now);
+        mouse.tx = wx;
+        mouse.ty = wy;
+      }
+      mouse.x += (mouse.tx - mouse.x) * (idle ? 0.02 : 0.16);
+      mouse.y += (mouse.ty - mouse.y) * (idle ? 0.02 : 0.16);
       const scroll = window.scrollY || 0;
       const drift = scroll * 0.35;
       const flow = drift % BLOCK_CELL;
@@ -745,13 +778,13 @@ export function BlockField() {
           const n = hash(gx, wy);
 
           /* faint voxel base so the field reads even without a cursor */
-          if (n > 0.88) {
-            ctx.globalAlpha = 0.055 * fade;
+          if (n > 0.86) {
+            ctx.globalAlpha = (0.07 + (n - 0.86) * 0.28) * fade;
             ctx.fillStyle = ink;
             ctx.fillRect(gx * BLOCK_CELL, y, BLOCK_CELL - 2, BLOCK_CELL - 2);
           }
 
-          /* mouse energy: blocks light up and grow near the cursor */
+          /* energy field: blocks light up and grow near the cursor */
           const cx = gx * BLOCK_CELL + BLOCK_CELL / 2;
           const cy = y + BLOCK_CELL / 2;
           const dx = cx - mouse.x;
@@ -759,26 +792,38 @@ export function BlockField() {
           const d2 = dx * dx + dy * dy;
           if (d2 < BLOCK_R * BLOCK_R) {
             const e = 1 - Math.sqrt(d2) / BLOCK_R;
-            const grow = 1 + e * 1.6;
+            const ee = e * e;
+            const grow = 1 + e * 1.7;
             const size = (BLOCK_CELL - 2) * grow;
             const off = (BLOCK_CELL - size) / 2;
-            ctx.globalAlpha = Math.min(0.8, e * e) * fade;
+            ctx.globalAlpha = Math.min(0.85, ee * 1.15) * fade;
             ctx.fillStyle = palette[Math.floor(n * palette.length) % palette.length];
             ctx.fillRect(gx * BLOCK_CELL + off, y + off, size, size);
+            /* inner highlight block for the voxel read */
+            if (e > 0.55) {
+              ctx.globalAlpha = (e - 0.55) * 0.9 * fade;
+              ctx.fillStyle = ink;
+              ctx.fillRect(
+                gx * BLOCK_CELL + off + size * 0.3,
+                y + off + size * 0.3,
+                size * 0.4,
+                size * 0.4,
+              );
+            }
           }
         }
       }
       ctx.globalAlpha = 1;
     };
 
-    const loop = () => {
+    const loop = (now) => {
       if (!running) return;
-      if (!document.hidden && inView) draw();
+      if (!document.hidden && inView) draw(now || 0);
       raf = requestAnimationFrame(loop);
     };
 
     if (reduced) {
-      draw();
+      draw(performance.now());
     } else {
       raf = requestAnimationFrame(loop);
     }
@@ -790,6 +835,8 @@ export function BlockField() {
       io.disconnect();
       themeObs.disconnect();
       window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerdown', onMove);
+      window.removeEventListener('touchmove', onTouch);
       document.documentElement.removeEventListener('pointerleave', onLeave);
     };
   }, []);

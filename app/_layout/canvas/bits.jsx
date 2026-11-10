@@ -228,7 +228,7 @@ const HONOR_BG = {
 
 export function Honors({ honors = [] }) {
   return (
-    <div className='cv-honors cv-honors--grid'>
+    <div className='cv-honors cv-honors--grid stagger'>
       {honors.map((h) => {
         const Icon = HONOR_ICONS[h.icon] || Sparkles;
         return (
@@ -267,8 +267,12 @@ function ProjTile({ p }) {
       <span className='pt-arrow' aria-hidden='true'>
         <ArrowUpRight size={18} />
       </span>
-      <span className='pt-icon cv-tile cv-tile--paper'>
-        <Icon size={17} />
+      <span className='pt-media'>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={p.img} alt={`${p.name} preview`} loading='lazy' />
+        <span className='pt-chip cv-tile cv-tile--paper'>
+          <Icon size={15} />
+        </span>
       </span>
       <div className='pt-head'>
         <h3>{p.name}</h3>
@@ -304,7 +308,7 @@ export function ProjectWindow({ left, mid, right, projects = [] }) {
         <span>{mid}</span>
         <span>{right}</span>
       </div>
-      <div className='cv-projgrid'>
+      <div className='cv-projgrid stagger'>
         {projects.map((p) => (
           <ProjTile key={p.name} p={p} />
         ))}

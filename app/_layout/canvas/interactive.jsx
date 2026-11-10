@@ -5,12 +5,16 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Bug,
   Camera,
+  Check,
   ChevronLeft,
   ChevronRight,
+  Copy,
+  Cpu,
   Lock,
   Pause,
   Play,
   ShieldCheck,
+  Sparkles,
   Terminal,
   Wifi,
   X,
@@ -650,5 +654,682 @@ export function ScrollProgress() {
     <div className='cv-progress' aria-hidden='true'>
       <span style={{ transform: `scaleX(${p})` }} />
     </div>
+  );
+}
+
+/* ================= block field (minecraft-ish voxel gradient, mouse + scroll reactive) ================= */
+
+const BLOCK_CELL = 22;
+const BLOCK_R = 150;
+
+export function BlockField() {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return undefined;
+    const ctx = canvas.getContext('2d');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let raf = 0;
+    let running = true;
+    let inView = true;
+    let W = 0;
+    let H = 0;
+    let ink = '#111212';
+    let palette = [];
+
+    const readColors = () => {
+      const cs = getComputedStyle(document.documentElement);
+      ink = cs.getPropertyValue('--ink').trim() || '#111212';
+      palette = ['--green', '--sky', '--pink', '--yellow', '--orange'].map(
+        (v) => cs.getPropertyValue(v).trim() || ink,
+      );
+    };
+    readColors();
+    const themeObs = new MutationObserver(readColors);
+    themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = canvas.clientWidth;
+      H = canvas.clientHeight;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas);
+
+    const mouse = { x: -9999, y: -9999, tx: -9999, ty: -9999 };
+    const onMove = (e) => {
+      const r = canvas.getBoundingClientRect();
+      mouse.tx = e.clientX - r.left;
+      mouse.ty = e.clientY - r.top;
+    };
+    const onLeave = () => {
+      mouse.tx = -9999;
+      mouse.ty = -9999;
+    };
+    window.addEventListener('pointermove', onMove, { passive: true });
+    document.documentElement.addEventListener('pointerleave', onLeave);
+
+    const io = new IntersectionObserver((en) => {
+      inView = en[0].isIntersecting;
+    });
+    io.observe(canvas);
+
+    const hash = (x, y) => {
+      let h = (x * 374761393 + y * 668265263) | 0;
+      h = ((h ^ (h >> 13)) * 1274126177) | 0;
+      return ((h ^ (h >> 16)) >>> 0) / 4294967295;
+    };
+
+    const draw = () => {
+      mouse.x += (mouse.tx - mouse.x) * 0.16;
+      mouse.y += (mouse.ty - mouse.y) * 0.16;
+      const scroll = window.scrollY || 0;
+      const drift = scroll * 0.35;
+      const flow = drift % BLOCK_CELL;
+      const rowShift = Math.floor(drift / BLOCK_CELL);
+      const fade = Math.max(0, 1 - scroll / (H * 0.85));
+
+      ctx.clearRect(0, 0, W, H);
+      const cols = Math.ceil(W / BLOCK_CELL) + 1;
+      const rows = Math.ceil(H / BLOCK_CELL) + 1;
+
+      for (let gy = 0; gy < rows; gy++) {
+        const wy = gy + rowShift;
+        const y = gy * BLOCK_CELL - flow;
+        for (let gx = 0; gx < cols; gx++) {
+          const n = hash(gx, wy);
+
+          /* faint voxel base so the field reads even without a cursor */
+          if (n > 0.88) {
+            ctx.globalAlpha = 0.055 * fade;
+            ctx.fillStyle = ink;
+            ctx.fillRect(gx * BLOCK_CELL, y, BLOCK_CELL - 2, BLOCK_CELL - 2);
+          }
+
+          /* mouse energy: blocks light up and grow near the cursor */
+          const cx = gx * BLOCK_CELL + BLOCK_CELL / 2;
+          const cy = y + BLOCK_CELL / 2;
+          const dx = cx - mouse.x;
+          const dy = cy - mouse.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 < BLOCK_R * BLOCK_R) {
+            const e = 1 - Math.sqrt(d2) / BLOCK_R;
+            const grow = 1 + e * 1.6;
+            const size = (BLOCK_CELL - 2) * grow;
+            const off = (BLOCK_CELL - size) / 2;
+            ctx.globalAlpha = Math.min(0.8, e * e) * fade;
+            ctx.fillStyle = palette[Math.floor(n * palette.length) % palette.length];
+            ctx.fillRect(gx * BLOCK_CELL + off, y + off, size, size);
+          }
+        }
+      }
+      ctx.globalAlpha = 1;
+    };
+
+    const loop = () => {
+      if (!running) return;
+      if (!document.hidden && inView) draw();
+      raf = requestAnimationFrame(loop);
+    };
+
+    if (reduced) {
+      draw();
+    } else {
+      raf = requestAnimationFrame(loop);
+    }
+
+    return () => {
+      running = false;
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      io.disconnect();
+      themeObs.disconnect();
+      window.removeEventListener('pointermove', onMove);
+      document.documentElement.removeEventListener('pointerleave', onLeave);
+    };
+  }, []);
+
+  return <canvas ref={ref} className='cv-blocks' aria-hidden='true' />;
+}
+
+/* ================= hero toys: clickable tiles, one window at a time ================= */
+
+const TOY_ICONS = {
+  camera: Camera,
+  cpu: Cpu,
+  bug: Bug,
+  terminal: Terminal,
+  wifi: Wifi,
+  lock: Lock,
+};
+
+function ToyWindow({ title, onClose, children, foot, wide = false, flush = false }) {
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return;
+      if (document.querySelector('.cv-lightbox')) return;
+      onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  return (
+    <div className={`cv-toy ${wide ? 'cv-toy--wide' : ''}`} role='dialog' aria-label={title}>
+      <div className='cv-window-bar'>
+        <span className='wb-dots' aria-hidden='true'>
+          <i />
+          <i />
+          <i />
+        </span>
+        <span className='wb-title'>{title}</span>
+        <span className='wb-spacer' />
+        <button type='button' className='np-close' aria-label='Close' onClick={onClose}>
+          <X size={13} />
+        </button>
+      </div>
+      <div className={`toy-body ${flush ? 'toy-body--flush' : ''}`}>{children}</div>
+      {foot ? (
+        <div className='np-foot mono'>
+          {foot.map((f) => (
+            <span key={f}>{f}</span>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+export function HeroToys({ tiles = [], notepad, stills = [] }) {
+  const [active, setActive] = useState(null);
+  const toggle = (a) => setActive((v) => (v === a ? null : a));
+
+  return (
+    <>
+      {tiles.map((t) => {
+        const Icon = TOY_ICONS[t.icon] || Sparkles;
+        return (
+          <button
+            key={t.action || t.icon}
+            type='button'
+            className={`cv-float cv-tile cv-tile--${t.color} cv-tile--clickable ${
+              t.action === 'notepad' ? 'cv-tile--park' : ''
+            }`}
+            style={{ position: 'absolute', zIndex: 1, ...t.style }}
+            onClick={() => toggle(t.action)}
+            aria-expanded={active === t.action}
+            aria-label={t.label}
+            title={t.label}
+          >
+            <Icon size={19} />
+          </button>
+        );
+      })}
+
+      {active === 'notepad' && notepad ? (
+        <NotepadToy notepad={notepad} onClose={() => toggle('notepad')} />
+      ) : null}
+      {active === 'gallery' ? <GalleryToy stills={stills} onClose={() => toggle('gallery')} /> : null}
+      {active === 'sysinfo' ? <SysinfoToy onClose={() => toggle('sysinfo')} /> : null}
+      {active === 'game' ? <BugToy onClose={() => toggle('game')} /> : null}
+      {active === 'subscan' ? <SubscanToy onClose={() => toggle('subscan')} /> : null}
+      {active === 'cipher' ? <CipherToy onClose={() => toggle('cipher')} /> : null}
+    </>
+  );
+}
+
+/* ---------- the original: the notepad ---------- */
+
+function NotepadToy({ notepad, onClose }) {
+  const [text, setText] = useState(notepad.seed);
+  const [ready, setReady] = useState(false);
+  const KEY = 'obx-notepad:v1';
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(KEY);
+      if (saved !== null) setText(saved);
+    } catch (e) {
+      /* private mode */
+    }
+    setReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return undefined;
+    const t = setTimeout(() => {
+      try {
+        localStorage.setItem(KEY, text);
+      } catch (e) {
+        /* ignore */
+      }
+    }, 350);
+    return () => clearTimeout(t);
+  }, [text, ready]);
+
+  return (
+    <ToyWindow
+      title={`${notepad.title} — notepad`}
+      onClose={onClose}
+      flush
+      foot={['autosaves on this device', `${text.length} chars`, 'ESC to close']}
+    >
+      <textarea
+        className='np-area'
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        spellCheck={false}
+        autoFocus
+        aria-label='Notepad text area'
+      />
+    </ToyWindow>
+  );
+}
+
+/* ---------- the camera: stills from the films ---------- */
+
+function GalleryToy({ stills, onClose }) {
+  const [open, setOpen] = useState(-1);
+
+  const step = useCallback(
+    (d) => setOpen((i) => (i + d + stills.length) % stills.length),
+    [stills.length],
+  );
+
+  useEffect(() => {
+    if (open < 0) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') setOpen(-1);
+      if (e.key === 'ArrowRight') step(1);
+      if (e.key === 'ArrowLeft') step(-1);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open, step]);
+
+  return (
+    <>
+      <ToyWindow
+        wide
+        title='stills.gallery'
+        onClose={onClose}
+        foot={[`${stills.length} frames from the films`, 'click a frame', 'ESC to close']}
+      >
+        <div className='toy-gallery'>
+          {stills.map((s, i) => (
+            <button
+              type='button'
+              key={s.src + i}
+              className='tg-item'
+              onClick={() => setOpen(i)}
+              aria-label={`Open frame: ${s.caption}`}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={s.src} alt={s.caption} loading='lazy' />
+              <span>{s.caption}</span>
+            </button>
+          ))}
+        </div>
+      </ToyWindow>
+
+      {open >= 0 ? (
+        <div className='cv-lightbox' onClick={() => setOpen(-1)} role='dialog' aria-modal='true' aria-label='Frame viewer'>
+          <div className='lb-bar'>
+            <span className='lb-meta'>
+              {String(open + 1).padStart(2, '0')} / {String(stills.length).padStart(2, '0')} — {stills[open].caption}
+            </span>
+          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={stills[open].src} alt={stills[open].caption} onClick={(e) => e.stopPropagation()} />
+          <button
+            type='button'
+            className='lb-btn prev'
+            aria-label='Previous'
+            onClick={(e) => {
+              e.stopPropagation();
+              step(-1);
+            }}
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <button
+            type='button'
+            className='lb-btn next'
+            aria-label='Next'
+            onClick={(e) => {
+              e.stopPropagation();
+              step(1);
+            }}
+          >
+            <ChevronRight size={20} />
+          </button>
+          <button type='button' className='lb-close' aria-label='Close' onClick={() => setOpen(-1)}>
+            <X size={18} />
+          </button>
+        </div>
+      ) : null}
+    </>
+  );
+}
+
+/* ---------- the cpu: live system readout ---------- */
+
+const SYS_MOODS = ['curious', 'caffeinated', 'recon mode', 'kernel peeking', 'documentary mode', 'plotting shots'];
+
+function SysinfoToy({ onClose }) {
+  const [tick, setTick] = useState(0);
+  const [battery, setBattery] = useState(null);
+  const [net, setNet] = useState('');
+
+  useEffect(() => {
+    const id = setInterval(() => setTick((v) => v + 1), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    if (navigator.getBattery) {
+      navigator.getBattery().then((b) => {
+        setBattery({ level: Math.round(b.level * 100), charging: b.charging });
+      });
+    }
+    const c = navigator.connection;
+    if (c && c.effectiveType) setNet(c.effectiveType);
+  }, []);
+
+  const ua = navigator.userAgent;
+  const agent = ua.includes('Firefox') ? 'firefox' : ua.includes('Chrome') ? 'chromium-based' : ua.includes('Safari') ? 'safari' : 'unknown browser';
+  const rows = [
+    ['agent', agent],
+    ['cores', navigator.hardwareConcurrency ? `${navigator.hardwareConcurrency} threads` : 'unknown'],
+    ['memory', navigator.deviceMemory ? `${navigator.deviceMemory} GB` : 'classified'],
+    ['screen', `${window.screen.width}x${window.screen.height} @ ${window.devicePixelRatio}x`],
+    ['viewport', `${window.innerWidth}x${window.innerHeight}`],
+    ['network', net || (navigator.onLine ? 'online' : 'offline')],
+    ['locale', navigator.language],
+    ['timezone', Intl.DateTimeFormat().resolvedOptions().timeZone],
+    ['battery', battery ? `${battery.level}%${battery.charging ? ' charging' : ''}` : 'no report'],
+    ['uptime', `${tick}s`],
+    ['threat level', SYS_MOODS[tick % SYS_MOODS.length]],
+  ];
+
+  return (
+    <ToyWindow title='obx@sysinfo' onClose={onClose} foot={['live readout', 'nothing leaves this page']}>
+      <dl className='toy-sysinfo'>
+        {rows.map(([k, v]) => (
+          <div key={k}>
+            <dt>{k}</dt>
+            <dd>{v}</dd>
+          </div>
+        ))}
+      </dl>
+    </ToyWindow>
+  );
+}
+
+/* ---------- the bug: whack-a-bug, 20 seconds on the clock ---------- */
+
+function BugToy({ onClose }) {
+  const [playing, setPlaying] = useState(false);
+  const [hole, setHole] = useState(-1);
+  const [score, setScore] = useState(0);
+  const [best, setBest] = useState(0);
+  const [left, setLeft] = useState(20);
+
+  useEffect(() => {
+    try {
+      setBest(Number(localStorage.getItem('obx-bug-best') || 0));
+    } catch (e) {
+      /* ignore */
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!playing) return undefined;
+    const spawn = setInterval(() => setHole(Math.floor(Math.random() * 9)), 720);
+    const timer = setInterval(() => setLeft((v) => v - 1), 1000);
+    return () => {
+      clearInterval(spawn);
+      clearInterval(timer);
+    };
+  }, [playing]);
+
+  useEffect(() => {
+    if (playing || left > 0) return undefined;
+    setHole(-1);
+    if (score > best) {
+      setBest(score);
+      try {
+        localStorage.setItem('obx-bug-best', String(score));
+      } catch (e) {
+        /* ignore */
+      }
+    }
+    return undefined;
+  }, [playing, left, score, best]);
+
+  const whack = (i) => {
+    if (!playing) return;
+    if (i === hole) {
+      setScore((s) => s + 1);
+      setHole(Math.floor(Math.random() * 9));
+    }
+  };
+
+  const start = () => {
+    setScore(0);
+    setLeft(20);
+    setHole(-1);
+    setPlaying(true);
+  };
+
+  return (
+    <ToyWindow
+      title='bug.exe'
+      onClose={onClose}
+      foot={[`score ${score}`, `best ${best}`, playing ? `${Math.max(0, left)}s left` : '20s on the clock']}
+    >
+      <div className='toy-bug'>
+        <div className='tb-grid'>
+          {Array.from({ length: 9 }, (_, i) => (
+            <button
+              key={i}
+              type='button'
+              className={`toy-hole ${i === hole ? 'is-up' : ''}`}
+              onClick={() => whack(i)}
+              aria-label={`Hole ${i + 1}`}
+            >
+              {i === hole ? <Bug size={22} /> : null}
+            </button>
+          ))}
+        </div>
+        <button type='button' className='cv-btn' onClick={start} disabled={playing}>
+          {playing ? 'catching...' : left === 20 ? 'start' : 'play again'}
+        </button>
+      </div>
+    </ToyWindow>
+  );
+}
+
+/* ---------- the wifi: crt.sh subdomain scanner ---------- */
+
+function SubscanToy({ onClose }) {
+  const [domain, setDomain] = useState('obx03.tech');
+  const [status, setStatus] = useState('idle');
+  const [rows, setRows] = useState([]);
+  const [ms, setMs] = useState(0);
+  const [err, setErr] = useState('');
+
+  const scan = async (e) => {
+    e.preventDefault();
+    const d = domain
+      .trim()
+      .toLowerCase()
+      .replace(/^https?:\/\//, '')
+      .replace(/\/.*$/, '');
+    if (!/^[a-z0-9][a-z0-9.-]*\.[a-z]{2,}$/.test(d)) {
+      setStatus('error');
+      setErr('that domain does not parse. try obx03.tech');
+      return;
+    }
+    setStatus('loading');
+    setErr('');
+    setRows([]);
+    const t0 = performance.now();
+    try {
+      const res = await fetch(`https://crt.sh/?q=%25.${encodeURIComponent(d)}&output=json`);
+      if (!res.ok) throw new Error(`crt.sh replied ${res.status}`);
+      const data = await res.json();
+      const found = new Set();
+      data.forEach((r) =>
+        String(r.name_value || '')
+          .split('\n')
+          .forEach((n) => {
+            const v = n.trim().toLowerCase().replace('*.', '');
+            if (v.endsWith(d)) found.add(v);
+          }),
+      );
+      setRows([...found].sort());
+      setMs(Math.round(performance.now() - t0));
+      setStatus('done');
+    } catch (ex) {
+      setErr(String(ex.message || ex));
+      setStatus('error');
+    }
+  };
+
+  return (
+    <ToyWindow
+      title='subscan.sh'
+      onClose={onClose}
+      foot={['data: crt.sh certificate transparency', status === 'done' ? `${rows.length} names in ${ms}ms` : 'live lookup']}
+    >
+      <div className='toy-scan'>
+        <form className='toy-scan-form' onSubmit={scan}>
+          <input
+            value={domain}
+            onChange={(e) => setDomain(e.target.value)}
+            spellCheck={false}
+            aria-label='Domain to scan'
+            placeholder='example.com'
+          />
+          <button type='submit' className='cv-btn' disabled={status === 'loading'}>
+            {status === 'loading' ? 'scanning' : 'scan'}
+          </button>
+        </form>
+
+        <p className='toy-scan-status mono'>
+          {status === 'idle' && 'queries crt.sh for certificate transparency names. try your own domain.'}
+          {status === 'loading' && 'shaking certificates loose...'}
+          {status === 'done' && `${rows.length} unique names. sorted, deduped, yours.`}
+          {status === 'error' && `hmm. ${err} — `}
+          {status === 'error' ? (
+            <a
+              href={`https://crt.sh/?q=%25.${encodeURIComponent(domain.trim())}`}
+              target='_blank'
+              rel='noopener noreferrer'
+              style={{ textDecoration: 'underline' }}
+            >
+              open crt.sh directly
+            </a>
+          ) : null}
+        </p>
+
+        {rows.length > 0 ? (
+          <ul className='toy-scan-list'>
+            {rows.slice(0, 80).map((r, i) => (
+              <li key={r}>
+                <span>{String(i + 1).padStart(2, '0')}</span>
+                <span>{r}</span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+      </div>
+    </ToyWindow>
+  );
+}
+
+/* ---------- the lock: cipher playground ---------- */
+
+const rot13 = (s) =>
+  s.replace(/[a-zA-Z]/g, (c) => {
+    const base = c <= 'Z' ? 65 : 97;
+    return String.fromCharCode(((c.charCodeAt(0) - base + 13) % 26) + base);
+  });
+
+const CIPHER_MODES = [
+  { id: 'b64e', label: 'b64 encode' },
+  { id: 'b64d', label: 'b64 decode' },
+  { id: 'rot13', label: 'rot13' },
+  { id: 'rev', label: 'reverse' },
+];
+
+function CipherToy({ onClose }) {
+  const [input, setInput] = useState('obx03 was here.');
+  const [mode, setMode] = useState('b64e');
+  const [copied, setCopied] = useState(false);
+
+  let out = '';
+  try {
+    if (mode === 'b64e') out = btoa(unescape(encodeURIComponent(input)));
+    else if (mode === 'b64d') out = decodeURIComponent(escape(atob(input.trim())));
+    else if (mode === 'rot13') out = rot13(input);
+    else out = [...input].reverse().join('');
+  } catch (e) {
+    out = 'not valid base64. feed me encoded text.';
+  }
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(out);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1200);
+    } catch (e) {
+      /* clipboard blocked */
+    }
+  };
+
+  return (
+    <ToyWindow title='cipher.txt' onClose={onClose} foot={['rot13 never saved anyone', 'copy it before you close']}>
+      <div className='toy-cipher'>
+        <textarea
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          spellCheck={false}
+          rows={2}
+          aria-label='Cipher input'
+        />
+        <div className='tc-modes'>
+          {CIPHER_MODES.map((m) => (
+            <button
+              key={m.id}
+              type='button'
+              className='cv-mini-btn'
+              aria-pressed={mode === m.id}
+              onClick={() => setMode(m.id)}
+            >
+              {m.label}
+            </button>
+          ))}
+        </div>
+        <pre className='tc-out'>{out || '...'}</pre>
+        <button type='button' className='cv-btn' onClick={copy}>
+          {copied ? (
+            <>
+              <Check size={14} /> copied
+            </>
+          ) : (
+            <>
+              <Copy size={14} /> copy output
+            </>
+          )}
+        </button>
+      </div>
+    </ToyWindow>
   );
 }

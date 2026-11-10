@@ -313,6 +313,81 @@ export function ProjectWindow({ left, mid, right, projects = [] }) {
   );
 }
 
+/* ---------- pixel dragon divider (my own dragon, between the hero and the story) ---------- */
+
+const DRAGON_MAP = [
+  '..........XX............................',
+  '..........XXX..........XX...............',
+  '.........XXXX.........XXXX..............',
+  '.........XXXX........XXXXX..............',
+  '........XXXXXX......XXXXXX..............',
+  '.......XXXXXXXXX..XXXXXXXX..............',
+  '....XXXXXXXXXXXXXXXXXXXXXXX.............',
+  '..XXXXXXXXXXXXXXXXXXXXXXXXXXX...........',
+  '..XXXXX.XXXXXXXXeXXXXXXXXXXXXX..........',
+  '..XX....XXXXXXXXXXXXXXXXXXXXXXXX........',
+  '..XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.......',
+  '...XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.....',
+  '....XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX...',
+  '.....XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX..',
+  '......XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX...',
+  '.......XXXXXXXXXXXXXXXXXXXXXXXXXXXX.....',
+  '........XXXXX..XXXXX...XXXXXX...........',
+  '........XXXX....XXX......XXX............',
+  '.........XX......X........X.............',
+];
+
+/* merge horizontal pixel runs into single rects so the svg stays light */
+const DRAGON_CELL = 4;
+const DRAGON_W = Math.max(...DRAGON_MAP.map((r) => r.length));
+const DRAGON_H = DRAGON_MAP.length;
+const DRAGON_RECTS = DRAGON_MAP.flatMap((row, y) => {
+  const out = [];
+  let x0 = -1;
+  const chars = [...row, '.'];
+  chars.forEach((ch, x) => {
+    const on = ch !== '.';
+    if (on && x0 < 0) x0 = x;
+    if (!on && x0 >= 0) {
+      out.push({ x: x0 * DRAGON_CELL, y: y * DRAGON_CELL, w: (x - x0) * DRAGON_CELL });
+      x0 = -1;
+    }
+  });
+  return out;
+});
+
+export function DragonRule() {
+  return (
+    <div className='cv-dragon' role='separator' aria-label='Pixel dragon divider'>
+      <span className='dg-line' aria-hidden='true' />
+      <span className='dg-tag dep' aria-hidden='true'>
+        root@obx03:~#
+      </span>
+      <svg
+        className='dg-svg'
+        viewBox={`0 0 ${DRAGON_W * DRAGON_CELL} ${DRAGON_H * DRAGON_CELL}`}
+        aria-hidden='true'
+        focusable='false'
+      >
+        {DRAGON_RECTS.map((r) => (
+          <rect key={`${r.x}-${r.y}`} className='dg-b' x={r.x} y={r.y} width={r.w} height={DRAGON_CELL} />
+        ))}
+        <rect
+          className='dg-e'
+          x={16 * DRAGON_CELL}
+          y={8 * DRAGON_CELL}
+          width={DRAGON_CELL}
+          height={DRAGON_CELL}
+        />
+      </svg>
+      <span className='dg-tag dep' aria-hidden='true'>
+        stay curious_
+      </span>
+      <span className='dg-line' aria-hidden='true' />
+    </div>
+  );
+}
+
 /* ---------- contact band + footer ---------- */
 
 export function ContactBand() {

@@ -4,6 +4,8 @@ import Link from 'next/link';
 import {
   about,
   educationBlock,
+  filmChange,
+  filmSfh,
   floatTiles,
   hero,
   honorsBlock,
@@ -15,10 +17,11 @@ import {
 } from '@/data';
 import {
   AboutPhotos,
+  BlockField,
   ContactBand,
-  FloatTiles,
+  DragonRule,
   HandLabel,
-  HeroNotepad,
+  HeroToys,
   Honors,
   LicenseCard,
   PaperCard,
@@ -36,17 +39,16 @@ import {
 import './canvas.css';
 
 export default function Home() {
-  const notepadTile = floatTiles.find((t) => t.action === 'notepad');
-  const staticTiles = floatTiles.filter((t) => t.action !== 'notepad');
+  const stills = [...filmChange.stills, ...filmSfh.stills];
 
   return (
     <main>
       <ScrollProgress />
 
-      {/* ================= hero: full height, rails both sides, floating objects ================= */}
+      {/* ================= hero: full height, block field, toy rails both sides ================= */}
       <section className='cv-hero' style={{ position: 'relative', overflow: 'hidden' }}>
-        <FloatTiles tiles={staticTiles} />
-        {notepadTile ? <HeroNotepad tile={notepadTile} title={notepad.title} seed={notepad.seed} /> : null}
+        <BlockField />
+        <HeroToys tiles={floatTiles} notepad={notepad} stills={stills} />
 
         <div className='wrap cv-hero-grid'>
           {/* left rail */}
@@ -132,8 +134,11 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ================= pixel dragon divider ================= */}
+      <DragonRule />
+
       {/* ================= 01 about ================= */}
-      <section className='cv-section' id='about'>
+      <section className='cv-section no-rule' id='about'>
         <div className='wrap'>
           <Rise>
             <SectionHead kicker={about.kicker} title={about.title} sub={about.sub} />

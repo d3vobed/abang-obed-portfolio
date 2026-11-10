@@ -24,22 +24,22 @@ export const typedRoles = [
   'Storyteller',
 ];
 
-/* floating dev objects around the hero. left side carries four,
-   right side two. the terminal opens the notepad. */
+/* floating dev objects around the hero, three per side, and every
+   single one of them is a toy. click to open, click again to close. */
 export const floatTiles = [
-  { icon: 'camera', color: 'pink', side: 'left', style: { top: '10%', left: '3.5%', '--rot': '-6deg', '--dur': '9s' } },
-  { icon: 'cpu', color: 'orange', side: 'left', style: { top: '28%', left: '2%', '--rot': '4deg', '--dur': '11s', '--delay': '.6s' } },
-  { icon: 'bug', color: 'green', side: 'left', style: { top: '67%', left: '2%', '--rot': '-4deg', '--dur': '10s', '--delay': '1.4s' } },
-  { icon: 'lock', color: 'yellow', side: 'left', style: { top: '84%', left: '4.5%', '--rot': '3deg', '--dur': '8s', '--delay': '2.1s' } },
-  { icon: 'terminal', color: 'paper', side: 'right', action: 'notepad', style: { top: '14%', right: '6.5%', '--rot': '5deg', '--dur': '8s', '--delay': '.8s' } },
-  { icon: 'wifi', color: 'sky', side: 'right', style: { top: '70%', right: '3.5%', '--rot': '-3deg', '--dur': '11s', '--delay': '1.8s' } },
+  { icon: 'camera', color: 'pink', side: 'left', action: 'gallery', label: 'Open the stills gallery', style: { top: '11%', left: '3.5%', '--rot': '-6deg', '--dur': '9s' } },
+  { icon: 'cpu', color: 'orange', side: 'left', action: 'sysinfo', label: 'Open the system readout', style: { top: '46%', left: '2%', '--rot': '4deg', '--dur': '11s', '--delay': '.6s' } },
+  { icon: 'bug', color: 'green', side: 'left', action: 'game', label: 'Play bug.exe', style: { top: '79%', left: '4%', '--rot': '-4deg', '--dur': '10s', '--delay': '1.4s' } },
+  { icon: 'terminal', color: 'paper', side: 'right', action: 'notepad', label: 'Open the notepad', style: { top: '13%', right: '6.5%', '--rot': '5deg', '--dur': '8s', '--delay': '.8s' } },
+  { icon: 'wifi', color: 'sky', side: 'right', action: 'subscan', label: 'Scan subdomains on crt.sh', style: { top: '48%', right: '3%', '--rot': '-3deg', '--dur': '11s', '--delay': '1.8s' } },
+  { icon: 'lock', color: 'yellow', side: 'right', action: 'cipher', label: 'Open the cipher toy', style: { top: '81%', right: '5.5%', '--rot': '3deg', '--dur': '8s', '--delay': '2.1s' } },
 ];
 
 export const hero = {
   window: 'welcome.txt',
   label: 'hello, my name is',
   intro: 'I break systems to make them safer, and make films that stick.',
-  hint: 'ps: the terminal tile opens a notepad. it saves what you type. try it.',
+  hint: 'ps: the floating tiles are toys now. click around. the terminal still keeps your notes.',
   now: 'Co-founding Cyphra & directing at Icon Digital Labs',
   focus: 'Offensive security · Malware · Film',
   cert: 'CPTS · Hack The Box, Feb 2024',
@@ -281,7 +281,7 @@ export const projectsBlock = {
   kicker: '04',
   title: 'Projects',
   sub: "Ideas I had and ran with. Some shipped, all taught me something. Hover a tile for the arrow; everything points somewhere.",
-  window: { left: '7 items', mid: '2026 K in disk', right: 'curiosity available' },
+  window: { left: '9 items', mid: '2026 K in disk', right: 'curiosity available' },
   github: 'https://github.com/d3vobed',
   projects: [
     {
@@ -346,6 +346,24 @@ export const projectsBlock = {
       tags: 'USSD · ASP.NET Web API · Azure',
       href: 'https://github.com/d3vobed',
       ext: true,
+    },
+    {
+      icon: 'sparkles',
+      year: '2025',
+      name: 'Dementia Care AI',
+      body: 'Conversational companion for dementia care with emotion aware dialogue design and system architecture, built with Seun Ajayi. Grand prize at the NCAIR hackathon.',
+      tags: 'Conversational AI · NCAIR · Grand Prize',
+      href: 'https://github.com/d3vobed',
+      ext: true,
+    },
+    {
+      icon: 'monitor',
+      year: '2026',
+      name: 'SFH Access',
+      body: 'Branded video series for the Society For HealthCare Access: skits, talking heads and a podcast session. Written, directed, edited, first AC to the DOP.',
+      tags: 'Direction · Editing · Production',
+      href: '/filmography/sfh-access',
+      ext: false,
     },
   ],
 };
